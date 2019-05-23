@@ -1,0 +1,276 @@
+
+<template>
+  <el-container style="height:100%">
+    <el-header
+      :style="{
+        height: '64px',
+        lineHeight: '64px',
+        padding: '0px 0px 0px 20px',
+        backgroundColor: styles.header.backgroundColor,
+        position: 'relative',
+        userSelect: 'none'
+      }"
+    >
+      <span
+        :style="{
+          fontSize: '22px',
+          color: styles.header.color,
+          letterSpacing: '1px',
+          cursor: 'pointer'
+        }"
+        @click="onTitleClick"
+        >
+        呼贝智慧养老服务平台
+      </span>
+      
+      <div :style="{
+        position: 'absolute',
+        height: '64px',
+        display: 'inline-block',
+        right: 0,
+        fontSize: '14px',
+        color: styles.header.color2,
+        cursor: 'pointer'
+      }">
+        <el-popover
+          ref="messagePopover"
+          placement="bottom-end"
+          width="200"
+          trigger="click"
+          content="暂无新消息。">
+          <div
+            slot="reference"
+            style="
+              display: inline-block;
+              width: 48px;
+              text-align: center;"
+            @mouseover="$refs.messagePopover.$el.querySelector('.el-popover__reference').style.backgroundColor = styles.header.hoverColor"
+            @mouseout="$refs.messagePopover.$el.querySelector('.el-popover__reference').style.backgroundColor = 'unset'"
+            >
+            <i class="el-icon-bell" />
+          </div>
+        </el-popover>
+
+        <el-dropdown
+          ref="userDropdown"
+          @command="onCommandClick"
+          :show-timeout="100"
+          :style="{
+            display: 'inline-block',
+            padding: '0px 12px 0px 12px',
+            float: 'right',
+            color: styles.header.color2
+          }"
+          @mouseover.native="$refs.userDropdown.$el.style.backgroundColor = styles.header.hoverColor"
+          @mouseout.native="$refs.userDropdown.$el.style.backgroundColor = 'unset'"
+        >
+          <div>
+            <i class="el-icon-user" />
+            {{admin && admin.realName}}
+            <i class="el-icon-arrow-down" />
+          </div>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item icon="el-icon-key" command="modifyPassword">修改密码</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-switch-button" divided command="logout">退出登陆</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+    </el-header>
+    <el-container>
+      <nav-menu ref="navMenu" :height="(contentMaxHeight - 64)" />
+      <el-main style="padding: 4px 0px 0px 4px;">
+        <el-tabs :value="activeTabKey" type="card" closable @tab-remove="onTabRemove">
+          <el-tab-pane
+            v-for="tab in tabs"
+            :key="tab.key"
+            :name="tab.key"
+            :label="tab.title"
+            :style='{height: (contentMaxHeight - 108) + "px"}'
+          >
+            <component :is="tab.content" />
+          </el-tab-pane>
+        </el-tabs>
+      </el-main>
+    </el-container>
+    <password-update-dialog ref="passwordUpdateDialog" :visible="true" />
+  </el-container>
+</template>
+
+
+<script>
+import NavMenu from './NavMenu';
+import PasswordUpdateDialog from '@/pages/admin/PasswordUpdateDialog';
+import config from '@/config/app.config';
+import { stringify } from 'qs';
+
+export default {
+  components: {
+    NavMenu,
+    PasswordUpdateDialog
+  },
+  data() {
+    return {
+      contentMaxHeight: document.body.offsetHeight,
+      theme: config.get('theme'),
+      admin: null,
+      tabs: [],
+      activeTabKey: null
+    };
+  },
+  async mounted() {
+    window.addEventListener('resize', () => {
+      this.contentMaxHeight = document.body.offsetHeight;
+    });
+
+    const ret = await axios.get('/api/currentUser');
+    this.admin = ret.admin;
+
+    const nodes = await axios.get('/api/admin/listAdminMenu');
+    this.$refs.navMenu.menuTreeNodes = nodes.map((node, index) => {
+      node.iconCls = ['user', '', 'data-analysis', 'monitor', 'sunny', 'star-off', 'setting', 'help'][index];
+      return node;
+    });
+    this.$nextTick(() => {
+      if([1,6,9,11,13,14,15].indexOf(this.admin.roleId) > -1) {
+        openModuleByCode('taishitu');
+      }
+      if (this.admin.roleId == 10) {
+        openModuleByCode('ycyl.chat.doctorView');
+      }
+    });
+  },
+  computed: {
+    styles() {
+      const themeStyles = {
+        dark: {
+          header: {
+            backgroundColor: '#242f42',
+            color: '#eee',
+            color2: '#ddd',
+            hoverColor: '#1c273a'
+          }
+        },
+        light: {
+          header: {
+            backgroundColor: '#409EFF',
+            color: '#fff',
+            color2: '#eee',
+            hoverColor: '#53a8ff'
+          }
+        }
+      };
+      return themeStyles[this.theme];
+    }
+  },
+  methods: {
+    onTitleClick() {
+      this.$refs.navMenu.onCollapse();
+    },
+    onCommandClick(cmd) {
+      if (cmd == 'modifyPassword') {
+        this.$refs.passwordUpdateDialog.visible = true;
+      } else if (cmd == 'logout') {
+        location.href = '/logout.do';
+      }
+    },
+    onTabRemove(key) {
+      let tabs = this.tabs;
+      let activeTabKey = this.activeTabKey;
+      if (activeTabKey === key) {
+        tabs.forEach((tab, index) => {
+          if (tab.key === key) {
+            let nextTab = tabs[index + 1] || tabs[index - 1];
+            if (nextTab) {
+              activeTabKey = nextTab.key;
+            }
+          }
+        });
+      }
+      
+      this.activeTabKey = activeTabKey;
+      this.tabs = tabs.filter(tab => tab.key !== key);
+    },
+    async openTab(item, options) {
+      const addedTab = this.tabs.find(tab => tab.key == item.id);
+      if (addedTab) {
+        this.activeTabKey = '';
+        setTimeout(() => {
+          this.activeTabKey = item.id;
+        });
+        return;
+      }
+
+      var url = item.attributes.url;
+      if (!url) {
+        return;
+      }
+      var paramIdx = url.indexOf("?");
+      var path = url.substring(0, paramIdx == -1 ? undefined : paramIdx);
+      var params = paramIdx == -1 ? "" : url.substr(paramIdx);
+      if (path.endWiths('.js')) {
+        let tab = {
+          title: item.text,
+          key: item.id,
+          content: null
+        };
+        this.tabs.push(tab);
+        this.activeTabKey = item.id;
+        requirejs([path], (pageModule) => {
+          tab.content = pageModule.default;
+        });
+      } else if (!path.endWiths(".do") && path.startsWith('http')) {
+          window.open(path);
+      } else if (!path.endWiths(".do")) {
+        url = path + ".do" + params;//此处在path结尾加上.do，以变成控制器url
+        var win = window.open(url, new Date().getTime());
+      } else {
+          url = path + (!params ? "?" : params + "&");
+          if (options && options.params)
+            url += stringify(options.params);
+          if (!item.isNoNode)
+            url += "&_func_id=" + item.id;
+          var funcCode = item.attributes.code;
+
+          this.tabs.push({
+            title: item.text,
+            key: item.id,
+            content: {
+              render(h) {
+                return h(
+                  'iframe',
+                  {
+                    attrs: {
+                      id: (funcCode ? 'module-iframe-' + funcCode : ''),
+                      src: url
+                    },
+                    style: 'overflow:auto;width:100%;height:100%;margin:0px;padding:0px;border-width:0px;'
+                  }
+                );
+              },
+              mounted: options && options.onLoad
+            }
+          });
+          this.activeTabKey = item.id;
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  [v-cloak] { display: none; }
+
+  /* element-ui */
+  .el-tabs__content .el-tabs__content {
+      background: #f0f0f0
+  }
+
+  .el-tabs__item {
+      height: 30px;
+      line-height: 30px;
+      font-size: 13px;
+  }
+  .el-tabs__header {
+      margin: 0px 0px 4px;
+  }
+</style>
