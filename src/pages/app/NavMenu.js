@@ -95,7 +95,6 @@ export default {
     },
     onSelect(index) {
       const item = this.menuIndexMap.get(index);
-      const app = this.$root;
       app.openTab(item);
     }
   }

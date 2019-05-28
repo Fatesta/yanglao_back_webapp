@@ -1,10 +1,19 @@
 <template>
   <div>
-    <el-table fit stripe :data="tableData" v-loading="loading">
+    <el-table
+      ref="table"
+      v-loading="loading"
+      v-bind="attrs"
+      :data="tableData"
+      @current-change="onCurrentRowChange">
       <slot></slot>
     </el-table>
     <el-pagination
-      :style="{margin: '8px -10px 8px 0px', float: 'right'}"
+      :style="{
+        height: '28px',
+        margin: '8px -10px 8px 0px',
+        float: 'right'
+      }"
       background
       @size-change="onSizeChange"
       @current-change="onCurrentChange"
@@ -21,24 +30,29 @@
 
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     url: {
-      type: 'String',
+      type: String,
       required: true
     },
     queryParams: {
-      type: 'Object',
-      required: false
+      type: Object
+    },
+    lazy: {
+      type: Boolean
     }
   },
   data() {
     return {
       pagination: {
         pageSizes: [5, 8, 10, 20, 30, 50],
-        pageSize: 8,
-        layout: 'total, prev, pager, next, jumper, sizes'
+        pageSize: 10,
+        layout: 'total, prev, pager, next, jumper, sizes',
+        ...this.$attrs.pagination
       },
       currentPage: 1,
+      currentRow: null,
       total: 5,
       tableData: [],
       loading: true
@@ -64,21 +78,47 @@ export default {
       this._fetch();
     },
     async _fetch() {
-      if (!this.loading) {
-        this.loading = true;
-      }
       const params = {
         ...this.queryParams,
         ...{rows: this.pagination.pageSize, page: this.currentPage}
       };
+
+      let startTime = +new Date(); //记录请求开始时间
+      if (!this.loading) {
+        this.loading = true;
+      }
       const ret = await axios.get(this.url, {params});
-      this.tableData = ret.rows;
-      this.total = ret.total;
-      this.loading = false;
+      // 加载数据，并让用户感知到执行了查询，在小于MIN_TIME毫秒之内，有相同的时长感觉
+      const MIN_TIME = 100;
+      const renderData = () => {
+        this.tableData = ret.rows;
+        this.total = ret.total;
+        this.loading = false;
+      };
+      const diffTime = +new Date - startTime;
+      if (diffTime < MIN_TIME) {
+        setTimeout(renderData, MIN_TIME - diffTime);
+      } else {
+        renderData();
+      }
+    },
+    setCurrentRow(row) {
+      this.$refs.table.setCurrentRow(row);
+    },
+    onCurrentRowChange(row) {
+      this.currentRow = row;
     }
   },
-  created() {
-    this._fetch();
+  beforeCreate() {
+    const defaults = {
+      stripe: true
+    };
+    this.attrs = Object.assign({}, defaults, this.$attrs);
+  },
+  mounted() {
+    if (!this.lazy) {
+      this._fetch();
+    }
   }
 }
 </script>

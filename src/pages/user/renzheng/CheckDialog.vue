@@ -3,7 +3,6 @@
     title="审核"
     :visible.sync="visible"
     width="30%"
-    :modal="false"
   >
     <el-form ref="checkForm" :model="checkForm" label-width="80px">
       <el-form-item label="说明">

@@ -12,6 +12,7 @@ jsfilenames.forEach((filename) => {
   entries[name] = filename;
 });
 
+entries['index'] = './src/index.js';
 entries['vendors'] = ['@babel/polyfill'];
 
 module.exports = {
@@ -19,7 +20,7 @@ module.exports = {
   entry: entries,
   output: {
     filename: '[name].js',
-    path: path.join(__dirname, '..', 'hbManager/src/main/webapp'),
+    path: '/Users/hulang/Documents/workspace/hbManager/src/main/webapp',
     libraryTarget: 'amd'
   },
   externals: [

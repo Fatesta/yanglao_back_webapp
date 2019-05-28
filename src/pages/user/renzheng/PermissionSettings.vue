@@ -3,7 +3,6 @@
     title="设置权限"
     :visible.sync="visible"
     width="30%"
-    :modal="false"
   >
     <el-alert
       type="info"

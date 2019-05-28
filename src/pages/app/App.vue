@@ -1,6 +1,6 @@
 
 <template>
-  <el-container style="height:100%">
+  <el-container>
     <el-header
       :style="{
         height: '64px',
@@ -87,7 +87,7 @@
             :label="tab.title"
             :style='{height: (contentMaxHeight - 108) + "px"}'
           >
-            <component :is="tab.content" />
+            <component :is="tab.content" :routeParams="tab.routeParams"/>
           </el-tab-pane>
         </el-tabs>
       </el-main>
@@ -118,6 +118,26 @@ export default {
     };
   },
   async mounted() {
+    DictMan.fetch();
+    window.app = this;
+
+    // 兼容老版本api
+    window.openModuleByCode = function (code, options) {
+      var node = Object.assign({}, findFunc(app.$refs.navMenu.menuTreeNodes, code));
+      app.openTab(node, options);
+      function findFunc(nodes, code) {
+          for (var i in nodes) {
+              var node = nodes[i];
+              if (node.attributes && node.attributes.code && node.attributes.code.toString() == code)
+                  return node;
+              node = findFunc(node.children, code);
+              if (node)
+                  return node;
+          }
+          return null;
+      }
+    }
+
     window.addEventListener('resize', () => {
       this.contentMaxHeight = document.body.offsetHeight;
     });
@@ -170,7 +190,7 @@ export default {
       if (cmd == 'modifyPassword') {
         this.$refs.passwordUpdateDialog.visible = true;
       } else if (cmd == 'logout') {
-        location.href = '/logout.do';
+        this.$router.replace('/logout');
       }
     },
     onTabRemove(key) {
@@ -190,7 +210,46 @@ export default {
       this.activeTabKey = activeTabKey;
       this.tabs = tabs.filter(tab => tab.key !== key);
     },
-    async openTab(item, options) {
+    /*
+    打开一个页面
+    pushPage({
+      pathname: '/user/details/index',
+      params: {id: user.id}
+    });
+    pushPage('/order/index');
+    */
+    pushPage(options) {
+      if (typeof options == 'string') {
+        options = {pathname: options};
+      }
+      const { pathname, params, title } = options;
+
+      const tabKey = pathname;
+      // 检查该tab是否已经打开
+      const addedTab = this.tabs.find(tab => tab.key == tabKey);
+      if (addedTab) {
+        // 如果打开，选中该tab
+        this.activeTabKey = '';
+        setTimeout(() => {
+          this.activeTabKey = tabKey;
+        });
+        return;
+      }
+
+      let tab = {
+        title: title,
+        key: tabKey, //pathname作为key
+        content: null,
+        routeParams: params
+      };
+      this.tabs.push(tab);
+      this.activeTabKey = tabKey;
+      requirejs([`/pages${pathname}.js`], (pageModule) => {
+        tab.content = pageModule.default;
+      });
+    },
+    /* 打开一个标签页承载一个页面，这个方法现在被NavMenu，以及原使用easyui代码的方法调用 */
+    openTab(item, options) {
       const addedTab = this.tabs.find(tab => tab.key == item.id);
       if (addedTab) {
         this.activeTabKey = '';
@@ -257,20 +316,11 @@ export default {
 }
 </script>
 
-<style>
-  [v-cloak] { display: none; }
-
-  /* element-ui */
-  .el-tabs__content .el-tabs__content {
-      background: #f0f0f0
-  }
-
-  .el-tabs__item {
-      height: 30px;
-      line-height: 30px;
-      font-size: 13px;
-  }
-  .el-tabs__header {
-      margin: 0px 0px 4px;
-  }
+<style scoped>
+.el-container {
+    width: 100%;
+    height: 100%;
+    background-image: none;
+    background-color: #fff;
+}
 </style>

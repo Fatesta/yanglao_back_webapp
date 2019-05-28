@@ -26,13 +26,12 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSearch">查询</el-button>
+          <data-table-query-button :query-params="searchForm" />
         </el-form-item>
       </el-form>
       <data-table
         ref="table"
-        url="/api/user/listUser"
-        :query-params="{userType: -1}"
+        url="/api/user/listUser?userType=-1"
       >
         <el-table-column prop="aliasName" label="昵称" width="120"></el-table-column>
         <el-table-column prop="realName" label="姓名" width="80"></el-table-column>
@@ -40,41 +39,41 @@
         <el-table-column prop="idcard" label="身份证号码" width="170"></el-table-column>
         <el-table-column prop="telphone" label="手机号" width="110"></el-table-column>
         <el-table-column prop="userType" label="用户类型" :formatter="formatters.userType" width="120"></el-table-column>
-          <el-table-column prop="state" label="认证状态" width="100">
-            <template slot-scope="scope">
-              <el-tag :type="['warning', '', 'success', 'danger'][scope.row.state]" size="small">
-                {{DictMan.itemMap('user.renzheng.state')[scope.row.state]}}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="isVolunteer" label="志愿者" :formatter="formatters.isVolunteer" width="80"></el-table-column>
-          <el-table-column label="操作" width="320">
-            <template slot-scope="scope">
-              <el-button
-                :disabled="scope.row.state != 1"
-                size="mini"
-                type="text"
-                @click="onCheckClick(scope.row)">审核</el-button>
-              <el-button
-                :disabled="scope.row.state == 0"
-                size="mini"
-                type="text"
-                @click="onCertDetailsClick(scope.row)">认证信息</el-button>
-              <el-button
-                size="mini"
-                type="text"
-                @click="onCertEditClick(scope.row)">认证编辑</el-button>
-              <el-button
-                size="mini"
-                type="text"
-                @click="onPermissionSettingsClick(scope.row)">设置权限</el-button>
-              <el-button
-                :disabled="scope.row.isVolunteer"
-                size="mini"
-                type="text"
-                @click="onAsVolunteerClick(scope.row)">成为志愿者</el-button>
-            </template>
-          </el-table-column>
+        <el-table-column prop="state" label="认证状态" width="100">
+          <template slot-scope="scope">
+            <el-tag :type="['warning', '', 'success', 'danger'][scope.row.state]" size="small">
+              {{DictMan.itemMap('user.renzheng.state')[scope.row.state]}}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="isVolunteer" label="志愿者" :formatter="formatters.isVolunteer" width="80"></el-table-column>
+        <el-table-column label="操作" width="320">
+          <template slot-scope="scope">
+            <el-button
+              :disabled="scope.row.state != 1"
+              size="mini"
+              type="text"
+              @click="onCheckClick(scope.row)">审核</el-button>
+            <el-button
+              :disabled="scope.row.state == 0"
+              size="mini"
+              type="text"
+              @click="onCertDetailsClick(scope.row)">认证信息</el-button>
+            <el-button
+              size="mini"
+              type="text"
+              @click="onCertEditClick(scope.row)">认证编辑</el-button>
+            <el-button
+              size="mini"
+              type="text"
+              @click="onPermissionSettingsClick(scope.row)">设置权限</el-button>
+            <el-button
+              :disabled="scope.row.isVolunteer"
+              size="mini"
+              type="text"
+              @click="onAsVolunteerClick(scope.row)">成为志愿者</el-button>
+          </template>
+        </el-table-column>
       </data-table>
     </el-card>
     <check-dialog ref="checkDialog"></check-dialog>
@@ -125,9 +124,6 @@ export default {
     },
     onPermissionSettingsClick(row) {
       this.$refs.permissionSettings.open(row.userId);
-    },
-    onSearch() {
-      this.$refs.table.query(this.searchForm);
     }
   }
 }

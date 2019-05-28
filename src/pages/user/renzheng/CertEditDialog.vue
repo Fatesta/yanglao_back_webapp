@@ -4,7 +4,6 @@
     :visible.sync="visible"
     top="5vh"
     width="600px"
-    :modal="false"
   >
     <el-form ref="form" :model="form" label-width="100px" size="small">
       <el-form-item
@@ -27,7 +26,10 @@
       </el-form-item>
     </el-form>
     <div style="margin: 32px 0px 0px 24px">
-      <div v-for="(title, index) in ['身份证正面', '身份证反面', '手持身份证']" style="width: 240px;height: 180px;margin: 0px 24px 24px 0px;display:inline-block">
+      <div
+        v-for="(title, index) in ['身份证正面', '身份证反面', '手持身份证']"
+        :key="index"
+        style="width: 240px;height: 180px;margin: 0px 24px 24px 0px;display:inline-block">
         <el-image
           fit="cover"
           :src="idcardImgUrls[index]"
