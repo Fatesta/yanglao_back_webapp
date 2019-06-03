@@ -1,9 +1,10 @@
 <template>
-  <el-button type="primary" @click="onSearchClick">查询</el-button>
+  <el-button type="primary" v-bind="$attrs" @click="onSearchClick">查询</el-button>
 </template>
 
 <script>
 export default {
+  name: 'data-table-query-button',
   props: {
     queryParams: {
       type: [Object, Function]
@@ -14,7 +15,6 @@ export default {
       default: 'table'
     }
   },
-  //directives: {}, TODO:局部指令无用
   methods: {
     onSearchClick() {
       const dataTable = this.$vnode.context.$refs[this.table];

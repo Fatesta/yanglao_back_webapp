@@ -3,15 +3,17 @@
     <el-table
       ref="table"
       v-loading="loading"
+      :height="attrs.height || height"
       v-bind="attrs"
       :data="tableData"
-      @current-change="onCurrentRowChange">
+      @current-change="onCurrentRowChange"
+    >
       <slot></slot>
     </el-table>
     <el-pagination
       :style="{
         height: '28px',
-        margin: '8px -10px 8px 0px',
+        margin: '8px -20px 8px 0px',
         float: 'right'
       }"
       background
@@ -30,6 +32,7 @@
 
 <script>
 export default {
+  name: 'data-table',
   inheritAttrs: false,
   props: {
     url: {
@@ -51,6 +54,7 @@ export default {
         layout: 'total, prev, pager, next, jumper, sizes',
         ...this.$attrs.pagination
       },
+      height: 0,
       currentPage: 1,
       currentRow: null,
       total: 5,

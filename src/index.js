@@ -11,8 +11,7 @@ Vue.use(VueRouter);
 Object.assign(Vue.prototype, globalvars.default);
 
 var app = new Vue({
-  render(createElement) {
-    const h = createElement;
+  render(h) {
     return h('router-view', {class: 'view'});
   },
   router: new VueRouter({

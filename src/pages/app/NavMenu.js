@@ -1,13 +1,11 @@
 import config from '@/config/app.config.js';
 
-/* 菜单 */
+/* 导航菜单 */
 export default {
   props: {
     height: Number
   },
-  render(createElement) {
-    const h = createElement;
-
+  render(h) {
     return h(
       'el-aside',
       {

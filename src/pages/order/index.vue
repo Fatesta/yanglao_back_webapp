@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card" shadow="never">
+  <data-table-app-page>
     <el-form :inline="true" :model="searchForm" size="mini">
       <el-form-item label="订单号">
         <el-input v-model="searchForm.orderno" style="width: 170px"></el-input>
@@ -71,17 +71,16 @@
       <el-table-column prop="linkman" label="下单人" width="120"></el-table-column>
       <el-table-column prop="linkphone" label="联系电话" width="140"></el-table-column>
       <el-table-column prop="createTime" label="下单时间" width="170"></el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="160">
         <template slot-scope="scope">
           <el-button
             size="mini"
             type="text"
             @click="onDetailsClick(scope.row)">查看详情</el-button>
-          </template>
         </template>
       </el-table-column>
     </data-table>
-  </el-card>
+  </data-table-app-page>
 </template>
 
 <script>
@@ -92,7 +91,7 @@ export default {
         payType: (row, col, val) => DictMan.itemMap('payType')[val]
       },
       searchForm: {
-        providerId: this.$attrs.routeParams.providerId
+        providerId: this.$params.providerId
       }
     }
   },

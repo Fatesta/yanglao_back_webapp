@@ -16,6 +16,7 @@
 
 <script>
 export default {
+  name: 'type-select',
   model: {
     prop: 'value',
     event: 'change'

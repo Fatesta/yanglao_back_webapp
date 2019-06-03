@@ -8,7 +8,8 @@
 ├── src                 # 源码
 │   ├── components      # 公共/抽象组件  
 │   ├── config          # 配置相关
-│   └── pages           # 页面
+│   ├── pages           # 页面
+│   └── index.js        # SPA主入口
 └── webpack.config.js
 ```
 

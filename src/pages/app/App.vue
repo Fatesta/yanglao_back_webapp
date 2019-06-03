@@ -78,16 +78,22 @@
     </el-header>
     <el-container>
       <nav-menu ref="navMenu" :height="(contentMaxHeight - 64)" />
-      <el-main style="padding: 4px 0px 0px 4px;">
-        <el-tabs :value="activeTabKey" type="card" closable @tab-remove="onTabRemove">
+      <el-main style="padding: 2px;">
+        <el-tabs
+          :value="activeTabKey"
+          type="card"
+          closable
+          @tab-remove="onTabRemove"
+        >
           <el-tab-pane
             v-for="tab in tabs"
             :key="tab.key"
             :name="tab.key"
             :label="tab.title"
             :style='{height: (contentMaxHeight - 108) + "px"}'
+            v-loading="tab.loading"
           >
-            <component :is="tab.content" :routeParams="tab.routeParams"/>
+            <component :is="tab.content" />
           </el-tab-pane>
         </el-tabs>
       </el-main>
@@ -158,6 +164,12 @@ export default {
         openModuleByCode('ycyl.chat.doctorView');
       }
     });
+
+    document.addEventListener('keydown', (e) => {
+      if (27 == e.keyCode) {
+        this.logout();
+      }
+    });
   },
   computed: {
     styles() {
@@ -190,8 +202,11 @@ export default {
       if (cmd == 'modifyPassword') {
         this.$refs.passwordUpdateDialog.visible = true;
       } else if (cmd == 'logout') {
-        this.$router.replace('/logout');
+        this.logout();
       }
+    },
+    logout() {
+      this.$router.replace('/logout');
     },
     onTabRemove(key) {
       let tabs = this.tabs;
@@ -207,46 +222,69 @@ export default {
         });
       }
       
-      this.activeTabKey = activeTabKey;
+      this.activeTabKey = '';
       this.tabs = tabs.filter(tab => tab.key !== key);
+      this.$nextTick(() => {
+        this.activeTabKey = activeTabKey;
+      });
     },
     /*
     打开一个页面
-    pushPage({
-      pathname: '/user/details/index',
-      params: {id: user.id}
-    });
+
     pushPage('/order/index');
+
+    pushPage({
+      path: '/user/details/index',
+      params: {id: user.id},
+    });
     */
     pushPage(options) {
       if (typeof options == 'string') {
-        options = {pathname: options};
+        options = { path: options };
       }
-      const { pathname, params, title } = options;
+      const { path, params, title } = options;
+      let route = { path, params }; // 当前路由结果
 
-      const tabKey = pathname;
-      // 检查该tab是否已经打开
+      // 将路径名 + 可选的key 作为tab的key
+      const tabKey = path + (options.key ? '__' + options.key : '');
+      // 根据path检查该tab是否已经打开
       const addedTab = this.tabs.find(tab => tab.key == tabKey);
       if (addedTab) {
-        // 如果打开，选中该tab
+        // 如果打开了，选中该tab
         this.activeTabKey = '';
         setTimeout(() => {
           this.activeTabKey = tabKey;
         });
-        return;
+      } else {
+        let tab = {
+          title: title,
+          key: tabKey, //path作为key
+          content: null, // vue组件
+          loading: true, // vue组件加载状态
+          route
+        };
+        this.tabs.push(tab);
+        this.activeTabKey = tabKey;
+        loadTabContentComponent(tab);
       }
 
-      let tab = {
-        title: title,
-        key: tabKey, //pathname作为key
-        content: null,
-        routeParams: params
-      };
-      this.tabs.push(tab);
-      this.activeTabKey = tabKey;
-      requirejs([`/pages${pathname}.js`], (pageModule) => {
-        tab.content = pageModule.default;
-      });
+      /* 异步加载vue组件，并设置为tab的content */
+      function loadTabContentComponent(tab) {
+        tab.loading = true;
+        let jsUrl = `/pages${path}`;// 从/pages/
+        if (!path.endWiths('.js')) {
+          jsUrl += '.js';
+        }
+        requirejs([jsUrl], ({default: component}) => {
+          component.props = component.props || {};
+          component.props['$params'] = {
+            type: Object,
+            default: () => params
+          };
+          tab.content = component;
+          tab.loading = false;
+        });
+      }
     },
     /* 打开一个标签页承载一个页面，这个方法现在被NavMenu，以及原使用easyui代码的方法调用 */
     openTab(item, options) {
@@ -267,15 +305,10 @@ export default {
       var path = url.substring(0, paramIdx == -1 ? undefined : paramIdx);
       var params = paramIdx == -1 ? "" : url.substr(paramIdx);
       if (path.endWiths('.js')) {
-        let tab = {
-          title: item.text,
-          key: item.id,
-          content: null
-        };
-        this.tabs.push(tab);
-        this.activeTabKey = item.id;
-        requirejs([path], (pageModule) => {
-          tab.content = pageModule.default;
+        this.pushPage({
+          path,
+          params,
+          title: item.text
         });
       } else if (!path.endWiths(".do") && path.startsWith('http')) {
           window.open(path);
@@ -290,7 +323,7 @@ export default {
             url += "&_func_id=" + item.id;
           var funcCode = item.attributes.code;
 
-          this.tabs.push({
+          let tab = {
             title: item.text,
             key: item.id,
             content: {
@@ -302,18 +335,35 @@ export default {
                       id: (funcCode ? 'module-iframe-' + funcCode : ''),
                       src: url
                     },
-                    style: 'overflow:auto;width:100%;height:100%;margin:0px;padding:0px;border-width:0px;'
+                    style: `
+                      visibility:hidden;
+                      display: block;
+                      overflow:auto;
+                      width:100%;
+                      height:100%;
+                      margin:0px;
+                      padding:0px;
+                      border-width:0px;`
                   }
                 );
               },
-              mounted: options && options.onLoad
-            }
-          });
+              mounted() {
+                this.$el.contentWindow.addEventListener('load', () => {
+                  this.$el.style.visibility = 'visible';
+                  tab.loading = false;
+                  options && options.onLoad();
+                });
+              }
+            },
+            loading: true
+          };
+          this.tabs.push(tab);
           this.activeTabKey = item.id;
       }
     }
   }
 }
+
 </script>
 
 <style scoped>
