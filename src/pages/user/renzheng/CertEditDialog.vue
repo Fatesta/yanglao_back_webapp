@@ -47,6 +47,7 @@
           <el-upload
             style="display: inline-block;"
             action="/api/util/upload"
+            accept="image/*"
             :show-file-list="false"
             :on-success="function(response, file){ onUploadSuccess(response, file, index); }">
             <el-button size="small" v-if="!readonly">点击上传</el-button>

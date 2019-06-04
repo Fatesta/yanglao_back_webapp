@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import OrgSelect from './OrgSelect.vue';
+import OrgSelect from '@/pages/org/OrgSelect.vue';
 
 export default {
   components: {
@@ -138,7 +138,8 @@ export default {
         orgId: null,
         address: '',
         remark: '',
-        imagePath: ''
+        imagePath: '',
+        deviceCode: ''
       },
       submitting: false
     }
@@ -160,7 +161,9 @@ export default {
         this.form.telephone = user.telphone;
         this.$refs.orgSelect.setValue(user.orgId);
       } else {
-        this.$refs.orgSelect.clear(null);
+        this.form.userType = null;
+        this.form.deviceCode = '';
+        this.$refs.orgSelect && this.$refs.orgSelect.clear(null);
       }
     },
     onSubmit() {
@@ -194,7 +197,8 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
         this.submitting = true;
-        let data = {...this.form};
+        let data = _.pick({...this.form},
+          'aliasName,realName,sex,birthday,idcard,telephone,name,contactTel,orgId,address'.split(','));
         const { user } = this.options;
         data.userId = user.id;
         data.appUserId = user.id;

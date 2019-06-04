@@ -9,7 +9,7 @@
     width="580px"
   >
     <el-tabs tab-position="left" style="height: 440px">
-      <el-tab-pane label="基本">
+      <el-tab-pane label="基本信息">
         <el-form :model="form" label-width="110px" size="mini" style="width: 400px">
           <el-form-item label="昵称">
             <el-input v-model="form.aliasName"></el-input>
@@ -80,8 +80,11 @@
       </el-tab-pane>
       <el-tab-pane label="特殊老人">
         <el-form :model="form" label-width="110px" size="mini" style="width: 400px">
-          <el-form-item label="特殊老人">
+          <el-form-item label="重点老人">
             <el-checkbox v-model="form.role" :true-label="-1"></el-checkbox>
+          </el-form-item>
+          <el-form-item label="补助老人">
+            <el-checkbox v-model="form.isGrant" :true-label="1"></el-checkbox>
           </el-form-item>
       </el-tab-pane>
     </el-tabs>
@@ -94,7 +97,7 @@
 </template>
 
 <script>
-import OrgSelect from './OrgSelect.vue';
+import OrgSelect from '@/pages/org/OrgSelect.vue';
 
 export default {
   components: {

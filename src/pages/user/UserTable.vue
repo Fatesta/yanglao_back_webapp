@@ -60,8 +60,8 @@
       <el-table-column prop="realName" label="姓名" width="80" :formatter="formatters.realName"></el-table-column>
       <el-table-column prop="sex" label="性别" :formatter="formatters.sex" width="60"></el-table-column>
       <el-table-column prop="age" label="年龄" width="60"></el-table-column>
-      <el-table-column prop="idcard" label="身份证号码" width="170" :formatter="formatters.idcard"></el-table-column>
-      <el-table-column prop="telphone" label="手机号" width="110" :formatter="formatters.telphone"></el-table-column>
+      <el-table-column prop="idcard" label="身份证号码" width="174" :formatter="formatters.idcard"></el-table-column>
+      <el-table-column prop="telphone" label="手机号" width="120" :formatter="formatters.telphone"></el-table-column>
       <el-table-column prop="orgName" label="社区" width="160" show-overflow-tooltip></el-table-column>
       <el-table-column prop="userType" label="用户类型" :formatter="formatters.userType" width="120"></el-table-column>
       <el-table-column prop="deviceCode" label="设备号/卡号" :formatter="formatters.deviceCode" width="150"></el-table-column>
@@ -70,11 +70,11 @@
           {{scope.row.onLine ? '在线' : '离线'}}
         </template>
       </el-table-column>
-      <el-table-column prop="applyTypesText" label="评估对象类型" width="160" :formatter="formatters.applyTypesText"></el-table-column>
+      <el-table-column prop="applyTypesText" label="评估对象类型" width="120" :formatter="formatters.applyTypesText" show-overflow-tooltip></el-table-column>
       <el-table-column prop="evalScore" label="评估分数" width="80" :formatter="formatters.evalScore"></el-table-column>
       <el-table-column prop="allowanceMoney" label="拟享受市补贴" width="110" :formatter="formatters.allowanceMoney"></el-table-column>
       <el-table-column prop="registerTime" label="注册时间" width="170"></el-table-column>
-      <el-table-column label="操作" width="184" fixed="right">
+      <el-table-column label="操作" width="154" fixed="right">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -83,25 +83,25 @@
           >
             详情
           </el-button>
-         <el-dropdown
-          @command="onCommandClick($event, scope.row)"
-          :show-timeout="100"
-         >
+          <el-dropdown
+            @command="onCommandClick($event, scope.row)"
+            :show-timeout="100"
+          >
             <el-button
               type="primary"
               plain
               size="mini"
               split-button
             >
-              更多操作<i class="el-icon-arrow-down el-icon--right"></i>
+              更多<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="health-archive" icon="el-icon-document">健康档案</el-dropdown-item>
-              <el-dropdown-item command="returnvisit" icon="el-icon-document">回访记录</el-dropdown-item>
-              <el-dropdown-item command="address" icon="el-icon-goods">收货地址</el-dropdown-item>
-              <el-dropdown-item command="wallet" icon="el-icon-wallet" divided>钱包</el-dropdown-item>
+              <el-dropdown-item command="wallet" icon="el-icon-wallet">钱包</el-dropdown-item>
               <el-dropdown-item command="trade" icon="el-icon-tickets">消费记录</el-dropdown-item>
               <el-dropdown-item command="points" icon="el-icon-tickets">积分记录</el-dropdown-item>
+              <el-dropdown-item command="health-archive" icon="el-icon-document" divided>健康档案</el-dropdown-item>
+              <el-dropdown-item command="returnvisit" icon="el-icon-document">回访记录</el-dropdown-item>
+              <el-dropdown-item command="address" icon="el-icon-goods">收货地址</el-dropdown-item>
               <template v-if="scope.row.userType == 2">
                 <el-dropdown-item
                   command="vipcard-change"
@@ -146,6 +146,7 @@
     <user-edit ref="userEdit"></user-edit>
     <user-details ref="userDetails"></user-details>
     <device-user-import-dialog ref="deviceUserImportDialog"></device-user-import-dialog>
+    <vip-card-change ref="vipCardChange"></vip-card-change>
   </data-table-app-page>
 </template>
 
@@ -155,6 +156,7 @@ import UserQuerier from './UserQuerier.vue';
 import UserEdit from './UserEdit.vue';
 import UserDetails from './UserDetails.vue';
 import DeviceUserImportDialog from './DeviceUserImportDialog.vue';
+import VipCardChange from './vipcard/change/Change.vue';
 import { stringify } from 'qs';
 
 export default {
@@ -162,7 +164,8 @@ export default {
     UserQuerier,
     UserEdit,
     UserDetails,
-    DeviceUserImportDialog
+    DeviceUserImportDialog,
+    VipCardChange
   },
   data() {
     const unknownIfEmpty = (row, col, v) => v ? v : '未知';
@@ -286,6 +289,14 @@ export default {
             const ret = await axios.post('/api/user/resetPassword', {userId: user.id});
             if (ret.success) {
               this.$message.success('重置密码成功');
+            }
+          });
+          break;
+        case 'vipcard-change':
+          this.$refs.vipCardChange.show({
+            user,
+            onSuccess: ({newCardCode}) => {
+              user.deviceCode = newCardCode;
             }
           });
           break;

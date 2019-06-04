@@ -35,7 +35,7 @@
       <el-table-column prop="aliasName" label="昵称" width="120"></el-table-column>
       <el-table-column prop="realName" label="姓名" width="80"></el-table-column>
       <el-table-column prop="sex" label="性别" :formatter="formatters.sex" width="60"></el-table-column>
-      <el-table-column prop="idcard" label="身份证号码" width="170"></el-table-column>
+      <el-table-column prop="idcard" label="身份证号码" width="174"></el-table-column>
       <el-table-column prop="telphone" label="手机号" width="110"></el-table-column>
       <el-table-column prop="userType" label="用户类型" :formatter="formatters.userType" width="120"></el-table-column>
       <el-table-column prop="state" label="认证状态" width="100">
@@ -46,31 +46,36 @@
         </template>
       </el-table-column>
       <el-table-column prop="isVolunteer" label="志愿者" :formatter="formatters.isVolunteer" width="80"></el-table-column>
-      <el-table-column label="操作" width="320">
-        <template slot-scope="scope">
+      <el-table-column label="操作" width="280">
+        <template slot-scope="scope" fixed="right">
           <el-button
             :disabled="scope.row.state != 1"
+            type="primary"
             size="mini"
-            type="text"
+            plain
+            style="margin-left: 0px"
             @click="onCheckClick(scope.row)">审核</el-button>
           <el-button
             :disabled="scope.row.state == 0"
             size="mini"
-            type="text"
+            style="margin-left: 0px"
             @click="onCertDetailsClick(scope.row)">认证信息</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            @click="onCertEditClick(scope.row)">认证编辑</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            @click="onPermissionSettingsClick(scope.row)">设置权限</el-button>
-          <el-button
-            v-if="scope.row.isVolunteer"
-            size="mini"
-            type="text"
-            @click="onAsVolunteerClick(scope.row)">成为志愿者</el-button>
+          <el-dropdown
+            @command="onCommandClick($event, scope.row)"
+            :show-timeout="100"
+          >
+            <el-button
+              size="mini"
+              split-button
+            >
+              更多操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="certEdit" icon="el-icon-edit">认证编辑</el-dropdown-item>
+              <el-dropdown-item command="permissionSettings" icon="el-icon-user-solid">设置权限</el-dropdown-item>
+              <el-dropdown-item command="asVolunteer" icon="el-icon-medal" v-if="!scope.row.isVolunteer">成为志愿者</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </data-table>
@@ -110,19 +115,24 @@ export default {
         row.state = state;
       });
     },
-    onCertEditClick(row) {
-      this.$refs.certEditDialog.open(row, false, (newRecord) => {
-        Object.assign(row, newRecord);
-        row.state = 1;
-      });
+    onCommandClick(cmd, user) {
+      switch (cmd) {
+        case 'certEdit': 
+          this.$refs.certEditDialog.open(user, false, (newRecord) => {
+            Object.assign(row, newRecord);
+            row.state = 1;
+          });
+          break;
+        case 'permissionSettings':
+          this.$refs.permissionSettings.open(user.userId);
+          break;
+        case 'asVolunteer':
+          this.$message.info('todo');
+          break;
+      }
     },
     onCertDetailsClick(row) {
       this.$refs.certEditDialog.open(row, 'readonly');
-    },
-    onAsVolunteerClick(row) {
-    },
-    onPermissionSettingsClick(row) {
-      this.$refs.permissionSettings.open(row.userId);
     }
   }
 }

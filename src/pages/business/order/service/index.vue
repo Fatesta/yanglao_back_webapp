@@ -61,6 +61,13 @@
           </el-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="payStatus" label="支付状态" width="90">
+        <template slot-scope="scope">
+          <el-tag :type="['warning', 'success'][scope.row.payStatus]" size="small">
+            {{DictMan.itemMap('payStatus')[scope.row.payStatus]}}
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="lineState" label="线上下" width="70" :formatter="formatters.lineState"></el-table-column>
       <el-table-column prop="linkman" label="联系人" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column prop="creatorOrgName" label="下单人社区" width="110" show-overflow-tooltip></el-table-column>
@@ -68,16 +75,19 @@
       <el-table-column prop="industryId" label="行业" width="80" :formatter="formatters.industryId"></el-table-column>
       <el-table-column prop="creatorName" label="下单人" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column prop="createTime" label="下单时间" width="170"></el-table-column>
-      <el-table-column label="操作" width="110" fixed="right">
+      <el-table-column label="操作" width="140" fixed="right">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            type="text"
-            @click="onDetailsClick(scope.row)">跟踪工单</el-button>
+            type="primary"
+            plain
+            @click="onDetailsClick(scope.row)">详情</el-button>
           <el-button
             :disabled="!(scope.row.longitude && scope.row.latitude)"
             size="mini"
-            type="text"
+            type="primary"
+            plain
+            style="margin-left:0px"
             @click="onLocationClick(scope.row)">定位</el-button>
         </template>
       </el-table-column>
@@ -137,7 +147,7 @@ export default {
     },
     onDetailsClick({orderno}) {
       openTab({
-        title: '跟踪工单 - ' + orderno,
+        title: '工单详情 - ' + orderno,
         url: '/view/shop/workOrder/orderDetail.do?orderCode=' + orderno
       });
     },

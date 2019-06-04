@@ -159,7 +159,9 @@ export default {
       this.$refs.userInfoForm.validate(async (valid) => {
         if (!valid) return;
 
+        let totalPrice = 0;
         let productListJSON = JSON.stringify(this.selections.map((sel) => {
+          totalPrice += sel.product.price;
           return {
               productId: sel.product.productId.toString(),
               productName: Base64.encode(sel.product.name, true),
@@ -174,6 +176,8 @@ export default {
           creator: this.user.id,
           payType: 33,
           productListJSON,
+          totalFee: totalPrice,
+          paymentFee: totalPrice,
           ...this.form,
         };
         this.submitting = true;

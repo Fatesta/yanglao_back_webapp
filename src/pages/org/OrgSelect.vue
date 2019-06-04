@@ -2,7 +2,9 @@
   <el-select
     ref="select"
     v-model="selectedOrgName"
-    placeholder="请选择"
+    v-bind="attrs"
+    clearable
+    @clear="onClear"
     style="width:100%"
     >
     <template slot="empty">
@@ -80,10 +82,20 @@ export default {
         return null;
       }
     },
+    onClear() {
+      this.clear();
+      this.$emit('change', null);
+    },
     clear() {
       this.value = null;
       this.selectedOrgName = '';
     }
+  },
+  beforeCreate() {
+    const defaults = {
+      placeholder: "请选择"
+    };
+    this.attrs = Object.assign({}, defaults, this.$attrs);
   },
   async mounted() {
     const orgs = await axios.get('/api/org/listOrg');
