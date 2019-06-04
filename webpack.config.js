@@ -23,16 +23,6 @@ module.exports = {
     path: '/Users/hulang/Documents/workspace/hbManager/src/main/webapp',
     libraryTarget: 'amd'
   },
-  externals: [
-    function(context, request, callback) {
-      // 公共组件代码不打包到单个页面代码中
-      if (request.startsWith('@/components')) {
-        callback(null, 'root ' + request);
-      } else {
-        callback();
-      }
-    }
-  ],
   module: {
     rules: [
       {
@@ -65,14 +55,9 @@ module.exports = {
     ]
   },
   resolve: {
-    // 自动补全的扩展名
     extensions: ['.js', '.vue', '.json'],
-    // 默认路径代理
-    // 例如 import Vue from 'vue'，会自动到 'vue/dist/vue.common.js'中寻找
     alias: {
-      '@': path.join(__dirname, '', 'src'),
-      //'@config': resolve('config'),
-      //'vue$': 'vue/dist/vue.common.js'
+      '@': path.join(__dirname, '', 'src')
     }
   },
   optimization: {

@@ -2,7 +2,7 @@
   <data-table-app-page>
     <el-form :inline="true" :model="searchForm" size="mini">
       <el-form-item label="工单号">
-        <el-input v-model="searchForm.orderno" style="width: 170px"></el-input>
+        <el-input v-model="searchForm.orderno" clearable style="width: 170px"></el-input>
       </el-form-item>
       <el-form-item label="工单状态">
         <type-select
@@ -20,6 +20,7 @@
       </el-form-item>
       <el-form-item label="下单用户">
         <el-input v-model="creatorName" readonly clearable style="width: 100px" @focus="onCreatorNameInputFocus"></el-input>
+        <el-button v-show="searchForm.creator" icon="el-icon-close" type="text" @click="creatorName = '', searchForm.creator = null"></el-button>
       </el-form-item>
       <el-form-item label="行业">
         <type-select

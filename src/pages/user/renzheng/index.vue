@@ -2,13 +2,13 @@
   <data-table-app-page>
     <el-form :inline="true" :model="searchForm" size="mini">
       <el-form-item label="姓名">
-        <el-input v-model="searchForm.realName" style="width: 70px"></el-input>
+        <el-input v-model="searchForm.realName" clearable style="width: 90px"></el-input>
       </el-form-item>
       <el-form-item label="身份证号码">
-        <el-input v-model="searchForm.idcard" style="width: 170px"></el-input>
+        <el-input v-model="searchForm.idcard" clearable style="width: 190px"></el-input>
       </el-form-item>
       <el-form-item label="手机号">
-        <el-input v-model="searchForm.telphone" style="width: 130px"></el-input>
+        <el-input v-model="searchForm.telphone" clearable style="width: 130px"></el-input>
       </el-form-item>
       <el-form-item label="用户类型">
         <type-select

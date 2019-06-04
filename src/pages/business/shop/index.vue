@@ -2,11 +2,15 @@
   <data-table-app-page>
     <div style="padding-bottom: 8px">
       <el-form :inline="true" :model="searchForm" size="mini">
-        <el-form-item label="商家">
-          <el-input v-model="searchForm.adminUsername" style="width: 120px"></el-input>
+        <el-form-item label="商家工号" v-if="[1,9,14,15].includes(app.admin.roleId)">
+          <el-input v-model="searchForm.adminUsername" clearable style="width: 120px"></el-input>
+          <el-button icon="el-icon-user" @click="onBossSelectClick"></el-button>
+        </el-form-item>
+        <el-form-item label="商家社区">
+          <org-select v-model="searchForm.orgId" style="width:260px" />
         </el-form-item>
         <el-form-item label="店铺名称">
-          <el-input v-model="searchForm.name" style="width: 200px"></el-input>
+          <el-input v-model="searchForm.name" clearable style="width: 200px"></el-input>
         </el-form-item>
         <el-form-item label="行业">
           <type-select
@@ -14,9 +18,6 @@
             :items="DictMan.items('product.industry')"
             style="width: 110px"
           />
-        </el-form-item>
-        <el-form-item label="社区">
-          <org-select v-model="searchForm.orgId" style="width:260px" />
         </el-form-item>
         <el-form-item>
           <data-table-query-button :query-params="searchForm" />
@@ -91,6 +92,7 @@
     <shop-edit ref="shopEdit" />
     <shop-details ref="shopDetails" />
     <dispatch-order-mode-settings ref="dispatchOrderModeSettings" />
+    <boss-query-selector ref="bossQuerySelector" />
   </data-table-app-page>
 </template>
 
@@ -100,21 +102,35 @@ import OrgSelect from '@/pages/org/OrgSelect.vue';
 import ShopEdit from './ShopEdit.vue';
 import ShopDetails from './ShopDetails.vue';
 import DispatchOrderModeSettings from './DispatchOrderModeSettings.vue';
+import BossQuerySelector from '@/pages/business/BossQuerySelector.vue';
 
 export default {
   components: {
     OrgSelect,
     ShopEdit,
     ShopDetails,
-    DispatchOrderModeSettings
+    DispatchOrderModeSettings,
+    BossQuerySelector
   },
   data() {
     return {
       app,
-      searchForm: {}
+      searchForm: {
+        adminUsername: '',
+        name: '',
+
+      }
     }
   },
   methods: {
+    onBossSelectClick() {
+      this.$refs.bossQuerySelector.show({
+        onOk: (boss) => {
+          this.searchForm.adminUsername = boss.username;
+          return true;
+        }
+      });
+    },
     onDetailsClick(shop) {
       this.$refs.shopDetails.show(shop);
     },

@@ -6,16 +6,16 @@
   >
     <el-form :inline="true" :model="searchForm" size="mini">
       <el-form-item label="昵称">
-        <el-input v-model="searchForm.aliasName" style="width: 70px"></el-input>
+        <el-input v-model="searchForm.aliasName" clearable style="width: 70px"></el-input>
       </el-form-item>
       <el-form-item label="姓名">
-        <el-input v-model="searchForm.realName" style="width: 70px"></el-input>
+        <el-input v-model="searchForm.realName" clearable style="width: 70px"></el-input>
       </el-form-item>
       <el-form-item label="身份证号码">
-        <el-input v-model="searchForm.idcard" style="width: 160px"></el-input>
+        <el-input v-model="searchForm.idcard" clearable style="width: 160px"></el-input>
       </el-form-item>
       <el-form-item label="手机号">
-        <el-input v-model="searchForm.telphone" style="width: 110px"></el-input>
+        <el-input v-model="searchForm.telphone" clearable style="width: 110px"></el-input>
       </el-form-item>
       <el-form-item>
         <data-table-query-button :query-params="searchForm" />

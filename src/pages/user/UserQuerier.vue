@@ -12,19 +12,19 @@
       <el-tab-pane label="基本信息">
         <el-form :model="form" label-width="110px" size="mini" style="width: 400px">
           <el-form-item label="昵称">
-            <el-input v-model="form.aliasName"></el-input>
+            <el-input v-model="form.aliasName" clearable></el-input>
           </el-form-item>
           <el-form-item label="姓名">
-            <el-input v-model="form.realName"></el-input>
+            <el-input v-model="form.realName" clearable></el-input>
           </el-form-item>
           <el-form-item label="身份证">
-            <el-input v-model="form.idcard"></el-input>
+            <el-input v-model="form.idcard" clearable></el-input>
           </el-form-item>
           <el-form-item label="手机号">
-            <el-input v-model="form.telphone"></el-input>
+            <el-input v-model="form.telphone" clearable></el-input>
           </el-form-item>
           <el-form-item label="设备号/卡号">
-            <el-input v-model="form.deviceCode"></el-input>
+            <el-input v-model="form.deviceCode" clearable></el-input>
           </el-form-item>
           <el-form-item label="用户类型">
             <type-select

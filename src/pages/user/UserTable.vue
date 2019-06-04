@@ -3,13 +3,13 @@
     <div style="padding-bottom: 8px">
       <el-form :inline="true" :model="searchForm" size="mini">
         <el-form-item label="昵称">
-          <el-input v-model="searchForm.aliasName" style="width: 70px"></el-input>
+          <el-input v-model="searchForm.aliasName" clearable style="width: 100px"></el-input>
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="searchForm.telphone" style="width: 120px"></el-input>
+          <el-input v-model="searchForm.telphone" clearable style="width: 130px"></el-input>
         </el-form-item>
         <el-form-item label="设备号/卡号">
-          <el-input v-model="searchForm.deviceCode" style="width: 150px"></el-input>
+          <el-input v-model="searchForm.deviceCode" clearable style="width: 170px"></el-input>
         </el-form-item>
         <el-form-item label="用户类型">
           <type-select

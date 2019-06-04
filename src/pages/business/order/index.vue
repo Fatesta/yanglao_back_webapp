@@ -3,7 +3,7 @@
     <div style="padding-bottom: 8px">
       <el-form :inline="true" :model="searchForm" size="mini">
         <el-form-item label="订单号">
-          <el-input v-model="searchForm.orderno" style="width: 170px"></el-input>
+          <el-input v-model="searchForm.orderno" clearable style="width: 190px"></el-input>
         </el-form-item>
         <el-form-item label="订单状态">
           <type-select

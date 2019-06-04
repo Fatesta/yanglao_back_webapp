@@ -9,7 +9,6 @@
       v-loading="loading"
       :data="orgs"
       show-checkbox
-      default-expand-all	
       :props="{
         children: 'children',
         label: 'name'
