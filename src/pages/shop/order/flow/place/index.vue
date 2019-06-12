@@ -7,8 +7,6 @@
 
 <script>
 /* 下单流程 */
-import VueRouter from 'vue-router';
-
 import Place from './pages/Place.vue';
 import OrderForm from './pages/OrderForm.vue';
 

@@ -4,7 +4,7 @@
     :visible.sync="visible"
     width="400px"
   >
-    <el-button size="small" @click="onDownloadTemplateClick">下载模板</el-button>
+    <el-button @click="onDownloadTemplateClick">下载模板</el-button>
     <el-upload
       ref="upload"
       action="/api/device/importDevice"
@@ -14,11 +14,11 @@
       :on-success="onSuccess"
       style="margin-top: 16px"
     >
-      <el-button slot="trigger" size="small" type="primary" plain>选取文件</el-button>
+      <el-button slot="trigger" type="primary" plain>选取文件</el-button>
     </el-upload>
-    <span slot="footer" class="dialog-footer">
-      <el-button size="small" type="default" @click="visible = false">取消</el-button>
-      <el-button size="small" type="primary" @click="onSubmit" :loading="submitting">提交</el-button>
+    <span slot="footer">
+      <el-button type="default" @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="onSubmit" :loading="submitting">提交</el-button>
     </span>
   </el-dialog>
 </template>

@@ -4,7 +4,7 @@
     :visible.sync="visible"
     width="910px"
   >
-    <el-form :inline="true" :model="searchForm" size="mini">
+    <el-form :inline="true" :model="searchForm">
       <el-form-item label="昵称">
         <el-input v-model="searchForm.aliasName" clearable style="width: 70px"></el-input>
       </el-form-item>
@@ -38,9 +38,9 @@
       <el-table-column prop="userType" label="用户类型" :formatter="formatters.userType" width="120"></el-table-column>
       <el-table-column prop="orgName" label="社区" width="160" show-overflow-tooltip></el-table-column>
     </data-table>
-    <div slot="footer" class="dialog-footer" style="margin-top: 8px;">
-      <el-button size="small" type="default" @click="visible = false">取消</el-button>
-      <el-button size="small" type="primary" @click="onOk">确定</el-button>
+    <div slot="footer" style="margin-top: 8px;">
+      <el-button type="default" @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="onOk">确定</el-button>
     </div>
   </el-dialog>
 </template>

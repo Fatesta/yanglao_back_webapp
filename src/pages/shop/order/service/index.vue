@@ -1,6 +1,6 @@
 <template>
   <data-table-app-page>
-    <el-form :inline="true" :model="searchForm" size="mini">
+    <el-form :inline="true" :model="searchForm">
       <el-form-item label="工单号">
         <el-input v-model="searchForm.orderno" clearable style="width: 170px"></el-input>
       </el-form-item>
@@ -57,14 +57,14 @@
       <el-table-column prop="orderno" label="工单号" width="190"></el-table-column>
       <el-table-column prop="status" label="工单状态" width="100">
         <template slot-scope="scope">
-          <el-tag :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[scope.row.status]" size="small">
+          <el-tag :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[scope.row.status]">
             {{statusMap[scope.row.status]}}
           </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="payStatus" label="支付状态" width="90">
         <template slot-scope="scope">
-          <el-tag :type="['warning', 'success'][scope.row.payStatus]" size="small">
+          <el-tag :type="['warning', 'success'][scope.row.payStatus]">
             {{DictMan.itemMap('payStatus')[scope.row.payStatus]}}
           </el-tag>
         </template>
@@ -79,13 +79,11 @@
       <el-table-column label="操作" width="140" fixed="right">
         <template slot-scope="scope">
           <el-button
-            size="mini"
             type="primary"
             plain
             @click="onDetailsClick(scope.row)">详情</el-button>
           <el-button
             :disabled="!(scope.row.longitude && scope.row.latitude)"
-            size="mini"
             type="primary"
             plain
             style="margin-left:0px"

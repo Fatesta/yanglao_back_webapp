@@ -1,12 +1,16 @@
 <template>
   <data-table-app-page>
     <div style="padding-bottom: 8px">
-      <el-form :inline="true" :model="searchForm" size="mini">
-        <el-form-item label="商家工号" v-if="[1,9,14,15].includes(app.admin.roleId)">
+      <el-form :inline="true" :model="searchForm">
+        <el-form-item
+          label="商家工号"
+          v-if="!$params.boss && [1,9,14,15].includes(app.admin.roleId)">
           <el-input v-model="searchForm.adminUsername" clearable style="width: 120px"></el-input>
           <el-button icon="el-icon-user" @click="onBossSelectClick"></el-button>
         </el-form-item>
-        <el-form-item label="商家社区">
+        <el-form-item
+          label="商家社区"
+          v-if="!$params.boss && [1,9,14,15].includes(app.admin.roleId)">
           <org-select v-model="searchForm.orgId" style="width:260px" />
         </el-form-item>
         <el-form-item label="店铺名称">
@@ -26,7 +30,7 @@
       <el-button
         v-if="[1,2,4,9,14].includes(app.admin.roleId)"
         type="primary"
-        size="small"
+       
         icon="el-icon-plus"
         @click="onAddClick"
       >
@@ -36,6 +40,7 @@
     <data-table
       ref="table"
       url="/api/shop/pro/proPage"
+      lazy
     >
       <el-table-column prop="imgUrl" label="店铺图片" width="100">
         <template slot-scope="scope">
@@ -54,7 +59,6 @@
             type="primary"
             plain
             icon="el-icon-s-order"
-            size="mini"
             @click="onOrderClick(scope.row)"
           >
             订单
@@ -66,21 +70,21 @@
             <el-button
               type="primary"
               plain
-              size="mini"
               split-button
             >
               管理<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="product" icon="el-icon-s-goods">商品管理</el-dropdown-item>
-              <el-dropdown-item command="service" icon="el-icon-water-cup" v-if="[1,2,4,9,14].includes(app.admin.roleId)">服务管理</el-dropdown-item>
-              <el-dropdown-item command="employee" icon="el-icon-user">员工管理</el-dropdown-item>
+              <el-dropdown-item command="product" icon="el-icon-s-goods">商品</el-dropdown-item>
+              <el-dropdown-item command="service" icon="el-icon-water-cup" v-if="[1,2,4,9,14].includes(app.admin.roleId)">服务</el-dropdown-item>
+              <el-dropdown-item command="employee" icon="el-icon-user">员工</el-dropdown-item>
+              <el-dropdown-item command="trade" icon="el-icon-notebook-2">流水</el-dropdown-item>
+              <!--<el-dropdown-item command="coupon" icon="el-icon-discount" v-if="['catering'].includes(scope.row.industryId)">优惠券</el-dropdown-item>-->
               <el-dropdown-item command="edit" icon="el-icon-edit" divided v-if="[1,2,4,9,14].includes(app.admin.roleId)">修改信息</el-dropdown-item>
               <el-dropdown-item command="businessMode" icon="el-icon-setting" v-if="[1,2,4,9,14].includes(app.admin.roleId)">派单模式设置</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <el-button
-            size="mini"
             @click="onDetailsClick(scope.row)"
           >
             详情
@@ -102,7 +106,7 @@ import OrgSelect from '@/pages/org/OrgSelect.vue';
 import ShopEdit from './ShopEdit.vue';
 import ShopDetails from './ShopDetails.vue';
 import DispatchOrderModeSettings from './DispatchOrderModeSettings.vue';
-import BossQuerySelector from '@/pages/business/BossQuerySelector.vue';
+import BossQuerySelector from '@/pages/shop/BossQuerySelector.vue';
 
 export default {
   components: {
@@ -116,9 +120,8 @@ export default {
     return {
       app,
       searchForm: {
-        adminUsername: '',
-        name: '',
-
+        adminUsername: this.$params.boss && this.$params.boss.username,
+        name: ''
       }
     }
   },
@@ -150,7 +153,7 @@ export default {
         });
       } else {
         app.pushPage({
-          path: '/business/order/index',
+          path: '/shop/order/index',
           title: shop.name + " - " + '订单管理',
           params: { shop },
           key: shop.providerId
@@ -184,6 +187,20 @@ export default {
             title: shop.name + ' - 员工管理'
           });
           break;
+        case 'trade':
+          app.pushPage({
+            path: '/shop/finance/trade/index',
+            title: shop.name + " - " + '交易流水',
+            params: { shop },
+            key: shop.providerId
+          });
+          break;/*
+        case 'coupon':
+          openTab({
+            url: 'view/coupon/batch/index.do',
+            title: '优惠券'
+          });
+          break;*/
         case 'edit':
           this.$refs.shopEdit.show({
             mode: 'update',
@@ -197,7 +214,10 @@ export default {
           this.$refs.dispatchOrderModeSettings.show(shop);
           break;
       }
-    },
+    }
+  },
+  mounted() {
+    this.$refs.table.query(this.searchForm);
   }
 }
 </script>

@@ -65,6 +65,10 @@
       <el-col :span="5">设备号</el-col>
       <el-col :span="18">{{userInfo.deviceCode}}</el-col>
     </el-row>
+    <el-row>
+      <el-col :span="5">备注</el-col>
+      <el-col :span="18">{{userInfo.remark}}</el-col>
+    </el-row>
   </el-dialog>
 </template>
 
@@ -77,9 +81,9 @@ export default {
     };
   },
   methods: {
-    show(user) {
+    async show(user) {
       this.visible = true;
-      this.userInfo = user;
+      this.userInfo = await axios.get('/api/user/getBasicInfo', {params: {userId: user.id}});
     }
   }
 }

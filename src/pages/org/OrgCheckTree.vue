@@ -2,7 +2,7 @@
   <div>
     <el-input
       placeholder="输入名称以搜索"
-      size="small"
+     
       v-model="filterText"></el-input>
     <el-tree
       ref="tree"

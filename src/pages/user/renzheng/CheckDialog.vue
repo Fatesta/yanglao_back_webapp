@@ -9,10 +9,10 @@
         <el-input type="textarea" :rows="2" v-model="checkForm.stateDesc"></el-input>
       </el-form-item>
     </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button size="small" type="default" @click="visible = false">取消</el-button>
-      <el-button size="small" type="success" @click="onPassClick">通过</el-button>
-      <el-button size="small" type="danger" @click="onNoPassClick">不通过</el-button>
+    <span slot="footer">
+      <el-button type="default" @click="visible = false">取消</el-button>
+      <el-button type="success" @click="onPassClick">通过</el-button>
+      <el-button type="danger" @click="onNoPassClick">不通过</el-button>
     </span>
   </el-dialog>
 </template>

@@ -13,7 +13,7 @@
     >
       <span
         :style="{
-          fontSize: '22px',
+          fontSize: '24px',
           color: styles.header.color,
           letterSpacing: '1px',
           cursor: 'pointer'
@@ -61,6 +61,7 @@
             float: 'right',
             color: styles.header.color2
           }"
+          size="medium"
           @mouseover.native="$refs.userDropdown.$el.style.backgroundColor = styles.header.hoverColor"
           @mouseout.native="$refs.userDropdown.$el.style.backgroundColor = 'unset'"
         >
@@ -70,8 +71,10 @@
             <i class="el-icon-arrow-down" />
           </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-key" command="modifyPassword">修改密码</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-switch-button" divided command="logout">退出登陆</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-monitor" command="index">首页</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-key" command="modifyPassword">密码</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" command="settings">设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-switch-button" divided command="logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -199,10 +202,22 @@ export default {
       this.$refs.navMenu.onCollapse();
     },
     onCommandClick(cmd) {
-      if (cmd == 'modifyPassword') {
-        this.$refs.passwordUpdateDialog.visible = true;
-      } else if (cmd == 'logout') {
-        this.logout();
+      switch (cmd) {
+        case 'index':
+          openModuleByCode('taishitu');
+          break;
+        case 'modifyPassword':
+          this.$refs.passwordUpdateDialog.visible = true;
+          break;
+        case 'settings':
+          app.pushPage({
+            path: '/app/settings/index',
+            title: '设置'
+          });
+          break;
+        case 'logout':
+          this.logout();
+          break;
       }
     },
     logout() {
@@ -275,6 +290,7 @@ export default {
         if (!path.endWiths('.js')) {
           jsUrl += '.js';
         }
+        jsUrl += '?v=' + (window.app_version || 1);
         requirejs([jsUrl], ({default: component}) => {
           component.props = component.props || {};
           component.props['$params'] = {

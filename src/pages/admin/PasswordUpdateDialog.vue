@@ -4,7 +4,7 @@
     :visible.sync="visible"
     width="360px"
   >
-    <el-form ref="form" :model="form" label-width="100px" size="small">
+    <el-form ref="form" :model="form" label-width="100px">
       <el-form-item
         prop="password"
         label="输入新密码"
@@ -20,9 +20,9 @@
         <el-input type="password" v-model="form.confirmPassword" style="width:200px"></el-input>
       </el-form-item>
     </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button size="small" type="default" @click="visible = false">取消</el-button>
-      <el-button size="small" type="primary" @click="onSubmit">确认</el-button>
+    <span slot="footer">
+      <el-button type="default" @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="onSubmit">确认</el-button>
     </span>
   </el-dialog>
 </template>

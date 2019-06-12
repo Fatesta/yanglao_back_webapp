@@ -1,0 +1,129 @@
+<template>
+  <data-table-app-page>
+    <div style="padding-bottom: 8px">
+      <el-form :inline="true" :model="searchForm">
+        <el-form-item label="工号">
+          <el-input v-model="searchForm.username" clearable style="width: 120px"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="searchForm.realName" clearable style="width: 90px"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model="searchForm.phone" clearable style="width: 130px"></el-input>
+        </el-form-item>
+        <el-form-item label="社区">
+          <org-select v-model="searchForm.orgId" style="width:260px" />
+        </el-form-item>
+        <el-form-item>
+          <data-table-query-button :query-params="searchForm" />
+        </el-form-item>
+      </el-form>
+      <el-button
+        v-if="[1,4,9,14].includes(app.admin.roleId)"
+        type="primary"
+        icon="el-icon-plus"
+        @click="onAddClick"
+      >
+        增加
+      </el-button>
+    </div>
+    <data-table
+      ref="table"
+      url="/api/shop/boss/bossPage"
+    >
+      <el-table-column prop="username" label="工号" width="100" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="realName" label="姓名" width="80" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="phone" label="手机号" width="120"></el-table-column>
+      <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
+      <el-table-column prop="createTime" label="注册时间" width="170"></el-table-column>
+      <el-table-column prop="balance" label="余额" width="100" :formatter="formatters.balance"></el-table-column>
+      <el-table-column prop="oldCardBalance" label="老年卡余额" width="100"></el-table-column>
+      <el-table-column label="操作" width="290" fixed="right">
+        <template slot-scope="scope">
+          <el-button
+            @click="onUpdateClick(scope.row)">
+            修改
+          </el-button>
+          <el-button
+            type="primary"
+            plain
+            @click="onWithdrawClick(scope.row)">
+            提现
+          </el-button>
+          <el-button
+            type="primary"
+            plain
+            @click="onShopClick(scope.row)">
+            店铺
+          </el-button>
+          <el-button
+            type="primary"
+            plain
+            @click="onTradeClick(scope.row)">
+            交易流水
+          </el-button>
+        </template>
+      </el-table-column>
+    </data-table>
+
+  </data-table-app-page>
+</template>
+
+<script>
+import OrgSelect from '@/pages/org/OrgSelect.vue';
+
+export default {
+  components: {
+    OrgSelect
+  },
+  data() {
+    return {
+      searchForm: {},
+      formatters: {
+        balance: (row, col, val) => row.moneyType == 1 ? val : `${val} (虚拟)`
+      },
+      app
+    }
+  },
+  methods: {
+    onAddClick() {
+      this.$alert('todo')
+    },
+    onUpdateClick() {
+      this.$alert('todo')
+    },
+    onWithdrawClick(boss) {
+      if (boss.moneyType != 1) {
+        this.$alert('该余额类型无法提现');
+        return;
+      }
+      openTab({
+        url: "shop/finance/withdraw/index.do?operator=" + boss.adminId,
+        title: boss.realName + " - 提现管理"
+      });
+    },
+    onShopClick(boss) {
+      app.pushPage({
+        path: '/shop/shop/index',
+        params: { boss },
+        title: `${boss.realName} - 店铺管理`,
+        key: boss.id
+      });
+    },
+    onTradeClick(boss) {
+      app.pushPage({
+        path: '/shop/finance/trade/index',
+        params: { boss },
+        title: `${boss.realName} - 交易流水`,
+        key: boss.id
+      });
+    }
+  }
+}
+</script>
+
+<style scoped>
+.cell > .el-button {
+  margin-left: 0px;
+}
+</style>

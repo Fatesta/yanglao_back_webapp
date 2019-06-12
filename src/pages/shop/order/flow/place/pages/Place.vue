@@ -68,7 +68,7 @@
             <span>已选择 {{Object.keys(selections).length}} 种商品</span>
             <el-button
               type="primary"
-              size="small"
+             
               @click="onNextClick"
               style="margin-left: 8px;"
               :disabled="Object.keys(selections).length == 0"
@@ -89,7 +89,10 @@ export default {
     return {
       categories: [],
       selections: {},
-      searchForm: {...this.$params},
+      searchForm: {
+        providerId: this.$params.shop.providerId,
+        industryId: this.$params.shop.industryId
+      },
       formatters: {
         price: (row, col, val) => '¥ ' + val.toFixed(2)
       }
@@ -119,7 +122,7 @@ export default {
     onNextClick() {
       
       // 家政订单数量检查
-      if (this.$params.industryId == 'housekeeping') {
+      if (this.$params.shop.industryId == 'housekeeping') {
         let total = 0;
         for (let p in this.selections) {
           total += this.selections[p].num;
@@ -142,7 +145,10 @@ export default {
     const ret = await axios.get(
       '/api/shop/product/categoryList',
       {
-        params: this.$params
+        params: {
+          providerId: this.$params.shop.providerId,
+          industryId: this.$params.shop.industryId
+        }
       });
     this.categories = [{
       categoryId: -1,

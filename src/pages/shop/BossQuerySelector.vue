@@ -4,15 +4,15 @@
     :visible.sync="visible"
     width="750px"
   >
-    <el-form :inline="true" :model="searchForm" size="mini">
+    <el-form :inline="true" :model="searchForm">
       <el-form-item label="工号">
-        <el-input v-model="searchForm.username" style="width: 70px"></el-input>
+        <el-input v-model="searchForm.username" clearable style="width: 120px"></el-input>
       </el-form-item>
       <el-form-item label="姓名">
-        <el-input v-model="searchForm.realName" style="width: 70px"></el-input>
+        <el-input v-model="searchForm.realName" clearable style="width: 90px"></el-input>
       </el-form-item>
       <el-form-item label="手机号">
-        <el-input v-model="searchForm.phone" style="width: 110px"></el-input>
+        <el-input v-model="searchForm.phone" clearable style="width: 130px"></el-input>
       </el-form-item>
       <el-form-item>
         <data-table-query-button :query-params="searchForm" />
@@ -30,9 +30,9 @@
       <el-table-column prop="realName" label="姓名" width="200"></el-table-column>
       <el-table-column prop="phone" label="手机号" width="120"></el-table-column>
     </data-table>
-    <div slot="footer" class="dialog-footer" style="margin-top: 8px;">
-      <el-button size="small" type="default" @click="visible = false">取消</el-button>
-      <el-button size="small" type="primary" @click="onOk">确定</el-button>
+    <div slot="footer" style="margin-top: 8px;">
+      <el-button type="default" @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="onOk">确定</el-button>
     </div>
   </el-dialog>
 </template>

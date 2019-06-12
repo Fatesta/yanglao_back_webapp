@@ -10,7 +10,7 @@
   >
     <el-tabs tab-position="left" style="height: 440px">
       <el-tab-pane label="基本信息">
-        <el-form :model="form" label-width="110px" size="mini" style="width: 400px">
+        <el-form :model="form" label-width="110px" style="width: 400px">
           <el-form-item label="昵称">
             <el-input v-model="form.aliasName" clearable></el-input>
           </el-form-item>
@@ -59,7 +59,7 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="评估对象">
-        <el-form :model="form" label-width="110px" size="mini" style="width: 400px">
+        <el-form :model="form" label-width="110px" style="width: 400px">
           <el-form-item label="申请对象类型">
             <el-checkbox-group v-model="form.applyTypes">
               <el-checkbox
@@ -79,19 +79,19 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="特殊老人">
-        <el-form :model="form" label-width="110px" size="mini" style="width: 400px">
+        <el-form :model="form" label-width="170px" style="width: 400px">
           <el-form-item label="重点老人">
             <el-checkbox v-model="form.role" :true-label="-1"></el-checkbox>
           </el-form-item>
-          <el-form-item label="补助老人">
+          <el-form-item label="区级养老市级补贴老人">
             <el-checkbox v-model="form.isGrant" :true-label="1"></el-checkbox>
           </el-form-item>
       </el-tab-pane>
     </el-tabs>
-    <div slot="footer" class="dialog-footer" style="margin-top: 8px;">
-      <el-button size="small" type="default" @click="visible = false">取消</el-button>
-      <el-button size="small" type="default" @click="onReset">重置</el-button>
-      <el-button size="small" type="primary" @click="onSubmit">查询</el-button>
+    <div slot="footer" style="margin-top: 8px;">
+      <el-button type="default" @click="visible = false">取消</el-button>
+      <el-button type="default" @click="onReset">重置</el-button>
+      <el-button type="primary" @click="onSubmit">查询</el-button>
     </div>
   </el-dialog>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <data-table-app-page>
     <div style="padding-bottom: 8px">
-      <el-form :inline="true" :model="searchForm" size="mini">
+      <el-form :inline="true" :model="searchForm">
         <el-form-item label="昵称">
           <el-input v-model="searchForm.aliasName" clearable style="width: 100px"></el-input>
         </el-form-item>
@@ -31,7 +31,7 @@
       <el-dropdown
         split-button
         type="primary"
-        size="small"
+       
         icon="el-icon-plus"
         trigger="click"
         @command="onCommandClick($event)"
@@ -44,7 +44,7 @@
       </el-dropdown>
       <el-button
         type="default"
-        size="small"
+       
         icon="el-icon-download"
         style="margin-left: 8px;"
         @click="onExportClick"
@@ -77,7 +77,6 @@
       <el-table-column label="操作" width="154" fixed="right">
         <template slot-scope="scope">
           <el-button
-            size="mini"
             style="margin-left: 0px"
             @click="onDetailsClick(scope.row)"
           >
@@ -90,7 +89,6 @@
             <el-button
               type="primary"
               plain
-              size="mini"
               split-button
             >
               更多<i class="el-icon-arrow-down el-icon--right"></i>

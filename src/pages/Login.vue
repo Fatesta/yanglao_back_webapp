@@ -21,11 +21,11 @@
               color: styles.subtitleColor
             }">欢迎使用</div>
         </div>
-        <el-form :model="form" :rules="rules" ref="form" label-width="0px">
+        <el-form :model="form" :rules="rules" ref="form" label-width="0px" size="medium">
           <el-form-item prop="username">
             <el-input
               v-model="form.username"
-              placeholder="username"
+              placeholder="用户名"
               @keyup.enter.native="onSubmit">
               <el-button slot="prepend" icon="el-icon-user"></el-button>
             </el-input>
@@ -34,7 +34,7 @@
             <el-input 
               type="password"
               v-model="form.password"
-              placeholder="password"
+              placeholder="密码"
               @keyup.enter.native="onSubmit">
               <el-button slot="prepend" icon="el-icon-lock"></el-button>
             </el-input>
@@ -66,7 +66,7 @@
         :underline="false"
         target="_blank"
         href="http://www.loveonline.net.cn/about-us.html"
-      >Copyright ©{{ new Date().getFullYear() }} 武汉亲情互联科技有限公司</el-link>
+      >Copyright ©{{ moment().year() }} 武汉亲情互联科技有限公司</el-link>
       <el-link
         type="info"
         :underline="false"
@@ -82,6 +82,7 @@
 <script>
 import config from '@/config/app.config';
 import auth from '@/auth';
+import moment from 'moment';
 
 export default {
   data() {
@@ -101,7 +102,8 @@ export default {
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' }
         ]
-      }
+      },
+      moment
     };
   },
   computed: {
@@ -197,6 +199,9 @@ export default {
   .login-container {
     width: 348px;
     margin: 8% auto;
+  }
+  .login-container .el-button--medium {
+    padding: 11px 20px;
   }
   .checkboxes {
     position: relative;

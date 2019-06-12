@@ -12,7 +12,7 @@
       ref="form"
       :model="form" 
       label-width="120px"
-      size="small"
+     
       style="width: 400px;"
     >
       <el-form-item label="昵称">
@@ -46,9 +46,9 @@
       </el-form-item>
     </el-form>
 
-    <span slot="footer" class="dialog-footer">
-      <el-button size="small" type="default" @click="visible = false">取消</el-button>
-      <el-button size="small" type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
+    <span slot="footer">
+      <el-button type="default" @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
     </span>
   </el-dialog>
 </template>

@@ -3,7 +3,7 @@
     <el-button
       type="text"
       icon="el-icon-back"
-      size="small"
+     
       style="font-size: 24px"
       @click="placeFollow.back"
     />
@@ -13,12 +13,12 @@
           <el-form ref="userInfoForm" :model="form"
             label-width="100px"
             label-position="left"
-            size="small"
+           
             style="margin-top: 8px;">
             <el-form-item
               label="用户"
               :rules="[{required: true}]">
-              <el-button type="primary" icon="el-icon-user" size="mini" plain @click="onSelectUserClick">选择用户</el-button>
+              <el-button type="primary" icon="el-icon-user" plain @click="onSelectUserClick">选择用户</el-button>
               <template v-if="user">
                 <el-row>
                   <el-col :span="8">平台用户：{{user.aliasName}}</el-col>
@@ -67,7 +67,7 @@
             <span>¥&nbsp;{{scope.row.product.price}}</span>
             <el-button
               icon="el-icon-edit"
-              size="small"
+             
               @click="onEditPriceClick(scope.row.product)"
             />
           </template>
@@ -79,7 +79,7 @@
         :model="form"
         label-width="100px"
         label-position="left"
-        size="small">
+       >
         <el-form-item
           prop="remark"
           label="订单备注">
@@ -90,7 +90,7 @@
     <div style="margin-top: 24px;text-align: center;">
       <el-button
         type="primary"
-        size="small"
+       
         @click="onSubmit"
         :loading="submitting"
         :disabled="submitDisabled"
@@ -171,8 +171,8 @@ export default {
           };
         }));
         let data = {
-          providerId: this.$params.providerId,
-          industryId: this.$params.industryId,
+          providerId: this.$params.shop.providerId,
+          industryId: this.$params.shop.industryId,
           creator: this.user.id,
           payType: 33,
           productListJSON,
@@ -186,6 +186,7 @@ export default {
         if (ret.success) {
           this.$message.success('下单成功');
           this.submitDisabled = true;
+          this.$params.orderTable.reloadCurrentPage();
         }
       });
 

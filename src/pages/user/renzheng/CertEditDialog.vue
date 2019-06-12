@@ -5,7 +5,7 @@
     top="5vh"
     width="600px"
   >
-    <el-form ref="form" :model="form" label-width="100px" size="small">
+    <el-form ref="form" :model="form" label-width="100px">
       <el-form-item
         prop="realName"
         label="真实姓名"
@@ -50,15 +50,15 @@
             accept="image/*"
             :show-file-list="false"
             :on-success="function(response, file){ onUploadSuccess(response, file, index); }">
-            <el-button size="small" v-if="!readonly">点击上传</el-button>
+            <el-button v-if="!readonly">点击上传</el-button>
           </el-upload>
           <el-link target="_blank" :underline="false" :href="idcardImgUrls[index]" v-if="readonly" type="info">点击查看大图</el-link>
         </div>
       </div>
     </div>
-    <span slot="footer" class="dialog-footer">
-      <el-button size="small" type="default" @click="visible = false" v-if="!readonly">取消</el-button>
-      <el-button size="small" type="primary" @click="onSubmit" v-if="!readonly" :loading="submitting">提交</el-button>
+    <span slot="footer">
+      <el-button type="default" @click="visible = false" v-if="!readonly">取消</el-button>
+      <el-button type="primary" @click="onSubmit" v-if="!readonly" :loading="submitting">提交</el-button>
     </span>
   </el-dialog>
 </template>

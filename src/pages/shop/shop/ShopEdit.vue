@@ -14,7 +14,7 @@
         ref="form"
         :model="form" 
         label-width="120px"
-        size="small"
+       
         style="width: 500px;"
       >
         <el-form-item
@@ -44,7 +44,7 @@
               :show-file-list="false"
               :on-success="onUploadSuccess"
             >
-              <el-button size="small">点击上传</el-button>
+              <el-button>点击上传</el-button>
             </el-upload>
           </div>
         </el-form-item>
@@ -172,9 +172,9 @@
         </el-form-item>
       </el-form>
 
-      <span slot="footer" class="dialog-footer">
-        <el-button size="small" type="default" @click="visible = false">取消</el-button>
-        <el-button size="small" type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
+      <span slot="footer">
+        <el-button type="default" @click="visible = false">取消</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
       </span>
     </el-dialog>
 
@@ -186,7 +186,7 @@
 <script>
 import OrgCheckTree from '@/pages/org/OrgCheckTree.vue';
 import CitySelect from '@/components/cityselect/CitySelect.vue';
-import BossQuerySelector from '@/pages/business/BossQuerySelector.vue';
+import BossQuerySelector from '@/pages/shop/BossQuerySelector.vue';
 
 export default {
   components: {

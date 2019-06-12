@@ -7,6 +7,7 @@
       v-bind="attrs"
       :data="tableData"
       @current-change="onCurrentRowChange"
+      size="medium"
     >
       <slot></slot>
     </el-table>
@@ -76,6 +77,7 @@ export default {
       if (typeof params == 'object') {
         this.queryParams = params;
       }
+      this.currentPage = 1;
       this._fetch();
     },
     reloadCurrentPage() {

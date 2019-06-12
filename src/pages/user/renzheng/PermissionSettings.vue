@@ -22,9 +22,9 @@
         {{item.text}}
       </el-checkbox>
     </el-checkbox-group>
-    <span slot="footer" class="dialog-footer">
-      <el-button size="small" type="default" @click="visible = false">取消</el-button>
-      <el-button size="small" type="primary" @click="onOkClick">确定</el-button>
+    <span slot="footer">
+      <el-button type="default" @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="onOkClick">确定</el-button>
     </span>
   </el-dialog>
 </template>

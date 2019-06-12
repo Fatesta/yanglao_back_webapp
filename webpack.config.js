@@ -2,6 +2,7 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const glob = require('glob');
+const webpack = require('webpack');
 
 /* 创建多个入口描述，出口输出目录将与源目录一致 */
 //遍历pages中每个index.js，
@@ -82,7 +83,8 @@ module.exports = {
     }
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     //new CleanWebpackPlugin(-)//危险，不需要
   ]
 };

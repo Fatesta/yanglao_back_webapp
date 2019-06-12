@@ -1,6 +1,6 @@
 <template>
   <data-table-app-page>
-    <el-form :inline="true" :model="searchForm" size="mini">
+    <el-form :inline="true" :model="searchForm">
       <el-form-item label="姓名">
         <el-input v-model="searchForm.realName" clearable style="width: 90px"></el-input>
       </el-form-item>
@@ -36,11 +36,11 @@
       <el-table-column prop="realName" label="姓名" width="80"></el-table-column>
       <el-table-column prop="sex" label="性别" :formatter="formatters.sex" width="60"></el-table-column>
       <el-table-column prop="idcard" label="身份证号码" width="174"></el-table-column>
-      <el-table-column prop="telphone" label="手机号" width="110"></el-table-column>
+      <el-table-column prop="telphone" label="手机号" width="120"></el-table-column>
       <el-table-column prop="userType" label="用户类型" :formatter="formatters.userType" width="120"></el-table-column>
       <el-table-column prop="state" label="认证状态" width="100">
         <template slot-scope="scope">
-          <el-tag :type="['warning', '', 'success', 'danger'][scope.row.state]" size="small">
+          <el-tag :type="['warning', '', 'success', 'danger'][scope.row.state]">
             {{DictMan.itemMap('user.renzheng.state')[scope.row.state]}}
           </el-tag>
         </template>
@@ -51,13 +51,11 @@
           <el-button
             :disabled="scope.row.state != 1"
             type="primary"
-            size="mini"
             plain
             style="margin-left: 0px"
             @click="onCheckClick(scope.row)">审核</el-button>
           <el-button
             :disabled="scope.row.state == 0"
-            size="mini"
             style="margin-left: 0px"
             @click="onCertDetailsClick(scope.row)">认证信息</el-button>
           <el-dropdown
@@ -65,7 +63,6 @@
             :show-timeout="100"
           >
             <el-button
-              size="mini"
               split-button
             >
               更多操作<i class="el-icon-arrow-down el-icon--right"></i>

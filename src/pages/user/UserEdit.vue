@@ -13,7 +13,7 @@
       ref="form"
       :model="form" 
       label-width="120px"
-      size="small"
+     
       style="width: 500px;"
     >
       <el-form-item
@@ -68,7 +68,7 @@
       </el-form-item>
       <el-form-item
         prop="contactTel"
-        label="联系联系电话"
+        label="紧急联系电话"
         :rules="[{min: 6, max: 11, message: '长度为6~11'}]">
         <el-input v-model.trim="form.contactTel"></el-input>
       </el-form-item>
@@ -106,9 +106,9 @@
       </el-form-item>
     </el-form>
 
-    <span slot="footer" class="dialog-footer">
-      <el-button size="small" type="default" @click="visible = false">取消</el-button>
-      <el-button size="small" type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
+    <span slot="footer">
+      <el-button type="default" @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -182,6 +182,7 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
         this.submitting = true;
+        console.log(this.form)
         const ret = await axios.post('/api/user/registUser', this.form);
         this.submitting = false;
         if (ret.success) {

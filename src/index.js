@@ -6,6 +6,7 @@ import auth from '@/auth';
 import * as globalvars from './globalvars';
 import '@/api';
 
+Vue.prototype.$ELEMENT.size = 'small';
 Vue.use(VueRouter);
 
 Object.assign(Vue.prototype, globalvars.default);
