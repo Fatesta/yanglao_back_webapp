@@ -87,10 +87,29 @@ export default {
   },
   methods: {
     onAddClick() {
-      this.$alert('todo')
+      app.pushPage({
+        path: '/shop/boss/edit/index',
+        title: '增加商家',
+        params: {
+          mode: 'add',
+          onSuccess: () => {
+            this.$refs.table.reloadCurrentPage();
+          }
+        }
+      });
     },
-    onUpdateClick() {
-      this.$alert('todo')
+    onUpdateClick(boss) {
+      app.pushPage({
+        path: '/shop/boss/edit/index',
+        title: '修改商家',
+        params: {
+          mode: 'update',
+          boss,
+          onSuccess: () => {
+            this.$refs.table.reloadCurrentPage();
+          }
+        }
+      });
     },
     onWithdrawClick(boss) {
       if (boss.moneyType != 1) {

@@ -70,7 +70,7 @@ export default {
       this.form = {
         orderno: order.orderno,
         creator: order.creator,
-        operator: app.admin.adminId,
+        operator: order.handler,
         longitude: order.longitude,
         latitude: order.latitude,
         remark: ''

@@ -206,8 +206,8 @@ export default {
           {
             orderno: order.orderno,
             creator: order.creator,
-            operator: app.admin.adminId,
-            handler: handler || ''
+            operator: this.$params.shop.adminId,
+            handler: handler || this.$params.shop.adminId
           });
         if (ret.success) {
           order.status = 13;
@@ -262,7 +262,7 @@ export default {
          const ret = await axios.post('/api/shop/order/housekeeping/cancel', {
            orderno: order.orderno,
            creator: order.creator,
-           operator: app.admin.adminId
+           operator: ''
          });
          if (ret.success) {
            this.$message.success('取消订单成功');

@@ -141,7 +141,6 @@
     </data-table>
 
     <user-querier ref="userQuerier"></user-querier>
-    <user-edit ref="userEdit"></user-edit>
     <user-details ref="userDetails"></user-details>
     <device-user-import-dialog ref="deviceUserImportDialog"></device-user-import-dialog>
     <vip-card-change ref="vipCardChange"></vip-card-change>
@@ -151,7 +150,6 @@
 
 <script>
 import UserQuerier from './UserQuerier.vue';
-import UserEdit from './UserEdit.vue';
 import UserDetails from './UserDetails.vue';
 import DeviceUserImportDialog from './DeviceUserImportDialog.vue';
 import VipCardChange from './vipcard/change/Change.vue';
@@ -160,7 +158,6 @@ import { stringify } from 'qs';
 export default {
   components: {
     UserQuerier,
-    UserEdit,
     UserDetails,
     DeviceUserImportDialog,
     VipCardChange
@@ -190,19 +187,27 @@ export default {
       });
     },
     onAddClick() {
-      this.$refs.userEdit.show({
-        mode: 'add',
-        onSuccess: () => {
-          this.$refs.table.reloadCurrentPage();
+      app.pushPage({
+        path: '/user/edit/index',
+        title: '增加用户',
+        params: {
+          mode: 'add',
+          onSuccess: () => {
+            this.$refs.table.reloadCurrentPage();
+          }
         }
       });
     },
     onEditClick(user) {
-      this.$refs.userEdit.show({
-        mode: 'update',
-        user,
-        onSuccess: () => {
-          this.$refs.table.reloadCurrentPage();
+       app.pushPage({
+        path: '/user/edit/index',
+        title: '修改用户',
+        params: {
+          mode: 'update',
+          user,
+          onSuccess: () => {
+            this.$refs.table.reloadCurrentPage();
+          }
         }
       });
     },

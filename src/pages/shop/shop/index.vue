@@ -80,7 +80,7 @@
               <el-dropdown-item command="employee" icon="el-icon-user">员工</el-dropdown-item>
               <el-dropdown-item command="trade" icon="el-icon-notebook-2">流水</el-dropdown-item>
               <!--<el-dropdown-item command="coupon" icon="el-icon-discount" v-if="['catering'].includes(scope.row.industryId)">优惠券</el-dropdown-item>-->
-              <el-dropdown-item command="edit" icon="el-icon-edit" divided v-if="[1,2,4,9,14].includes(app.admin.roleId)">修改信息</el-dropdown-item>
+              <el-dropdown-item command="edit" icon="el-icon-edit" divided v-if="[1,2,4,9,14].includes(app.admin.roleId)">修改</el-dropdown-item>
               <el-dropdown-item command="businessMode" icon="el-icon-setting" v-if="[1,2,4,9,14].includes(app.admin.roleId)">派单模式设置</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -93,7 +93,6 @@
       </el-table-column>
     </data-table>
 
-    <shop-edit ref="shopEdit" />
     <shop-details ref="shopDetails" />
     <dispatch-order-mode-settings ref="dispatchOrderModeSettings" />
     <boss-query-selector ref="bossQuerySelector" />
@@ -103,7 +102,6 @@
 
 <script>
 import OrgSelect from '@/pages/org/OrgSelect.vue';
-import ShopEdit from './ShopEdit.vue';
 import ShopDetails from './ShopDetails.vue';
 import DispatchOrderModeSettings from './DispatchOrderModeSettings.vue';
 import BossQuerySelector from '@/pages/shop/BossQuerySelector.vue';
@@ -111,7 +109,6 @@ import BossQuerySelector from '@/pages/shop/BossQuerySelector.vue';
 export default {
   components: {
     OrgSelect,
-    ShopEdit,
     ShopDetails,
     DispatchOrderModeSettings,
     BossQuerySelector
@@ -138,10 +135,14 @@ export default {
       this.$refs.shopDetails.show(shop);
     },
     onAddClick(shop) {
-      this.$refs.shopEdit.show({
-        mode: 'add',
-        onSuccess: () => {
-          this.$refs.table.reloadCurrentPage();
+      app.pushPage({
+        path: '/shop/shop/edit/index',
+        title: '新建店铺',
+        params: {
+          mode: 'add',
+          onSuccess: () => {
+            this.$refs.table.reloadCurrentPage();
+          }
         }
       });
     },
@@ -202,11 +203,15 @@ export default {
           });
           break;*/
         case 'edit':
-          this.$refs.shopEdit.show({
-            mode: 'update',
-            shop,
-            onSuccess: () => {
-              this.$refs.table.reloadCurrentPage();
+          app.pushPage({
+            path: '/shop/shop/edit/index',
+            title: '修改店铺',
+            params: {
+              mode: 'update',
+              shop,
+              onSuccess: () => {
+                this.$refs.table.reloadCurrentPage();
+              }
             }
           });
           break;

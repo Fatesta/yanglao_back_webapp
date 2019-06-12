@@ -2,19 +2,12 @@
 增加用户
 -->
 <template>
-  <el-dialog
-    :title="`${mode == 'add' ? '增加' : '修改'}用户`"
-    :visible.sync="visible"
-    top="5vh"
-    :close-on-click-modal="false"
-    width="600px"
-  >
+  <el-card shadow="never">
     <el-form
       ref="form"
       :model="form" 
       label-width="120px"
-     
-      style="width: 500px;"
+      style="width: 500px;margin: 0 auto"
     >
       <el-form-item
         prop="aliasName"
@@ -104,13 +97,11 @@
         :rules="[{required: true, message: ' '}]">
         <el-input v-model.trim="form.deviceCode"></el-input>
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
+      </el-form-item>
     </el-form>
-
-    <span slot="footer">
-      <el-button type="default" @click="visible = false">取消</el-button>
-      <el-button type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
-    </span>
-  </el-dialog>
+  </el-card>
 </template>
 
 <script>
@@ -122,9 +113,9 @@ export default {
   },
   data() {
     return {
-      visible: false,
-      mode: null,
+      mode: this.$params.mode,
       form: {
+        id: null,
         userType: null,
         aliasName: '',
         realName: '',
@@ -145,29 +136,8 @@ export default {
     }
   },
   methods: {
-    async show(options) {
-      this.mode = options.mode;
-      this.options = options;
-      this.visible = true;
-      if (this.$refs.form) {
-        this.$refs.form.resetFields();
-      }
-      if (options.mode == 'update') {
-        this.submitting = true;
-        const user = await axios.get('/api/user/getBasicInfo', {params: {userId: options.user.id}});
-        this.submitting = false;
-        options.user = user;
-        this.form = user;
-        this.form.telephone = user.telphone;
-        this.$refs.orgSelect.setValue(user.orgId);
-      } else {
-        this.form.userType = null;
-        this.form.deviceCode = '';
-        this.$refs.orgSelect && this.$refs.orgSelect.clear(null);
-      }
-    },
     onSubmit() {
-      if (this.options.mode == 'add') {
+      if (this.mode == 'add') {
         this.onAddSubmit();
       } else {
         this.onUpdateSubmit();
@@ -182,13 +152,12 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
         this.submitting = true;
-        console.log(this.form)
         const ret = await axios.post('/api/user/registUser', this.form);
         this.submitting = false;
         if (ret.success) {
           this.$message.success('增加用户成功');
-          this.visible = false;
-          this.options.onSuccess();
+          this.$refs.form.resetFields();
+          this.$params.onSuccess();
         } else {
           this.$message.error(ret.message);
         }
@@ -200,21 +169,29 @@ export default {
         this.submitting = true;
         let data = _.pick({...this.form},
           'aliasName,realName,sex,birthday,idcard,telephone,name,contactTel,orgId,address'.split(','));
-        const { user } = this.options;
-        data.userId = user.id;
-        data.appUserId = user.id;
-        data.userType = user.userType;
+        data.userId = this.form.id;
+        data.appUserId = data.userId;
+        data.userType = this.form.userType;
         const ret = await axios.post('/api/user/updateUser', data);
         this.submitting = false;
         if (ret.success) {
           this.$message.success('修改用户成功');
-          this.visible = false;
-          this.options.onSuccess();
+          this.$params.onSuccess();
         } else {
           this.$message.error(ret.message);
         }
       });
     },
+  },
+  async mounted() {
+    if (this.mode == 'update') {
+      this.submitting = true;
+      const user = await axios.get('/api/user/getBasicInfo', {params: {userId: this.$params.user.id}});
+      this.submitting = false;
+      this.form = user;
+      this.form.telephone = user.telphone;
+      this.$refs.orgSelect.setValue(user.orgId);
+    }
   }
 }
 </script>
