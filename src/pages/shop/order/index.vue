@@ -90,7 +90,7 @@
           </el-button>
 
           <el-button
-            v-if="scope.row.industryId == 'housekeeping' && scope.row.status == 10"
+            v-if="['housekeeping', 'catering'].includes(scope.row.industryId) && scope.row.status == 10"
             type="primary"
             plain
             @click="onTakingClick(scope.row)"
@@ -99,7 +99,7 @@
             {{$params.shop.businessMode == 0 ? '接单' : '派单'}}
           </el-button>
           <el-button
-            v-else-if="scope.row.industryId == 'housekeeping' &&
+            v-else-if="['housekeeping'].includes(scope.row.industryId) &&
               (scope.row.status >= 13 && !scope.row.startFlowTime)"
             type="warning"
             plain
@@ -109,7 +109,7 @@
             开始
           </el-button>
           <el-button
-            v-else-if="scope.row.industryId == 'housekeeping' &&
+            v-else-if="['housekeeping', 'catering'].includes(scope.row.industryId) &&
               (scope.row.status >= 13 && !scope.row.endFlowTime)"
             type="success"
             plain
@@ -119,7 +119,7 @@
             完成
           </el-button>
           <el-button
-            v-else-if="scope.row.industryId == 'housekeeping' &&
+            v-else-if="['housekeeping', 'catering'].includes(scope.row.industryId) &&
               (scope.row.status == 15 && scope.row.starLevel == null)"
             type="primary"
             plain
@@ -129,7 +129,7 @@
             评价
           </el-button>
           <el-button
-            v-if="scope.row.industryId == 'housekeeping' && [10, 12, 13, 14].includes(scope.row.status)"
+            v-if="['housekeeping', 'catering'].includes(scope.row.industryId) && [10, 12, 13, 14].includes(scope.row.status)"
             type="danger"
             plain
             @click="onCancelClick(scope.row)"
@@ -193,7 +193,13 @@ export default {
         });
       }
     },
-    onDetailsClick(order) {
+    onDetailsClick(order) {/*
+      app.pushPage({
+        path: '/shop/order/details/index',
+        params: { order },
+        title: `订单详情 - ${order.orderno}`
+      });
+      return;*/
       openTab({
         title: '订单详情 - ' + order.orderno,
         url: '/view/shop/workOrder/orderDetail.do?orderCode=' + order.orderno
@@ -225,6 +231,7 @@ export default {
           },
           onOk: (employee) => {
             submit(employee.adminId);
+            return true;
           }
         });
       } else {

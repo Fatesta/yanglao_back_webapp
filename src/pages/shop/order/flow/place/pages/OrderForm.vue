@@ -147,7 +147,7 @@ export default {
         inputPattern: /^\d+$/
       }).then(({action, value}) => {
         if ('confirm' == action)
-          product.price = value;
+          product.price = +value;
       });
     },
     onSubmit() {

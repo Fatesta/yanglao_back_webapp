@@ -54,7 +54,6 @@ export default {
 
 <style scoped>
   .order-info {
-    width: 200px;
-    color: blue;
+    width: 200px
   }
 </style>

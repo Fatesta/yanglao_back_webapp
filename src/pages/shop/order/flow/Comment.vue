@@ -2,6 +2,7 @@
   <el-dialog
     title="评价订单"
     :visible.sync="visible"
+    :close-on-click-modal="false"
     top="5vh"
     width="600px"
   >

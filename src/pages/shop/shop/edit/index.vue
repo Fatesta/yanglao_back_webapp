@@ -36,7 +36,7 @@
             :show-file-list="false"
             :on-success="onUploadSuccess"
           >
-            <el-button>点击上传</el-button>
+            <el-button>上传</el-button>
           </el-upload>
         </div>
       </el-form-item>
@@ -51,7 +51,7 @@
         prop="description"
         label="店铺描述"
       >
-        <el-input type="textarea" :rows="3" v-model.trim="form.description"></el-input>
+        <el-input type="textarea" :rows="4" v-model.trim="form.description"></el-input>
       </el-form-item>
       <el-form-item
         prop="industryId"

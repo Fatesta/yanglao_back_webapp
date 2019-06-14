@@ -3,10 +3,19 @@
   <el-dialog
     title="完成订单"
     :visible.sync="visible"
+    :close-on-click-modal="false"
     top="5vh"
     width="640px"
   >
     <el-form ref="form" :model="form" label-width="50px">
+      <el-form-item label="时间">
+        <el-date-picker
+          v-model="form.endTime"
+          value-format="yyyyMMddHHmmss"
+          type="datetime"
+          placeholder="选择日期时间"
+        />
+      </el-form-item>
       <el-form-item
         prop="remark"
         label="内容">
@@ -14,6 +23,7 @@
       </el-form-item>
       <el-form-item label="照片">
         <el-upload
+          ref="imageUpload"
           action="/api/util/upload"
           accept="image/*"
           list-type="picture"
@@ -23,9 +33,9 @@
       </el-form-item>
       <el-form-item label="录音">
         <audio controls style="display: block;margin-bottom: 8px;" ref="audio" />
-        <el-button type="primary" plain icon="el-icon-microphone" @click="onOpenRecorderClick">录音</el-button>
+        <el-button type="primary" plain icon="el-icon-microphone" @click="onOpenRecorderClick">新录音</el-button>
         <el-upload
-          ref="upload"
+          ref="audioUpload"
           action="/api/util/upload"
           :limit="1"
           accept="audio/*"
@@ -33,7 +43,7 @@
           :on-success="onRecordingUploadSuccess"
           style="display: inline-block;"
         >
-          <el-button slot="trigger" type="primary" plain icon="el-icon-upload2">或从本地选取文件</el-button>
+          <el-button slot="trigger" type="primary" plain>从本地选取已有录音</el-button>
         </el-upload>
       </el-form-item>
     </el-form>
@@ -50,6 +60,7 @@
 
 <script>
 import AudioRecorderDialog from '@/components/AudioRecorderDialog.vue';
+import moment from 'moment';
 
 export default {
   components: {
@@ -73,8 +84,16 @@ export default {
         operator: order.handler,
         longitude: order.longitude,
         latitude: order.latitude,
-        remark: ''
+        remark: '',
+        endTime: moment().format('YYYYMMDDHHmmss')
       };
+      if (this.$refs.imageUpload) {
+        this.$refs.imageUpload.clearFiles();
+      }
+      if (this.$refs.audioUpload) {
+        this.$refs.audioUpload.clearFiles();
+        this.$refs.audio.src = '';
+      }
       this.fileList = [];
       this.voiceFile = null;
       this.visible = true;

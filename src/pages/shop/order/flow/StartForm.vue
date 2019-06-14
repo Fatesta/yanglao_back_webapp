@@ -2,10 +2,19 @@
   <el-dialog
     title="开始订单"
     :visible.sync="visible"
+    :close-on-click-modal="false"
     top="5vh"
     width="640px"
   >
     <el-form ref="form" :model="form" label-width="50px">
+      <el-form-item label="时间">
+        <el-date-picker
+          v-model="form.startTime"
+          value-format="yyyyMMddHHmmss"
+          type="datetime"
+          placeholder="选择日期时间"
+        />
+      </el-form-item>
       <el-form-item
         prop="remark"
         label="内容">
@@ -29,6 +38,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   data() {
     return {
@@ -47,7 +58,8 @@ export default {
         operator: order.handler,
         longitude: order.longitude,
         latitude: order.latitude,
-        remark: ''
+        remark: '',
+        startTime: moment().format('YYYYMMDDHHmmss')
       };
       this.fileList = [];
       this.visible = true;

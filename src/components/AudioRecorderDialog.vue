@@ -1,12 +1,13 @@
 <template>
   <el-dialog
-    title="音频录制"
+    title="录音"
     :visible.sync="visible"
-    width="360px"
+    width="400px"
     center
     :modal="false"
+    :close-on-click-modal="false"
     v-loading="loading"
-    :close="onClose"
+    @close="onClose"
   >
 
     <audio controls ref="audio" v-show="state == 'play'" />
@@ -20,8 +21,8 @@
       slot="footer"
       v-show="state == 'play'"
     >
-      <el-button type="default" plain @click="onRestart">重录</el-button>
-      <el-button type="primary" plain @click="onOk">确定</el-button>
+      <el-button type="default" round @click="onRestart">重录</el-button>
+      <el-button type="primary" round @click="onOk">保存</el-button>
     </span>
   </el-dialog>
 </template>
@@ -45,11 +46,11 @@ export default {
           return;
         }
         this.timer = new Timer((text) => this.timeText = text);
+        this.timeText = '点击开始';
         this.recorder = new Recorder({
           encoderPath: '/lib/recorder/waveWorker.min.js'
         });
         this.recorder.onstart = () => {
-          this.$refs.audio.src = null;
           this.blod = null;
           this.timer.start();
         };
@@ -58,7 +59,9 @@ export default {
         };
         this.recorder.ondataavailable = (typedArray) => {
           this.blod = new Blob([typedArray], {type: 'audio/wav'});
-          this.$refs.audio.src = URL.createObjectURL(this.blod);
+          const { audio } = this.$refs;
+          audio.src = URL.createObjectURL(this.blod);
+          audio.load();
         };
         this.state = 'start';
         this.loading = false;
@@ -87,7 +90,7 @@ export default {
       this.visible = false;
     },
     onClose() {
-      this.timer.stop();
+      this.recorder.stop();
     },
   }
 }
@@ -142,7 +145,7 @@ class Timer {
 }
 .record-button > div {
   position: relative;
-  background: deeppink;
+  background: lightpink;
 }
 .record-button > .start {
   top: 5px;
@@ -152,13 +155,14 @@ class Timer {
   border-radius: 100%;
 }
 .record-button > .start:hover {
-  background: red;
+  background: deeppink;
 }
 .record-button > .stop {
   top: 11px;
   left: 11px;
   width: 28px;
   height: 28px;
+  background: deeppink;
   border-radius: 4px;
 }
 

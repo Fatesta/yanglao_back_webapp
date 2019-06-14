@@ -79,11 +79,11 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="特殊老人">
-        <el-form :model="form" label-width="160px" style="width: 400px">
-          <el-form-item label="重点老人">
+        <el-form :model="form" label-width="170px" style="width: 400px">
+          <el-form-item label="市区两级补贴老人">
             <el-checkbox v-model="form.role" :true-label="-1"></el-checkbox>
           </el-form-item>
-          <el-form-item label="区级养老补贴老人">
+          <el-form-item label="区级养老护理补贴老人">
             <el-checkbox v-model="form.isGrant" :true-label="1"></el-checkbox>
           </el-form-item>
       </el-tab-pane>
