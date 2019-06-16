@@ -1,4 +1,8 @@
+import Vue from 'vue';
 import VueRouter from 'vue-router';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+//import './index.css'; copy
 import './components/index'; // 公共vue组件，应全部打包到本入口文件只有一份
 import Login from '@/pages/Login.vue';
 import App from '@/pages/app/App.vue';
@@ -6,8 +10,8 @@ import auth from '@/auth';
 import * as globalvars from './globalvars';
 import '@/api';
 
-Vue.prototype.$ELEMENT.size = 'small';
 Vue.use(VueRouter);
+Vue.use(ElementUI, { size: 'small' });
 
 Object.assign(Vue.prototype, globalvars.default);
 

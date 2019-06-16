@@ -7,12 +7,6 @@ const defaultConfigValues = {
 
 class Config {
   constructor() {
-    //TODO:过一段时间之后删掉
-    if (this.get('version') == null) {
-      this.set('version', '20190522');
-      this.set('theme', 'light');
-    }
-
     for (let key in defaultConfigValues) {
       if (this.get(key) == null) {
         this.set(key, defaultConfigValues[key]);

@@ -3,17 +3,18 @@
   <el-container>
     <el-header
       :style="{
-        height: '64px',
-        lineHeight: '64px',
+        height: '60px',
+        lineHeight: '60px',
         padding: '0px 0px 0px 20px',
         backgroundColor: styles.header.backgroundColor,
         position: 'relative',
         userSelect: 'none'
       }"
     >
+
       <span
         :style="{
-          fontSize: '24px',
+          fontSize: '23px',
           color: styles.header.color,
           letterSpacing: '1px',
           cursor: 'pointer'
@@ -25,10 +26,9 @@
       
       <div :style="{
         position: 'absolute',
-        height: '64px',
+        height: '60px',
         display: 'inline-block',
         right: 0,
-        fontSize: '14px',
         color: styles.header.color2,
         cursor: 'pointer'
       }">
@@ -47,40 +47,62 @@
             @mouseover="$refs.messagePopover.$el.querySelector('.el-popover__reference').style.backgroundColor = styles.header.hoverColor"
             @mouseout="$refs.messagePopover.$el.querySelector('.el-popover__reference').style.backgroundColor = 'unset'"
             >
-            <i class="el-icon-bell" />
+            <i class="el-icon-bell icon-button" />
           </div>
         </el-popover>
-
+        <div
+          ref="logoutButton"
+          style="
+            display: inline-block;
+            padding: 0px 17px;
+            float: right;
+          "
+          @mouseover="$refs.logoutButton.style.backgroundColor = styles.header.hoverColor"
+          @mouseout="$refs.logoutButton.style.backgroundColor = 'unset'"
+          @click="logout"
+        >
+          <i class="el-icon-switch-button icon-button"></i>
+        </div>
+        <div
+          ref="settingButton"
+          style="
+            display: inline-block;
+            padding: 0px 17px;
+            float: right;
+          "
+          @mouseover="$refs.settingButton.style.backgroundColor = styles.header.hoverColor"
+          @mouseout="$refs.settingButton.style.backgroundColor = 'unset'"
+          @click="onSettingClick"
+        >
+          <i class="el-icon-setting icon-button"></i>
+        </div>
         <el-dropdown
           ref="userDropdown"
           @command="onCommandClick"
           :show-timeout="100"
           :style="{
             display: 'inline-block',
-            padding: '0px 12px 0px 12px',
             float: 'right',
+            padding: '0px 12px 0px 12px',
             color: styles.header.color2
           }"
-          size="medium"
+          size="large"
           @mouseover.native="$refs.userDropdown.$el.style.backgroundColor = styles.header.hoverColor"
           @mouseout.native="$refs.userDropdown.$el.style.backgroundColor = 'unset'"
         >
           <div>
-            <i class="el-icon-user" />
             {{admin && admin.realName}}
             <i class="el-icon-arrow-down" />
           </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-monitor" command="index">首页</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-key" command="modifyPassword">密码</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-setting" command="settings">设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-switch-button" divided command="logout">退出</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-house" command="index">首页</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-key" command="modifyPassword" divided>密码</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
     </el-header>
     <el-container>
-      <nav-menu ref="navMenu" :height="(contentMaxHeight - 64)" />
+      <nav-menu ref="navMenu" :height="(contentMaxHeight - 60)" />
       <el-main style="padding: 2px;">
         <el-tabs
           :value="activeTabKey"
@@ -156,7 +178,7 @@ export default {
 
     const nodes = await axios.get('/api/admin/listAdminMenu');
     this.$refs.navMenu.menuTreeNodes = nodes.map((node, index) => {
-      node.iconCls = ['user', '', 'data-analysis', 'monitor', 'sunny', 'star-off', 'setting', 'help'][index];
+      node.iconCls = ['user', 'goods', 'data-board', 'monitor', 'sunny', 'star-off', 'setting', 'help'][index];
       return node;
     });
     this.$nextTick(() => {
@@ -209,16 +231,13 @@ export default {
         case 'modifyPassword':
           this.$refs.passwordUpdateDialog.visible = true;
           break;
-        case 'settings':
-          app.pushPage({
-            path: '/app/settings/index',
-            title: '设置'
-          });
-          break;
-        case 'logout':
-          this.logout();
-          break;
       }
+    },
+    onSettingClick() {
+      app.pushPage({
+        path: '/app/settings/index',
+        title: '设置'
+      });
     },
     logout() {
       this.$router.replace('/logout');
@@ -388,5 +407,10 @@ export default {
     height: 100%;
     background-image: none;
     background-color: #fff;
+}
+
+.icon-button {
+  font-size: 16px;
+  font-weight: bold;
 }
 </style>

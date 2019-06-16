@@ -86,6 +86,7 @@
           <el-form-item label="区级养老护理补贴老人">
             <el-checkbox v-model="form.isGrant" :true-label="1"></el-checkbox>
           </el-form-item>
+        </el-form>
       </el-tab-pane>
     </el-tabs>
     <div slot="footer" style="margin-top: 8px;">

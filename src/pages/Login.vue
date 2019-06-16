@@ -5,7 +5,7 @@
         <div
           style="
             text-align: center;
-            margin-bottom: 26px;
+            margin-bottom: 28px;
             letter-spacing: 1px;"
         >
           <span
@@ -21,7 +21,7 @@
               color: styles.subtitleColor
             }">欢迎使用</div>
         </div>
-        <el-form :model="form" :rules="rules" ref="form" label-width="0px" size="medium">
+        <el-form :model="form" :rules="rules" ref="form" label-width="0px" size="large">
           <el-form-item prop="username">
             <el-input
               v-model="form.username"
@@ -49,7 +49,7 @@
               style="float: right;">记住密码</el-checkbox>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit" style="width: 100%;" :loading="submitting">登 录</el-button>
+            <el-button type="primary" size="large" @click="onSubmit" style="width: 100%;" :loading="submitting">登 录</el-button>
           </el-form-item>
           <el-alert
             v-show="errorText"
@@ -199,9 +199,6 @@ export default {
   .login-container {
     width: 348px;
     margin: 8% auto;
-  }
-  .login-container .el-button--medium {
-    padding: 11px 20px;
   }
   .checkboxes {
     position: relative;

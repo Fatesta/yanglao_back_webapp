@@ -1,8 +1,10 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const glob = require('glob');
 const webpack = require('webpack');
+const Jarvis = require("webpack-jarvis");
 
 /* 创建多个入口描述，出口输出目录将与源目录一致 */
 //遍历pages中每个index.js，
@@ -14,7 +16,7 @@ jsfilenames.forEach((filename) => {
 });
 
 entries['index'] = './src/index.js';
-entries['vendors'] = ['@babel/polyfill'];
+entries['vendors'] = ['@babel/polyfill', 'core-js', 'vue', 'vue-router', 'element-ui', 'moment', 'qs'];
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -30,7 +32,10 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
         }
       },
       {
@@ -52,13 +57,18 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file-loader'
       }
     ]
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      '@': path.join(__dirname, '', 'src')
+      '@': path.join(__dirname, '', 'src'),
+      vue: 'vue/dist/vue.runtime.esm.js'
     }
   },
   optimization: {
@@ -77,14 +87,21 @@ module.exports = {
           priority: -20
         }
       }
-    },
+    },/*
     runtimeChunk: {
         name:'webpack.runtime'
-    }
+    }*/
   },
   plugins: [
     new VueLoaderPlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     //new CleanWebpackPlugin(-)//危险，不需要
+    new CopyWebpackPlugin([
+      { from: './src/index.css' }
+    ]),
+    new Jarvis({
+      watchOnly: true,
+      port: 3000
+    })
   ]
 };

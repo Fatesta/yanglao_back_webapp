@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import DataTable from './DataTable.vue';
 import TypeSelect from './TypeSelect.vue';
 import DataTableQueryButton from './DataTableQueryButton.vue';

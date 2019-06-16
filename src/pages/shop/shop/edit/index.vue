@@ -154,7 +154,7 @@
         <el-input v-model.trim="form.telephone"></el-input>
       </el-form-item>
       <el-form-item
-        v-if="mode == 'add'"
+        v-if="$params.mode == 'add'"
         prop="bossId"
         label="所属商家"
         :rules="[{required: true, message: ' '}]"
