@@ -1,0 +1,302 @@
+.tabs li a.tabs-inner {
+  border-radius: 3px;
+}
+
+/* window */
+.window {
+  padding: 0px;
+  border-width: 0.5px;
+  border-radius: 0px;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 7px 8px -4px,
+    rgba(0, 0, 0, 0.14) 0px 13px 19px 2px,
+    rgba(0, 0, 0, 0.12) 0px 5px 20px 4px;
+}
+
+.window .window-header {
+  padding: 5px 0px 5px 0px;
+  background: rgb(250, 250, 250);
+}
+
+.window .window-header .panel-title {
+  text-align: center;
+}
+
+.window .window-header .panel-tool {
+  margin-top: -6px;
+  margin-right: 6px;
+}
+
+.window .window-header .panel-tool>a {
+  width: 14px;
+  height: 14px;
+  margin-left: 6px;
+  border-radius: 100%;
+}
+
+.window .window-header .panel-tool>.panel-tool-close {
+  background-color: rgb(252, 98, 93);
+  background-image: none;
+}
+
+.window .window-header .panel-tool>.panel-tool-close:hover {
+  background: url(../images/window_icon_close_over.png) no-repeat;
+  background-color: rgb(252, 98, 93);
+}
+
+.window .window-header .panel-tool>.panel-tool-min {
+  background-color: rgb(254, 188, 64);
+  background-image: none;
+}
+
+.window .window-header .panel-tool>.panel-tool-min:hover {
+  background: url(../images/window_icon_min_over.png) no-repeat;
+  background-color: rgb(254, 188, 64);
+}
+
+.window .window-header .panel-tool>.panel-tool-max {
+  background-color: rgb(53, 203, 75);
+  background-image: none;
+}
+
+.window .window-header .panel-tool>.panel-tool-max:hover {
+  background: url(../images/window_icon_max_over.png)no-repeat;
+  background-color: rgb(53, 203, 75);
+}
+.window .window-body {
+  padding: 2px 4px 0px 4px;
+  border-width: 0;
+}
+
+.window .dialog-button {
+  right: 4px;
+  top: -2px;
+  border-width: 0;
+  background: #ffffff;
+}
+
+.window .dialog-button .l-btn {
+  margin-left: 10px;
+  box-shadow: none;
+  border: none;
+  border-radius: 3px;
+  opacity: 1;
+}
+
+.window .dialog-button .l-btn:hover {
+  opacity: 0.8;
+}
+
+.window .dialog-button .l-btn>span {
+  width: 70px;
+  color: #fff;
+}
+.window .dialog-button .l-btn:last-child > span {
+  background-color: #eee;
+  color: #000;
+}
+.window .dialog-button .l-btn>span>.l-btn-text {
+  padding: 0px 1px 0px 1px;
+}
+
+.window-proxy-mask, .window-mask {
+  background: transparent;
+}
+
+.window-shadow {
+  display: none !important;
+}
+
+
+/*按钮*/
+.l-btn {
+  box-shadow: none;
+}
+
+.form  td > .easyui-linkbutton {
+  border: 1px solid rgba(255,255,255,0);
+}
+.menu-line {
+    border:none;
+}
+
+#layout #mainLayout>.layout-panel-center>div {
+    border: none;
+    background: transparent;
+}
+
+#layout .layout-panel-center .tabs-panels-bottom {
+    border-radius: 4px 4px 0 0;
+    border: none;
+}
+
+#layout .layout-panel-center #mainTab>.tabs-header {
+    background: rgba(255,255,255,0.9);
+    border: none;
+}
+#layout .layout-panel-center #mainTab > .tabs-panels > .panel > .panel-body {
+    overflow: hidden;
+}
+/*
+#layout .layout-panel-center .tabs-panels {
+    border: none;
+}
+#layout .layout-panel-center .tabs-wrap .tabs {
+    border: none;
+}
+.panel-body-noheader {
+  border-top-width: 0;
+}*/
+
+.easyui-tree .tree-title {
+  font-size: 14px;
+}
+.easyui-tree li {
+    padding: 2px 0 2px 0;
+}
+.easyui-tree .tree-expanded {
+    background:none;
+}
+
+#layout > .layout-panel-north {
+  box-shadow: 0 1px 2px 1px rgba(0,0,0,.1)
+}
+#mainLayout>.layout-panel-west {
+    margin: 0;
+    z-index: 6;
+    user-select: none;
+}
+#mainLayout>.layout-panel-west > .panel-header {
+  background: #fff;
+  height: 18px;
+  cursor: pointer;
+}
+#mainLayout>.layout-panel-center {
+    padding: 0px 1px 0px 0px;
+}
+
+#mainTab>.tabs-panels {
+    border: none;
+}
+#mainTab .tabs {
+  padding-left: 0px;
+}
+#mainTab .tabs > li {
+  user-select: none;
+}
+#mainLayout>.layout-panel-west {
+  border-right: 1px solid #eee;
+}
+#mainLayout>.layout-panel-west > .panel-header > .panel-tool {
+  display: none;
+}
+#mainLayout>.layout-panel-west>.panel-header>.panel-title {
+  font-size: 15px;
+}
+#mainLayout>.layout-panel-west>.panel-header>.panel-icon {
+  left: 71px;
+}
+/* 手风琴 */
+.accordion-collapse {
+  background: url(../images/tree_expanded.png);
+}
+.accordion-expand {
+  background: url(../images/tree_collapsed.png);
+}
+#mainLayout>.layout-panel-west .accordion .panel-title {
+  font-size: 15px;
+  color: #333;
+}
+#mainLayout>.layout-panel-west .accordion .accordion-header {
+  background: #fff;
+  height: 26px;
+}
+#mainLayout>.layout-panel-west .accordion .accordion-header>.panel-title {
+  padding-left: 30px;
+  line-height: 26px;
+}
+#mainLayout>.layout-panel-west .accordion .accordion-header>.panel-title:hover {
+  color: #000;
+}
+
+#mainLayout>.layout-panel-west .accordion .accordion-header>.panel-icon {
+  left: 10px;
+}
+#mainLayout>.layout-panel-west .accordion .accordion-header > .panel-tool {
+  right: 10px;
+  display: none;
+}
+#mainLayout>.layout-panel-west .accordion .accordion-body {
+    padding: 2px 0 2px 4px;
+    border-width: 0;
+    background: #fff;
+    overflow-x: hidden;
+}
+#mainLayout>.layout-panel-west .accordion .accordion-body .easyui-tree .tree-node {
+  height: 24px;
+}
+
+#mainLayout>.layout-panel-west .accordion .accordion-body .easyui-tree .tree-node>.tree-title {
+  height: 24px;
+  line-height: 24px;
+  color: #333;
+}
+#mainLayout>.layout-panel-west .accordion .accordion-body .easyui-tree .tree-node>.tree-collapsed {
+  position: relative;
+  left: 6px;
+  top: 4px;
+  background-image: url(../images/tree_collapsed.png);
+}
+#mainLayout>.layout-panel-west .accordion .accordion-body .easyui-tree .tree-node>.tree-expanded {
+  position: relative;
+  left: 6px;
+  top: 4px;
+  background-image: url(../images/tree_expanded.png);
+}
+#mainLayout>.layout-panel-west .accordion .accordion-body .easyui-tree .tree-node>.tree-icon {
+  width: 10px;
+}
+
+.layout-split-west {
+    border-left-width: 0px;
+}
+.layout-split-east {
+    border-left-width: 0px;
+}
+.layout-split-south {
+    border-top-width: 0px;
+}
+.layout-split-north {
+    border-top-width: 0px;
+}
+
+.panel-loading {
+}
+
+/*datagrid行尾按钮*/
+.datagrid-cell .easyui-linkbutton>div:hover {
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.4);
+}
+.datagrid-cell .row-op-button {
+  float: left;
+  margin-left: 6px;
+  color: #404040;
+}
+.datagrid-cell .row-op-button > span {
+  display: inline-block;
+}
+.datagrid-cell .row-op-button > span:nth-child(1) {
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+}
+.datagrid-cell .row-op-button > span:nth-child(2) {
+}
+.datagrid-cell .row-op-button > span:nth-child(2):hover {
+  color: #000;
+}
+.datagrid-cell>img {
+    position: relative;
+    left: -4px;
+    vertical-align: middle;
+}

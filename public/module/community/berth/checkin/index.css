@@ -1,0 +1,155 @@
+/* room */
+.room {
+  position: relative;
+  float: left;
+  width: 32%;
+  padding: 4px;
+  min-height: 169px;
+  min-width: inherit;
+  margin-left: 13px;
+  margin-top: 13px;
+  box-sizing:border-box;
+  border-radius: 2px;
+  box-shadow: 1px 1px 5px #505050;
+}
+
+.room > .room-no {
+  margin: 0px 0px 2px 6px;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+/* berth */
+.berth {
+  float: left;
+  width: 47%;
+  box-sizing: border-box;
+  margin-left: 2%;
+  margin-bottom: 2%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(231, 231, 231);
+  border-image: initial;
+}
+
+.berth:hover {
+  box-shadow: 1px 1px 5px gray;
+}
+.berth-selected {
+  box-shadow: 1px 1px 5px gray;
+}
+.berth > h2 {
+  padding-top: 5px;
+  padding-right: 0px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  margin: 0px;
+  font-size: 1.1em;
+  line-height: 20px;
+  color: rgb(255, 102, 0);
+  font-weight: bold;
+}
+.berth > .box-r, .berth > .box-l {
+  width: 50%;
+  float: left;
+}
+.berth > .box-r ul {
+    list-style-type: none;
+}
+.berth > .box-r ul li {
+    float: left;
+    font-size: 12px;
+    line-height: 20px;
+    width: 100%;
+}
+.berth > .box-r ul li:nth-child(1) {
+  font-weight: bold;
+}
+/* state berth */
+.state-empty {
+  background-color: #e9f9f8;
+}
+.state-empty > .box-l > div {
+  background-image: url(img/empty_bed.png);
+  width: 70px;
+  height: 100px;
+  margin-left: 10px;
+}
+.state-empty .button {
+  background-color: #c0eeec;
+  text-align: center;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  cursor: pointer;
+}
+.state-empty .button:hover {
+  background-color: #30ded7;
+}
+
+.state-empty .button[name=ruzhu] {
+  width: 80% !important;
+}
+
+.state-used {
+  background-color: #f9e5e0;
+}
+.state-used .button {
+  margin-top: 5px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  background-color: #f8c1c1;
+  text-align: center;
+  cursor: pointer;
+}
+.state-used .button:hover {
+  background-color: #e27c7c;
+}
+.state-used .button[name=tuizhu] {
+   width: 80% !important;
+}
+
+.state-used .options {
+  margin-left: 4px;
+}
+
+.empty-floor {
+  position: relative;
+  top: 40%;
+  margin: 0 auto;
+  width: 400px;
+  text-align: center;
+  font-size: 2em;
+  color: #e27c7c;
+}
+
+.berth-user-photo {
+  width: 70px;
+  height: 85px;
+  margin: 5px auto 10px;
+  cursor: pointer;
+}
+/*
+.orangebox{
+    background-color: #f9efd0;
+}
+.bluebox{
+    background-color: #ddf0f9;
+}
+
+.shizhu {
+    background-color: #fde39d;
+    text-align: center;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+.yuding {
+    background-color: #c0e2f8;
+    text-align: center;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}*/
+
+#selectUser {
+  position: absolute;
+  right: 10px;
+}

@@ -1,0 +1,80 @@
+.s-article-editor {
+}
+
+
+.s-article-editor-toolbar {
+    margin-bottom: 2px;
+}
+.s-article-editor-toolbar button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 4px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 0px 6px 6px 0px;
+    box-shadow: 1px 1px 1px grey;
+    cursor: pointer;
+}
+
+.s-article-editor-toolbar button:hover {
+    box-shadow: 0px 0px 0px grey;
+}
+
+
+.s-article-editor-statebar {
+    height: 20px;
+    padding-top: 2px;
+    font-size: 14px;
+    color: #4CAF50;
+}
+
+
+.s-article-editor-content {
+    padding-bottom: 20px;
+    background-color: #fff;
+    overflow: scroll;
+    box-shadow: -1px 1px 1px 1px #b5b5b5;
+    border-radius: 2px;
+}
+
+.s-article-editor-content::-webkit-scrollbar {
+    width: 2px;
+}
+
+.s-article-editor-content::-webkit-scrollbar-thumb {
+    background-color: #b0b0b0;
+}
+
+.s-article-editor-content p {
+    font-size: 14px;
+    line-height: 24px;
+    color: #444444;
+}
+
+.s-article-editor-content h1 {
+    font-size: 20px;
+}
+
+.s-article-editor-content img, .s-article-editor-content video {
+    width: 95%;
+    border-radius: 8px;
+    background: #fff;
+    display: block;
+}
+
+
+.s-article-editor-element {
+    margin: 16px 10px 16px 10px;
+}
+
+.s-article-editor-element:hover {
+    outline: 1px dotted red;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.s-article-editor-element-selected {
+    outline: 2px dotted red !important;
+}

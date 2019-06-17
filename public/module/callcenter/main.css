@@ -1,0 +1,150 @@
+*{
+margin: 0;
+padding: 0;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.test-call {
+cursor: pointer;
+color: #00c1de;
+}
+
+#workbench {
+  width: 280px;
+  font-size: 14px;
+  color: #4F5357;
+  background: #FFFFFF;
+  border: 1px solid #D7D8D9;
+  box-shadow: 0 1px 4px 0 rgba(55, 61, 65, 0.14);
+  transition: all .3s;
+}
+
+#agent {
+
+}
+.info {
+    padding: 12px 0 0 20px;
+}
+.info span {
+    float: left;
+    padding: 0 0 0 16px;
+    color: 37485d;
+}
+.info img {
+    float: left;
+    border-radius: 60px;
+}
+.info .name {
+    width: 100px;
+    margin-top: 4px;
+    font-size: 14px;
+}
+.info .phone {
+    width: 100px;
+    margin-top: 10px;
+    padding: 0px 0 0 29px;
+    color: #57697e;
+    font-size: 12px;
+    background: url(img/icon_lt_phone.gif) no-repeat 18px 2px;
+}
+.duration {
+    float: left;
+    background: url(img/ico_jihe.png) no-repeat -2px 0px;
+    height: 25px;
+    padding: 4px 0 0 35px;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+}
+.busy_status {
+    background: url(img/ico_jihe.png) no-repeat -495px -471px !important;
+}
+
+.seat .gp_s {
+    height: 30px;
+    line-height: 30px;
+    margin-top: 8px;
+    padding: 0 10px;
+    width: 219px;
+    font-weight: bold;
+    font-size: 12px;
+    border-bottom: 1px dashed #cbcbcb;
+}
+.seat .gp_s #onlineCount {
+    display: block;
+    width: 18px;
+    height: 18px;
+    background: url(img/num_bj.jpg) no-repeat;
+    float: left;
+    margin: 5px 0 0 5px;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.seat .group {
+    height: 305px;
+    margin: 6px 0 0 13px;
+    overflow-y: auto;
+}
+.seat .group .name {
+    display: inline-block;
+    width: 68px;
+    font-size: 12px;
+    float: left;
+}
+.seat .group p {
+    height: 26px;
+    line-height: 26px;
+    font-weight: bold;
+    color: #717171;
+    padding-left: 17px;
+    background: url(img/list_sty_01.gif) no-repeat 0 5px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.seat .group ul {
+    margin-top: 4px;
+    padding-left: 15px;
+    color: #777777;
+}
+.seat .group li {
+    height: 26px;
+    line-height: 26px;
+    margin: 4px 0;
+    padding-left: 18px;
+}
+.seat .group .icon {
+    width: 20px;
+    height: 26px;
+    line-height: 26px;
+    float: left;
+    background: url(img/ico_jihe.png) no-repeat;
+}
+.seat .group .status_free, .status_green {
+    background-position: -12px -69px !important;
+}
+.seat .group .status_busy {
+    background-position: -22px -187px !important;
+}
+.seat .group .status_lock {
+    background-position: -605px -246px !important;
+}
+.seat .group span {
+    color: #1fa196 !important;
+}
+.seat .group .tel_num {
+    margin-left: 10px;
+    float: left;
+}

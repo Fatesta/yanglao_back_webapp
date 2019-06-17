@@ -1,0 +1,324 @@
+/* 基本信息 */
+.tabs-header {
+    background-color: unset;
+}
+table th {
+    text-align: right;
+}
+
+.info-form {
+    width: 800px;
+    height: 242px;
+    margin-left: 2px;
+    border: 1px solid #ccc;
+}
+.info-form > caption {
+    height: 30px;
+    padding-left: 24px;
+    line-height: 30px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    border-bottom: none;
+    color: #000;
+}
+.info-form > tbody > tr {
+    height: 10px;
+}
+.info-form > tbody > tr > td, .info-form > tbody >tr > th {
+    text-align: left;
+    padding: 2px;
+    font-size: 12px;
+    line-height: 10px;
+}
+
+
+.info-form > tbody >tr > td:nth-child(1), .info-form > tbody >tr > th {
+    font-weight: bold;
+    text-align: right;
+    padding: 5px;
+    font-size: 12px;
+}
+
+
+/* 健康史 */
+.health-history-item-card {
+    width: 800px;
+    margin: 20px auto;
+}
+
+.health-history-item {
+    width: 100px;
+    height: 40px;
+    margin: 10px 10px;
+    text-align: center;
+    background: #eee;
+    line-height: 40px;
+    float: left;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.health-history-item:hover {
+    opacity: 0.8;
+}
+
+.health-history-item.checked {
+    font-weight: bold;
+    color: #fa541c;
+    background: #fff2e8;
+    border-color: #ffbb96;
+}
+
+.nodata {
+    text-align: center;
+    line-height: 100px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+/* 健康数据 */
+.jksj{
+    width: 940px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.jksj-top{
+    width:100%;
+    overflow: hidden;
+    margin: 10px 0;
+}
+.jksj-top-text{
+    width:50%;
+    overflow: hidden;
+    float:left;
+}
+.jksj-top-text p{
+    position: relative;
+    margin: 6px 0;
+    font-size:15px;
+}
+.jksj-top-btn{
+    width:50%;
+    overflow: hidden;
+    float:left;
+}
+.jksj-top-btn button{
+    padding: 8px 15px;
+    margin-left:10px;
+    border-radius: 3px;
+    font-size:15px;
+    cursor: pointer;
+
+}
+.smtz-btn{
+    border: 1px solid #f77e29!important;
+    background: transparent;
+    color: #f77e29!important;
+}
+
+.smtz-btn:hover{
+    background: #f77e29;
+    color:#fff!important;
+}
+
+.zytz-btn{
+    border: 1px solid #09a1e6!important;
+    background: transparent;
+    color: #09a1e6!important;
+}
+.zytz-btn:hover{
+    background: #09a1e6;
+    color:#fff!important;
+}
+.jksj-left,.jksj-right{
+    width:50%;
+    float:left;
+
+}
+.jksj-left{
+    position: relative;
+}
+.jksj-left-bg {
+    background-image: url(img/man_bg.png);
+    background-repeat: no-repeat;
+    height: 600px;
+    width: 301px;
+    float: right;
+}
+.jksj-left-line{
+    background-image: url(img/line_bg.png);
+    background-repeat: no-repeat;
+    height: 600px;
+    width: 165px;
+    position:absolute;
+    top:0;
+    right:145px;
+}
+ul,li{
+    list-style-type: none;
+    margin:0;
+    padding: 0;}
+.list-left-ul{
+    position: absolute;
+    top: -8px;
+}
+.icon_eye {
+    background-image: url(img/eye.png);
+    background-repeat: no-repeat;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top:  4px;
+    left: 0;
+}
+.icon_ears {
+    background-image: url(img/ears.png);
+    background-repeat: no-repeat;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top:  60px;
+    left: 0;
+}
+.list-left-li p{
+    margin:0;
+    font-size:15px;
+    line-height: 25px;
+}
+.icon_text{
+    margin-left:50px !important;
+}
+.list-right-ul{
+    padding-left: 10px;
+    box-sizing: border-box;
+    width: 100%;
+}
+.list-right-ul p i{
+    width: 20px;
+    height: 29px;
+    display: inline-block;
+    vertical-align: -4px;
+    background: url(img/icon_jksj1.png) no-repeat;
+    position: absolute;
+    top: 4px;
+}
+.icon_tiwen {
+    width: 15px !important;
+    background-position: -41px 0px !important;
+    left: 7px;
+}
+.icon_xinlv{
+    width:30px !important;
+    height: 26px !important;
+
+}
+.icon_xueya{
+    width: 23px !important;
+    background-position: 0 -61px !important;
+    left: 4px;
+}
+.icon_xuetang{
+    width: 23px !important;
+    background-position: 0 -29px !important;
+    left: 4px;
+}
+.icon_xueyang{
+    width: 23px !important;
+    background-position: -38px -30px !important;
+    left: 4px;
+}
+.icon_danguchun{
+    width: 23px !important;
+    background-position: 0 -91px !important;
+    left: 4px;
+}
+.icon_niaosuan{
+    width: 31px !important;
+    background-position: 0 -154px !important;
+    left: 1px;
+}
+.icon_jibu{
+    width: 31px !important;
+    background-position: -33px -153px !important;
+
+}
+.list-right-li{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 12px 6px;
+    margin-bottom:10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.list-right-li p{
+    margin:0;
+    position: relative;
+    min-height: 35px;
+}
+.list-right-li p span{
+
+    display: inline-block;
+}
+.icon-title{
+    font-size: 14px;
+    padding-left: 36px !important;
+    width: 25%;
+    box-sizing: border-box;
+    padding-top: 12px;
+}
+.jksj-date{
+    font-size: 12px !important;
+    width: 20%;
+    text-align:right;
+}
+
+.jksj-num{
+    font-size: 14px !important;
+    width: 14%;
+}
+.jksj-text{
+    font-size: 14px !important;
+    width:36%;
+    text-align: center;
+}
+.jksj-bottom-btn{
+    width:100%;
+    overflow: hidden;
+
+}
+.jksj-bottom-btn button{
+    padding: 8px 15px;
+    margin: 10px 0 10px 12px;
+    border-radius: 3px;
+    font-size: 15px;
+    cursor: pointer;
+    width: 46%;
+}
+.gmd-btn{
+    border: 1px solid #d62d21!important;
+    background: transparent;
+    color: #d62d21!important;
+}
+.gmd-btn:hover{
+    background:#d62d21;
+    color: #fff!important;
+}
+.xdt-btn{
+    border: 1px solid #049e4a!important;
+    background: transparent;
+    color: #049e4a!important;
+}
+.xdt-btn:hover{
+    background:#049e4a;
+    color: #fff!important;
+}
+.sdlr{
+    padding:10px;
+    color: #33b0b8;
+    float: right;
+    font-size: 15px;
+    cursor: pointer;
+}

@@ -23,7 +23,6 @@ module.exports = {
   entry: entries,
   output: {
     filename: '[name].js',
-    path: '/Users/hulang/Documents/workspace/hbManager/src/main/webapp',
     libraryTarget: 'amd'
   },
   module: {
@@ -87,16 +86,17 @@ module.exports = {
           priority: -20
         }
       }
-    },/*
+    },
     runtimeChunk: {
-        name:'webpack.runtime'
-    }*/
+        name:'common'
+    }
   },
   plugins: [
     new VueLoaderPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    //new CleanWebpackPlugin(-)//危险，不需要
+    //new CleanWebpackPlugin(-)
     new CopyWebpackPlugin([
+      { from: './public/' },
       { from: './src/index.css' }
     ]),
     new Jarvis({

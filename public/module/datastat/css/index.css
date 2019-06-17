@@ -1,0 +1,156 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+.charts-bg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    background-image: url(../img/bg.png?v=3);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+#charts {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.title {
+    height: 40px;
+    margin: 0px auto;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    font-family: "Hiragino Sans GB","Microsoft Yahei","微软雅黑";
+    letter-spacing: 6px;
+    text-shadow:
+        1px 1px 20px #007cff;
+}
+.title img {
+    vertical-align: middle;
+}
+.title>.main-title {
+    width: 100%;
+    height: 100%;
+    line-height: 40px;
+    font-size: 1.8em;
+}
+.title>.main-title > img:nth-child(1) {
+    left: -8px;
+    position: relative;
+}
+.title>.sub-title {
+    width: 100%;
+    height: 40%;
+    margin-top: 10px;
+    line-height: 30%;
+    font-size: 1.8em;
+    font-weight: bold; 
+}
+
+
+.grid {
+    width: 100%;
+    height: 95%;
+    margin: 20px auto;
+}
+
+.chart {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /*box-shadow: 1px 1px 4px rgba(0,0,0,0.2);*/
+}
+.chart>div {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);  
+}
+
+.row {
+    position: relative;
+    width: 100%;
+    height: 100px;
+}
+.col-1 {
+    position: relative;
+    width: 16.66%;
+    height: 100%;
+    float: left;	
+}
+.col-2 {
+    position: relative;
+    width: 16.66%;
+    height: 100%;
+    float: left;
+}
+.col-4 {
+    position: relative;
+    width: 33.33%;
+    height: 100%;
+    float: left;
+}
+.col-5 {
+    position: relative;
+    width: 41.66%;
+    height: 100%;
+    float: left;
+}
+.col-6 {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+.col-7 {
+    position: relative;
+    width: 65%;
+    height: 100%;
+    float: left;
+}
+.col-12 {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.total {
+
+}
+.total > div {
+  width: 100%;
+}
+.total-title {
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 1.1em;
+  text-align: center;
+}
+.service-stat {
+  margin-top: 5px;
+  color: #fff;
+  font-size: 1.1em;
+  text-align: center;
+}
+.total-number {
+  color: #fff;
+  font-size: 1.8em;
+  text-align: center;
+}
+
+.total-number > .num {
+  width: 36px;
+  height: 50px;
+  margin-left: 8px;
+  line-height: 50px;
+  background-image: url(../img/number_bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+}
+

@@ -1,0 +1,676 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html, body, ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+  background: #f5f5f5;
+  font-family: "微软雅黑";
+}
+
+.wc {
+	width: 1270px;
+	height: 1000px;
+	margin: 4px auto;
+}
+.left {
+	float: left;
+	width: 288px;
+	margin-right: 17px;
+    border-radius: 2px;
+}
+body>.wc>.left {
+  box-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+  border-radius: 2px;
+}
+.left .person {
+	background: url("img/person.png") center center no-repeat;
+	float: left;
+	width: 55px;
+	height: 55px;
+}
+.left .desc {
+	float: left;
+	font: 16px/55px "微软雅黑";
+	font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+}
+.title {
+	width: 288px;
+	height: 55px;
+	background-color: #066EAD;
+    border-radius: 2px 2px 0 0;
+}
+.left .list {
+	height: 815px;
+  background: rgba(255, 255, 255, 0.8);
+	overflow: auto;
+}
+.left .list ul {
+	list-style: none;
+}
+.left .list ul ul {
+	padding-top: 26px;
+}
+.left .list ul.type-list {
+	line-height: 26px;
+}
+.left .list ul li .jt {
+	display: block;
+	float: left;
+	position: relative;
+	top: 4px;
+	margin: 0px 5px;
+	width: 16px;
+	height: 16px;
+}
+.left .list ul li .jt-xia {
+	background: url("img/list_down.png") center center no-repeat;
+}
+.left .list ul li .jt-zuo {
+	background: url("img/list_right.png") center center no-repeat;
+}
+.left .list ul li .type-name {
+	display: block;
+	float: left;
+}
+.item {
+	height: 76px;
+	margin: 10px 12px;
+}
+.item img {
+	float: left;
+    width: 50px;
+    height: 50px;
+}
+.item .content {
+	float: left;
+	margin-left: 12px;
+}
+.item .content .name {
+	float: left;
+	height: 26px;
+	line-height: 26px;
+	width: 85px;
+	overflow: hidden;
+}
+.item .content .top, .left .list .item .content .botton {
+	height: 26px;
+}
+.item .content .status {
+    float: left;
+    width: 90px;
+    height: 26px;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+	font-family: '微软雅黑';
+}
+.item .content .status-doing {
+	background: url("img/status_doing.png") center center no-repeat;
+}
+.item .content .status-done {
+	background: url("img/status_done.png") center center no-repeat;
+}
+.item .content .status-queue_waiting {
+	background: url("img/queue_waiting.png") center center no-repeat;
+}
+.item .content .status-confirm_waitting {
+	background: url("img/confirm_waitting.png") center center no-repeat;
+}
+.item .content .status-confirm_end {
+	background: url("img/confirm_end.png") center center no-repeat;
+}
+.btn1 {
+	float: left;
+	background: url("img/btn1.jpg") center center no-repeat;
+	width: 26px;
+	height: 26px;
+	margin-right: 5px;
+	cursor: pointer;
+}
+.btn2 {
+	float: left;
+	background: url("img/btn2.jpg") center center no-repeat;
+	width: 26px;
+	height: 26px;
+	margin-right: 5px;
+	cursor: pointer;
+}
+.btn3 {
+	float: left;
+	background: url("img/btn3.jpg") center center no-repeat;
+	width: 26px;
+	height: 26px;
+	cursor: pointer;
+}
+.botton .cancel_btn {
+	float: left;
+	background: url("img/waitend_btn.png") center center no-repeat;
+	width: 26px;
+	height: 26px;
+	cursor: pointer;
+}
+.botton .waitend_btn {
+	float: left;
+	background: url("img/waitend_btn.png") center center no-repeat;
+	width: 26px;
+	height: 26px;
+	cursor: pointer;
+}
+.title .titleBtn {
+	float: right;
+	height: 55px;
+	border: 1px solid red;
+	font-size:14px;
+	font-weight:bold;
+	cursor: pointer;
+	margin-right: 0px;
+	margin-left: 20px;
+	color: red;
+	text-align: center;
+    font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;  
+    border-radius: 2px;
+    background: transparent;
+
+}
+.title .titleBtn:hover {
+    box-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+}
+
+.title #msg {
+	float: right;
+	font-weight:bold;
+	color: red;
+}
+.btn4 {
+	clear: both;
+	height: 66px;
+	font: 20px/66px "微软雅黑";
+	text-align: center;
+	color: #0670AC;
+	border-top: solid 1px #9CBED5;
+	cursor: pointer;
+}
+.btn4 a {
+	text-decoration: none;
+	display: block;
+	height: 66px;
+	width: 100%;
+}
+ul.hidden {
+	display: none;
+}
+li.type {
+    display: block;
+    clear: both;
+}
+.right {
+	float: right;
+	width: 961px;
+	position:relative;
+    border-radius: 2px;
+}
+.right .title {
+	width: 961px;
+}
+body>.wc>.right>.title {
+  box-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+}
+body>.wc>.right>.content {
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+}
+
+body>.wc>.right>.content>.edit {
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+}
+
+.right .doc {
+	background: url("img/doc.png") center center no-repeat;
+	float: left;
+	width: 55px;
+	height: 55px;
+}
+.right .content img {
+	float: left;
+	width: 72px;
+	height: 72px;
+	margin: 12px;
+}
+.right .person2 {
+	background: url("img/person2.jpg") center center no-repeat;
+	width: 17px;
+	height: 23px;
+}
+.right .tel {
+    background: url("img/tel.png") center center no-repeat;
+    width: 17px;
+    height: 23px;
+}
+.right .bs {
+	background: url("img/bingshi.jpg") center center no-repeat;
+	width: 17px;
+	height: 23px;
+}
+.right .jilu {
+	background: url("img/jilu.jpg") center center no-repeat;
+	float: left;
+	clear: left;
+	width: 17px;
+	height: 23px;
+	position: relative;
+	top: 15px;
+}
+.right .title .desc {
+    float: left;
+    color: rgba(255, 255, 255, 0.8);
+    font: 16px/55px "微软雅黑";
+    font-weight: bold;
+}
+.right .content .desc {
+	float: left;
+    margin-top: 10px;
+	font: 16px/18px "微软雅黑";
+}
+.right .content .desc > table td {
+  width: 130px;
+}
+.right .content .desc > table .type-icon {
+  width: 18px;
+}
+
+.right .content {
+	height: 98px;
+    border-radius: 0 0 2px 2px;
+}
+.right .center {
+	margin-top: 10px;
+}
+.right .center .left {
+	width: 755px;
+  background: rgba(255, 255, 255, 0.8);
+	border: none;
+}
+.right .center .right {
+	width: 174px;
+	padding: 5px 5px 5px 5px;
+	height: 698px;
+  background: rgba(255, 255, 255, 0.8);
+    box-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+}
+.right .center .left .title {
+	width: 100%;
+	background-color:rgba(255, 255, 255, 0.8);
+}
+.right .center .right .head2 {
+	width: 144px;
+	height: 119px;
+}
+.right .center .top {
+    border-radius: 2px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+.b {
+	text-align: center;
+}
+
+.left-title {
+	padding-left: 15px;
+	line-height: 55px;
+}
+.right #videoSmallColl {
+    width: 160px;
+    height: 119px;
+    margin: 5px auto;
+    background: rgba(0,0,0,0.9);
+}
+.right #doctor {
+	margin-top: 10px;
+}
+.shiping {
+	width: 100%;
+	height: 440px;
+    padding: 0px 0px 10px;
+    background: transparent;
+}
+
+.videoPlugin {
+    width: 100%;
+	height: 400px;
+	margin:0px auto;
+	background: rgba(0,0,0,0.9);
+}
+
+.toolbar {
+	height: 50px;
+}
+.toolbar div {
+	margin: 10px 0px 10px 10px;
+}
+.vedio {
+	float: left;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+}
+.vedio_on {
+	background: url("img/on.png") center center no-repeat;
+}
+.vedio_off {
+	background: url("img/off.png") center center no-repeat;
+}
+.full {
+	float: left;
+	width: 30px;
+	height: 30px;
+	background: url("img/full_screen.png") center center no-repeat;
+	cursor: pointer;
+}
+div.exit {
+	float: right;
+	width: 78px;
+	height: 30px;
+	background: url("img/exit.jpg") center center no-repeat;
+	margin-right: 10px;
+	cursor: pointer;
+}
+div .video_change {
+	float: right;
+	width: 78px;
+	height: 30px;
+	background: url("img/video_change.png") center center no-repeat;
+	margin-right: 10px;
+	cursor: pointer;
+}
+.zdyj {
+    box-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+    height: 192px;
+    margin-top: 10px;
+    border-radius: 2px;
+  background: rgba(255, 255, 255, 0.8);
+}
+.zdyj-title {
+	clear: left;
+	height: 54px;
+    padding-left: 5px;
+	font: 20px/54px "微软雅黑";
+    background-color: #EFEFEF;
+}
+.zdyj textarea {
+	width: 748px;
+	height: 96px;
+	font:16px "宋体";
+	border: none;
+}
+.tj {
+	width: 72px;
+	height: 26px;
+	background-color: #076FAC;
+	color: #FEFEFC;
+	cursor: pointer;
+	font: 16px/26px "微软雅黑";
+	text-align: center;
+	float: right;
+	margin: 4px 4px 0px 0px;
+	border-radius: 2px;
+}
+.tj:hover {
+  background-color: rgba(6,110,173, 0.7);
+}
+
+.more {
+	float: right;
+	position: relative;
+	top: 80px;
+	left: 200px;
+}
+.more a {
+	text-decoration: none;
+}
+
+.wc-edit {
+	width: 719px;
+	margin: 0 auto;
+}
+.head-edit {
+	margin-top: 20px;
+}
+.head-edit .head-line {
+	height: 0px;
+	border-top: 1px dashed #0F5E7D;
+}
+.head-edit .head-title {
+	font: 22px/22px "微软雅黑";
+	color: #0F5E7D;
+	background-color: white;
+	width: 150px;
+	text-align: center;
+	position: relative;
+	top: -11px;
+	left: 284px;
+    box-shadow: 1px 2px 10px rgba(0,0,0,0.2)
+}
+.head-left-edit {
+	float: left;
+}
+.head-left-edit img {
+	width: 120px;
+	height: 120px;
+}
+.head-left-edit div {
+	width: 120px;
+	text-align: center;
+}
+a {
+	text-decoration: none;
+}
+.head-right-edit {
+	float: left;
+}
+.row-edit {
+	width: 590px;
+	line-height: 40px;
+	margin-left: 9px;
+}
+.col-edit {
+	width: 50%;
+	float: left;
+}
+.col2-edit {
+	width: 100%;
+}
+.col3-edit {
+	width: 20%;
+	float: left;
+}
+.col4-edit {
+	width: 80%;
+	float: left;
+}
+.dl1-edit {
+	clear: both;
+}
+.top-edit {
+	padding-top: 30px;
+}
+.dl1-edit dt, .dl1-edit .left-edit {
+	font: 20px/28px "微软雅黑";
+	padding-left: 10px;
+	background-color: #EFEFEF;
+	color: #206C86;
+}
+
+.dl1-edit dd {
+	margin-left: 10px;
+	font: 18px/28px "微软雅黑";
+}
+textarea.edit {
+	resize: none;
+	margin: 10px;
+	width: 680px;
+	height: 50px;
+}
+.right-edit {
+	float: right;
+	position: relative;
+	right: 10px;
+}
+.right-edit a {
+	color: #206C86;
+	font-size: 14px;
+}
+.col4-edit textarea {
+	margin: 0px;
+	width: 560px;
+}
+
+.wc-view {
+    width: 719px;
+    margin: 0 auto;
+}
+.head-view {
+    margin-top: 20px;
+}
+.head-view .head-line {
+    height: 0px;
+    border-top: 1px dashed #0F5E7D;
+}
+.head-view .head-title {
+    font:22px/22px "微软雅黑";
+    color: #0F5E7D;
+    background-color: white;
+    width: 150px;
+    text-align: center;
+    position: relative;
+    top: -11px;
+    left: 284px;
+}
+.head-view .head-body {
+    margin-top: 39px;
+}
+.head-view .head-body img {
+    float: left;
+    width: 100px;
+    height: 100px;
+}
+.head-view .head-body .head-content {
+    float: left;
+    margin-left: 20px;
+    font:20px/36px "微软雅黑";
+    color: #386793;
+}
+.head-view .head-body .head-content .row {
+    width: 600px;
+}
+.row-view .col33-view {
+    float: left;
+    /*width: 33%;*/
+    margin-right: 20px;
+}
+.dl1-view {
+    clear: both;
+
+}
+.top-view {
+    padding-top: 30px;
+}
+.dl1-view dt {
+    font: 20px/28px "微软雅黑";
+    padding-left: 10px;
+    background-color: #EFEFEF;
+    color: #206C86;
+}
+.dl1-view dd {
+    margin-left: 10px;
+    font: 18px/28px "微软雅黑";
+}
+
+.videoPluginButtons {
+    margin-top: 10px;
+}
+.videoPluginButtons>div>div {
+  width: 30px;
+  height: 30px;
+  margin-right: 4px;
+  float: left;
+  border-radius: 100%;
+}
+.videoPluginButtons>div>div:hover {
+    box-shadow: 1px 2px 10px rgba(0,0,0,0.2)
+
+}
+.btn-up {
+    background: url(img/up.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-down {
+    background: url(img/down.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-left {
+    background: url(img/left.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-right {
+    background: url(img/right.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-up-press {
+    background: url(img/up_press.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-down-press {
+    background: url(img/down_press.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-left-press {
+    background: url(img/left_press.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-right-press {
+    background: url(img/right_press.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-on {
+    background: url(img/on.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-off {
+    background: url(img/off.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-video {
+    background: url(img/voice.png) center center no-repeat;
+    border-width: 0px;
+}
+.btn-full-screen {
+    background: url(img/full_screen.png) center center no-repeat;
+    border-width: 0px;
+}
+
+#btnStop {
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+#overlay {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow:auto;
+  overflow-y:hidden;
+  width:100%;
+  height:100%;
+  margin:0px;
+  padding:0px;
+  border-width:0px;
+  background:transparent;
+  display: none;
+}
