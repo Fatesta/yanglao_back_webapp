@@ -8,7 +8,9 @@ import Login from '@/pages/Login.vue';
 import App from '@/pages/app/App.vue';
 import auth from '@/auth';
 import * as globalvars from './globalvars';
+import { APP_NAME } from '@/config/app.config';
 import '@/api';
+
 
 Vue.use(VueRouter);
 Vue.use(ElementUI, { size: 'small' });
@@ -51,3 +53,14 @@ var app = new Vue({
   }),
 });
 app.$mount('#app');
+
+
+// 设置 title
+document.title = APP_NAME;
+
+const runEnv = location.hostname == 'service.loveonline.net.cn' ?
+  'production' : ['localhost', '127.0.0.1'].includes(location.hostname) ? 'development' : 'testing';
+if (runEnv !== 'production') {
+  document.title = (runEnv === 'development' ? '开发版' : '测试版') + '-' + document.title;
+}
+

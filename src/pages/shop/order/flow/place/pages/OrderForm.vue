@@ -103,12 +103,10 @@
 
 
 <script>
-import UserQuerySelector from '@/pages/user/UserQuerySelector.vue';
-
 /* 订单表单 */
 export default {
   components: {
-    UserQuerySelector
+    UserQuerySelector: () => import('@/pages/user/UserQuerySelector.vue')
   },
   data() {
     return {

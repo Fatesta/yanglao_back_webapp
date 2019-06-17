@@ -21,7 +21,7 @@
         }"
         @click="onTitleClick"
         >
-        呼贝智慧养老服务平台
+        {{appName}}
       </span>
       
       <div :style="{
@@ -131,7 +131,7 @@
 <script>
 import NavMenu from './NavMenu';
 import PasswordUpdateDialog from '@/pages/admin/PasswordUpdateDialog';
-import config from '@/config/app.config';
+import config, { APP_NAME } from '@/config/app.config';
 import { stringify } from 'qs';
 
 export default {
@@ -141,6 +141,7 @@ export default {
   },
   data() {
     return {
+      appName: APP_NAME,
       contentMaxHeight: document.body.offsetHeight,
       theme: config.get('theme'),
       admin: null,

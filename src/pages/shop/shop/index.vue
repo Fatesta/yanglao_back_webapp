@@ -104,14 +104,13 @@
 import OrgSelect from '@/pages/org/OrgSelect.vue';
 import ShopDetails from './ShopDetails.vue';
 import DispatchOrderModeSettings from './DispatchOrderModeSettings.vue';
-import BossQuerySelector from '@/pages/shop/BossQuerySelector.vue';
 
 export default {
   components: {
     OrgSelect,
     ShopDetails,
     DispatchOrderModeSettings,
-    BossQuerySelector
+    BossQuerySelector: () => import('@/pages/shop/BossQuerySelector.vue')
   },
   data() {
     return {

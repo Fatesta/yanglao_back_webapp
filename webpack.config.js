@@ -96,7 +96,8 @@ module.exports = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     //new CleanWebpackPlugin(-)
     new CopyWebpackPlugin([
-      { from: './public/' },
+      process.env.NODE_ENV == 'production' && { from: './public/', copyUnmodified: false },
+      { from: './src/index.html' },
       { from: './src/index.css' }
     ]),
     new Jarvis({

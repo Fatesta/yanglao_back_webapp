@@ -173,15 +173,11 @@
 </template>
 
 <script>
-import OrgCheckTree from '@/pages/org/OrgCheckTree.vue';
-import CitySelect from '@/components/cityselect/CitySelect.vue';
-import BossQuerySelector from '@/pages/shop/BossQuerySelector.vue';
-
 export default {
   components: {
-    OrgCheckTree,
-    CitySelect,
-    BossQuerySelector
+    OrgCheckTree: () => import('@/pages/org/OrgCheckTree.vue'),
+    CitySelect: () => import('@/components/cityselect/CitySelect.vue'),
+    BossQuerySelector: () => import('@/pages/shop/BossQuerySelector.vue')
   },
   data() {
     return {

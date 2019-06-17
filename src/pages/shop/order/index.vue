@@ -150,14 +150,13 @@
 </template>
 
 <script>
-import EmployeeQuerySelector from '../EmployeeQuerySelector.vue';
 import StartForm from './flow/StartForm.vue';
 import FinishForm from './flow/FinishForm.vue';
 import Comment from './flow/Comment.vue';
 
 export default {
   components: {
-    EmployeeQuerySelector,
+    EmployeeQuerySelector: () => import('../EmployeeQuerySelector.vue'),
     StartForm,
     FinishForm,
     Comment

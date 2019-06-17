@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.70, user-scalable=no">
+	<title></title>
+    <link rel="shortcut icon" href="./favicon.ico">
+	<link rel="stylesheet" type="text/css" href="/index.css?v=20190616">
+</head>
+
+<body>
+    <div id="app" style="width:100%;height:100%;"></div>
+
+    <script src="/lib/dicts.js?v=1.4"></script>
+    <script src="/lib/utils/signals.min.js"></script>
+    <script>Signal = signals.Signal;</script>
+    <script src="/lib/utils/axios.min.js"></script>
+    <script src="/lib/utils/underscore-min.js"></script>
+    <script src="/lib/utils/moment.min.js"></script>
+    <script src="/lib/easyui/jquery.min.js"></script>
+    <script src="/lib/base64.js"></script>
+    <script src="/lib/utils/observer.js"></script>
+    <script src="/lib/ui/ui.js?v=20190529"></script>
+    <script src="/lib/common.js?v=20190529"></script>
+
+    <script src="/common.js?v=20190612"></script>
+    <script src="/lib/utils/require.js"></script>
+    <script>
+        window.app_version = '20190616';
+        require(['/vendors.js?v=2019060417', '/index.js?v=' + window.app_version]);
+    </script>
+</body>
+</html>

@@ -65,11 +65,9 @@
 </template>
 
 <script>
-import OrgCheckTree from '@/pages/org/OrgCheckTree.vue';
-
 export default {
   components: {
-    OrgCheckTree
+    OrgCheckTree: () => import('@/pages/org/OrgCheckTree.vue')
   },
   data() {
     return {

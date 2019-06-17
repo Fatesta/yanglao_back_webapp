@@ -2,7 +2,7 @@
   <el-dialog
     title="选择用户"
     :visible.sync="visible"
-    width="910px"
+    width="920px"
   >
     <el-form :inline="true" :model="searchForm">
       <el-form-item label="昵称">

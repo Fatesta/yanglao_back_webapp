@@ -96,11 +96,9 @@
 </template>
 
 <script>
-import UserQuerySelector from '@/pages/user/UserQuerySelector.vue';
-
 export default {
   components: {
-    UserQuerySelector
+    UserQuerySelector: () => import('@/pages/user/UserQuerySelector.vue')
   },
   data() {
     return {

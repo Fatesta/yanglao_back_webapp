@@ -24,5 +24,9 @@ class Config {
 }
 
 const config = new Config();
-
 export default config;
+
+const APP_NAME = '呼贝智慧养老服务平台';
+export {
+  APP_NAME
+};
