@@ -10,6 +10,9 @@
 │   ├── config          # 配置相关
 │   ├── pages           # 页面
 │   └── index.js        # SPA主入口
+│   └── routes.js       # 页面（tab页面）路由配置
+│   └── index.html      # html模板
+│   └── index.css       # 基本的全局的样式
 └── webpack.config.js
 ```
 
