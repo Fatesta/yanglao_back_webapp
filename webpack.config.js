@@ -1,29 +1,21 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin} = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const glob = require('glob');
 const webpack = require('webpack');
 const Jarvis = require("webpack-jarvis");
 
-/* 创建多个入口描述，出口输出目录将与源目录一致 */
-//遍历pages中每个index.js，
-var entries = {};
-const jsfilenames = glob.sync('./src/pages/**/*/index.+(js|vue)');
-jsfilenames.forEach((filename) => {
-  let name = /\.\/src\/(.*?).(js|vue)/.exec(filename)[1];
-  entries[name] = filename;
-});
-
-entries['index'] = './src/index.js';
-entries['vendors'] = ['@babel/polyfill', 'core-js', 'vue', 'vue-router', 'element-ui', 'moment', 'qs'];
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: entries,
+  entry: {
+    index: './src/index'
+  },
   output: {
-    filename: '[name].js',
-    libraryTarget: 'amd'
+    filename: '[name].[chunkhash].js',
+    path: path.join(__dirname, '/dist')
   },
   module: {
     rules: [
@@ -72,7 +64,7 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      chunks: "initial",
+      chunks: "all",
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
@@ -94,12 +86,20 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    //new CleanWebpackPlugin(-)
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
-      process.env.NODE_ENV == 'production' && { from: './public/', copyUnmodified: false },
+      process.env.NODE_ENV == 'production' &&
+      { from: './public/', copyUnmodified: false },
       { from: './src/index.html' },
       { from: './src/index.css' }
     ]),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      inject: 'body',
+      hash: false,
+      minify: true,
+      chunks: ['common', 'index'],
+    }),
     new Jarvis({
       watchOnly: true,
       port: 3000

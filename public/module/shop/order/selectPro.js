@@ -7,8 +7,8 @@ $(function() {
               pro.name + " - " + pro.industryText + "订单管理");
         } else {
             top.app.pushPage({
-                path: '/order/index',
-                title: pro.name + " - " + pro.industryText + '订单管理',
+                path: '/shop/order/index',
+                subTitle: pro.name,
                 params: {providerId: pro.providerId},
                 key: pro.providerId
             });
@@ -28,9 +28,9 @@ $(function() {
         } else {
             if (pro.industryId == 'housekeeping') {
                 top.app.pushPage({
-                    path: '/order/place/index',
+                    path: '/shop/order/flow/place/index',
                     params: {providerId: pro.providerId, industryId: pro.industryId},
-                    title: pro.name + ' - 下单'
+                    subTitle: pro.name
                 });
             } else {
                 openTab("mainTab", CONFIG.baseUrl + "shop/order/orderAdd.do?providerId=" + pro.providerId,

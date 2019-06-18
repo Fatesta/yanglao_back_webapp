@@ -98,11 +98,11 @@
 </template>
 
 <script>
-import OrgSelect from '@/pages/org/OrgSelect.vue';
+import { Select } from 'element-ui';
 
 export default {
   components: {
-    OrgSelect
+    OrgSelect: () => ({ component: import('@/pages/org/OrgSelect.vue'), loading: Select, delay: 0 })
   },
   data() {
     return {

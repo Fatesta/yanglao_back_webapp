@@ -70,11 +70,11 @@
 </template>
 
 <script>
-import OrgSelect from '@/pages/org/OrgSelect.vue';
+import { Select } from 'element-ui';
 
 export default {
   components: {
-    OrgSelect
+    OrgSelect: () => ({ component: import('@/pages/org/OrgSelect.vue'), loading: Select, delay: 0 })
   },
   data() {
     return {
@@ -125,7 +125,7 @@ export default {
       app.pushPage({
         path: '/shop/shop/index',
         params: { boss },
-        title: `${boss.realName} - 店铺管理`,
+        subTitle: boss.realName,
         key: boss.id
       });
     },
@@ -133,7 +133,7 @@ export default {
       app.pushPage({
         path: '/shop/finance/trade/index',
         params: { boss },
-        title: `${boss.realName} - 交易流水`,
+        subTitle: boss.realName,
         key: boss.id
       });
     }

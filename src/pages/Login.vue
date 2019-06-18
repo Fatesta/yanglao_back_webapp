@@ -80,9 +80,15 @@
 
 
 <script>
+import Vue from 'vue';
+import { Container, Main, Footer, Link, Alert, Form, FormItem, Input, Checkbox, Button } from 'element-ui';
+
 import config from '@/config/app.config';
 import auth from '@/auth';
 import moment from 'moment';
+[Container, Main, Footer, Link, Alert, Form, FormItem, Input, Checkbox, Button].forEach(c => {
+  Vue.use(c);
+});
 
 export default {
   data() {
@@ -175,7 +181,6 @@ export default {
         }
       });
       if (ret.success) {
-        this.submitting = false;
         config.set('username', username);
         config.set('password', this.rememberPasswordEnabled ? password : '');    
         auth.login();

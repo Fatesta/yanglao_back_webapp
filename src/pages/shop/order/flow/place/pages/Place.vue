@@ -18,7 +18,7 @@
           ref="table"
           url="/api/shop/product/productPage"
           lazy
-          :pagination="{pageSize: 10}"
+          :pagination="{pageSize: 50}"
           :height="540"
           :show-header="false"
           style="width:99%;overflow-x: hidden;overflow-y:auto"

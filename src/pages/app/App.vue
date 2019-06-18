@@ -129,10 +129,18 @@
 
 
 <script>
+import Vue from 'vue';
+import ElementUI from 'element-ui';
+//import './index.css'; copy 运行时加载css，必须先加载js，在这之前的时间导致页面空白，因此不采用这种方式
+import '@/components/index'; // 公共vue组件，应全部打包到本入口文件只有一份
 import NavMenu from './NavMenu';
 import PasswordUpdateDialog from '@/pages/admin/PasswordUpdateDialog';
 import config, { APP_NAME } from '@/config/app.config';
+import routes from '@/routes';
 import { stringify } from 'qs';
+
+
+Vue.use(ElementUI, { size: 'small' });
 
 export default {
   components: {
@@ -235,10 +243,7 @@ export default {
       }
     },
     onSettingClick() {
-      app.pushPage({
-        path: '/app/settings/index',
-        title: '设置'
-      });
+      app.pushPage('/app/settings/index');
     },
     logout() {
       this.$router.replace('/logout');
@@ -266,37 +271,46 @@ export default {
     /*
     打开一个页面
 
-    pushPage('/order/index');
+    pushPage('/shop/order/index');
 
     pushPage({
       path: '/user/details/index',
       params: {id: user.id},
     });
+    @param options string | object 路径，或
+      path     path
+      params   参数
+      title    标题，覆盖路由中的title
+      subTitle 子标题
+      key      标识页面，这样可以实例化多个path指向的组件，或定位
     */
     pushPage(options) {
       if (typeof options == 'string') {
         options = { path: options };
       }
-      const { path, params, title } = options;
-      let route = { path, params }; // 当前路由结果
+      const { path } = options;
+      const route = routes.find(route => path.startsWith(route.path)); // 路由结果
 
       // 将路径名 + 可选的key 作为tab的key
       const tabKey = path + (options.key ? '__' + options.key : '');
-      // 根据path检查该tab是否已经打开
+      // 根据key检查该tab是否已经打开
       const addedTab = this.tabs.find(tab => tab.key == tabKey);
       if (addedTab) {
-        // 如果打开了，选中该tab
+        // 如果之前已经打开了，则现在选中该tab
         this.activeTabKey = '';
         setTimeout(() => {
           this.activeTabKey = tabKey;
         });
       } else {
+        let title = (options.title || route.title);
+        if (options.subTitle) {
+          title += ` - ${options.subTitle}`;
+        }
         let tab = {
-          title: title,
+          title,
           key: tabKey, //path作为key
           content: null, // vue组件
-          loading: true, // vue组件加载状态
-          route
+          loading: true // vue组件加载状态
         };
         this.tabs.push(tab);
         this.activeTabKey = tabKey;
@@ -306,20 +320,18 @@ export default {
       /* 异步加载vue组件，并设置为tab的content */
       function loadTabContentComponent(tab) {
         tab.loading = true;
-        let jsUrl = `/pages${path}`;// 从/pages/
-        if (!path.endWiths('.js')) {
-          jsUrl += '.js';
+
+        if (typeof route.component === 'function') {
+          route.component().then(({default: component}) => {
+            component.props = component.props || {};
+            component.props['$params'] = {
+              type: Object,
+              default: () => options.params
+            };
+            tab.content = component;
+            tab.loading = false;
+          });
         }
-        jsUrl += '?v=' + (window.app_version || 1);
-        requirejs([jsUrl], ({default: component}) => {
-          component.props = component.props || {};
-          component.props['$params'] = {
-            type: Object,
-            default: () => params
-          };
-          tab.content = component;
-          tab.loading = false;
-        });
       }
     },
     /* 打开一个标签页承载一个页面，这个方法现在被NavMenu，以及原使用easyui代码的方法调用 */
@@ -404,10 +416,10 @@ export default {
 
 <style scoped>
 .el-container {
-    width: 100%;
-    height: 100%;
-    background-image: none;
-    background-color: #fff;
+  width: 100%;
+  height: 100%;
+  background-image: none;
+  background-color: #fff;
 }
 
 .icon-button {

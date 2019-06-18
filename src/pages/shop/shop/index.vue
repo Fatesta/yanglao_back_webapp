@@ -101,13 +101,13 @@
 
 
 <script>
-import OrgSelect from '@/pages/org/OrgSelect.vue';
 import ShopDetails from './ShopDetails.vue';
 import DispatchOrderModeSettings from './DispatchOrderModeSettings.vue';
+import { Select } from 'element-ui';
 
 export default {
   components: {
-    OrgSelect,
+    OrgSelect: () => ({ component: import('@/pages/org/OrgSelect.vue'), loading: Select, delay: 0 }),
     ShopDetails,
     DispatchOrderModeSettings,
     BossQuerySelector: () => import('@/pages/shop/BossQuerySelector.vue')
@@ -154,7 +154,7 @@ export default {
       } else {
         app.pushPage({
           path: '/shop/order/index',
-          title: shop.name + " - " + '订单管理',
+          subTitle: shop.name,
           params: { shop },
           key: shop.providerId
         });
@@ -190,7 +190,7 @@ export default {
         case 'trade':
           app.pushPage({
             path: '/shop/finance/trade/index',
-            title: shop.name + " - " + '交易流水',
+            subTitle: shop.name,
             params: { shop },
             key: shop.providerId
           });

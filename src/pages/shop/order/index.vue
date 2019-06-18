@@ -183,7 +183,7 @@ export default {
             shop,
             orderTable: this.$refs.table
           },
-          title: shop.name + ' - 下单'
+          subTitle: shop.name
         });
       } else {
         openTab({
@@ -196,7 +196,7 @@ export default {
       app.pushPage({
         path: '/shop/order/details/index',
         params: { order },
-        title: `订单详情 - ${order.orderno}`
+        subTitle: order.orderno
       });
       return;*/
       openTab({
