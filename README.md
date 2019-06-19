@@ -25,38 +25,39 @@ npm i
 ```
 
 ### 开发新业务页面
-1. 在`src/pages`目录新建子目录，目录结构按业务分类，新的页面代码文件命名为`index.vue`或`index.js`。  
-2. 查看`src/components`存在的可复用组件。也可以创建新的可复用组件（建议必须是常用的）。  
-3. 参考已有代码。
-4. 尽可能用vue单文件组件。
-6. 尽可能使用动态导入`import(...)`
-7. 给vue单文件组件增加`_pageProps`属性，例如：
-    ```js
-    export default {
-      _pageProps: {
-        title: '新的页面的标题，会作为tab的标题'
-      }
-    }
-    ```
-8. 打开新的页面，请使用`app.pushPage`方法，参数说明：
-    |参数|说明|类型
-    |:-|:-|:-|
-    |path|注意不是url，更像一个组件类的id|string|
-    |params|参数|object|
-    |title|标题，覆盖组件`_pageProps`属性中的title|string|
-    |subTitle|子标题|string|
-    |key|默认等于path，根据key判断是否已经打开标签页，如果打开了则选中，否则打开新的|string/number|
+1.在`src/pages`目录新建子目录，目录结构按业务分类，新的页面代码文件命名为`index.vue`或`index.js`。    
+2.查看`src/components`存在的可复用组件。也可以创建新的可复用组件（建议必须是常用的）。    
+3.参考已有代码。  
+4.尽可能用vue单文件组件。  
+6.尽可能使用动态导入`import(...)`  
+7.给vue单文件组件增加`_pageProps`属性，例如：  
+```js
+export default {
+  _pageProps: {
+    title: '新的页面的标题，会作为tab的标题'
+  }
+}
+```
+8.打开新的页面，请使用`app.pushPage`方法，参数说明：
 
-    示例：
-    ```js
-    pushPage('/shop/order/index');
+|参数|说明|类型
+|:-|:-|:-|
+|path|注意不是url，更像一个组件类的id|string|
+|params|参数|object|
+|title|标题，覆盖组件`_pageProps`属性中的title|string|
+|subTitle|子标题|string|
+|key|默认等于path，根据key判断是否已经打开标签页，如果打开了则选中，否则打开新的|string/number|
 
-    pushPage({
-      path: '/user/details/index',
-      params: {id: user.id},
-    });
-    ```
-    页面组件实例方法中，通过`this.$params`得到参数。
+示例：
+```js
+pushPage('/shop/order/index');
+
+pushPage({
+  path: '/user/details/index',
+  params: {id: user.id},
+});
+```
+页面组件实例方法中，通过`this.$params`得到参数。
 
 ### 构建
 ```shell
