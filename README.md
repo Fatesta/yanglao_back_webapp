@@ -56,7 +56,7 @@ npm i
       params: {id: user.id},
     });
     ```
-    页面组件实例方法中，通过this.$params得到参数。
+    页面组件实例方法中，通过`this.$params`得到参数。
 
 ### 构建
 ```shell
