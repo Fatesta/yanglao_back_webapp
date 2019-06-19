@@ -1,11 +1,11 @@
 # 后台Web前端项目
 
 
-源码目录:
+## 源码目录
 ```
 .
 ├── package.json
-├── public              # 这个目录包含老项目的旧有开发方式的模块的源码和资源
+├── public              # 这个目录包含老项目的旧有开发方式（jquery,easyui,iframe,jsp）的模块的源码和资源
 ├── dev                 # 开发工具源码
 ├── src                 # 源码
 │   ├── components      # 公共/抽象组件  
@@ -50,14 +50,27 @@ export default {
 
 示例：
 ```js
-pushPage('/shop/order/index');
+app.pushPage('/shop/order/index');
 
-pushPage({
+app.pushPage({
   path: '/user/details/index',
   params: {id: user.id},
 });
 ```
 页面组件实例方法中，通过`this.$params`得到参数。
+
+#### pushPage的实现原理（ [源码](https://github.com/hulang1024/yanglao_back_webapp/blob/master/src/App.vue#L273) ）
+1. 将path + 可选的key 作为tab的key，判断是否已经打开标签页，如果打开了则选中，结束，否则下一步。
+2. 按照路径与页面vue/js的映射表（src/_pages.js，下文将提到），查询出页面对象，  
+该页面对象实际上是一个请求页面组件js并返回Promise的函数，执行请求页面的函数，得到真正的页面组件，组件实际上是一个对象。  
+因此可以得到它的`_pageProps属性`，以及增加`$params` props。
+
+#### 与pushPage类似的另一个方法: app.openTab（ [源码](https://github.com/hulang1024/yanglao_back_webapp/blob/master/src/App.vue#L336) ）
+`app.openTab`是为了兼容旧有代码而存在的，在以前，window.openModuleByCode、window.openTab将打开一个新的content为iframe的easyui tab。  
+现在，这些方法的实现将变为对`app.openTab`的调用，而`app.openTab`根据url判断:
+- 后缀如果是`.do`，则识别为老页面，用一个渲染iframe的vue组件包装起来，并且[解决easyui模板闪现的问题](https://github.com/hulang1024/yanglao_back_webapp/blob/master/src/App.vue#L396)。
+- 后缀如果是`.js`，这是新开发模式页面的url表示方式，转换为对`app.pushPage`的调用。
+
 
 ### 构建
 ```shell
@@ -66,7 +79,7 @@ npm run build-dev #或开发（方便调试）版本
 ```
 #### 原理：
 值得注意的是，请查看webpack.config.js中的配置，编译开始时会调用 PageDog 插件，这是一个自定义插件，  
-它根据上述开发业务页面中所描述的命名约定，自动生成`path`与`import(.)`的映射定义的文件（src/_pages.js），被`app.pushPage` import使用。  
+它根据上述开发业务页面中所描述的命名约定，自动生成页面组件路径（pushPage的path参数）与`import(页面组件路径)`的映射定义的文件（src/_pages.js），被`app.pushPage`使用。  
 然后webpack继续编译，src/_pages.js也参与了编译，webpack将根据依赖关系，生成业务页面chunk的懒加载代码。
 
 ### 部署

@@ -275,12 +275,8 @@ export default {
         options = { path: options };
       }
       const { path } = options;
-      const page = pages[path];
-      if (!page) {
-        this.$message.error('未找到指定页面：' + path);
-        return;
-      }
-      // 将路径名 + 可选的key 作为tab的key
+
+      // path + 可选的key 作为tab的key
       const tabKey = path + (options.key ? '__' + options.key : '');
       // 根据key检查该tab是否已经打开
       const addedTab = this.tabs.find(tab => tab.key == tabKey);
@@ -291,6 +287,11 @@ export default {
           this.activeTabKey = tabKey;
         });
       } else {
+        const page = pages[path];
+        if (!page) {
+          this.$message.error('未找到指定页面：' + path);
+          return;
+        }
         let tab = {
           title: options.title || '...',
           key: tabKey, //path作为key
