@@ -300,11 +300,11 @@ export default {
         };
         this.tabs.push(tab);
         this.activeTabKey = tabKey;
-        loadAsyncComponentSetTabContent(tab);
+        loadAsyncComponentSetTabContent(tab, page);
       }
 
       /* 异步加载vue组件，并设置为tab的content */
-      function loadAsyncComponentSetTabContent(tab) {
+      function loadAsyncComponentSetTabContent(tab, page) {
         tab.loading = true;
 
         if (typeof page === 'function') {

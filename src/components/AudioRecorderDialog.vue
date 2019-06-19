@@ -40,7 +40,7 @@ export default {
   methods: {
     async show(options) {
       this.visible = true;
-      requirejs(['/lib/recorder/recorder.min.js'], (Recorder) => {
+      import('./recorder/recorder.min.js').then(({default: component}) => {
         if (!Recorder.isRecordingSupported()) {
           this.$alert('对不起，不支持当前环境');
           return;
