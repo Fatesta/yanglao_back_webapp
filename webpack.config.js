@@ -1,5 +1,5 @@
 const path = require('path');
-const { CleanWebpackPlugin} = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -64,7 +64,7 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      chunks: "all",
+      chunks: "all", // 包括异步
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
@@ -80,7 +80,7 @@ module.exports = {
       }
     },
     runtimeChunk: {
-        name:'common'
+        name:'webpack' //独立出清单变化
     }
   },
   plugins: [
@@ -99,7 +99,7 @@ module.exports = {
       inject: 'body',
       hash: false,
       minify: true,
-      chunks: ['common', 'index'],
+      chunks: ['webpack', 'common', 'index'],
     }),
     new Jarvis({
       watchOnly: true,

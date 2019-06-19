@@ -80,9 +80,8 @@
       </el-table-column>
       <el-table-column prop="payType" label="支付方式" width="120" :formatter="formatters.payType"></el-table-column>
       <el-table-column prop="linkman" label="下单人" width="120"></el-table-column>
-      <el-table-column prop="linkphone" label="联系电话" width="140"></el-table-column>
       <el-table-column prop="createTime" label="下单时间" width="170"></el-table-column>
-      <el-table-column label="操作" width="200" fixed="right">
+      <el-table-column label="操作" width="260" fixed="right">
         <template slot-scope="scope">
           <el-button
             @click="onDetailsClick(scope.row)">
@@ -101,7 +100,7 @@
           <el-button
             v-else-if="['housekeeping'].includes(scope.row.industryId) &&
               (scope.row.status >= 13 && !scope.row.startFlowTime)"
-            type="warning"
+            type="primary"
             plain
             @click="onFlowStartClick(scope.row)"
             style="margin-left: 0px"
@@ -128,14 +127,27 @@
           >
             评价
           </el-button>
+          <empty-button v-else width="56px" />
+          
           <el-button
             v-if="['housekeeping', 'catering'].includes(scope.row.industryId) && [10, 12, 13, 14].includes(scope.row.status)"
-            type="danger"
+            type="warning"
             plain
             @click="onCancelClick(scope.row)"
             style="margin-left: 0px"
           >
             取消
+          </el-button>
+          <empty-button v-else width="56px" />
+
+          <el-button
+            v-if="scope.row.payStatus == 0"
+            type="danger"
+            plain
+            @click="onDeleteClick(scope.row)"
+            style="margin-left: 0px"
+          >
+            删除
           </el-button>
         </template>
       </el-table-column>
@@ -210,7 +222,7 @@ export default {
     onTakingClick(order) {
       const submit = async (handler) => {
         const ret = await axios.post(
-          '/api/shop/order/housekeeping/taking',
+          '/api/shop/order/taking',
           {
             orderno: order.orderno,
             creator: order.creator,
@@ -268,7 +280,7 @@ export default {
       this.$confirm(`确认取消订单 ${order.orderno} ？`, {
         type: 'warning'
       }).then(async () => {
-         const ret = await axios.post('/api/shop/order/housekeeping/cancel', {
+         const ret = await axios.post('/api/shop/order/cancel', {
            orderno: order.orderno,
            creator: order.creator,
            operator: ''
@@ -278,7 +290,20 @@ export default {
            order.status = 16;
          }
       });
-    } 
+    },
+    onDeleteClick(order) {
+      this.$confirm(`确认删除订单 ${order.orderno} ？`, {
+        type: 'warning'
+      }).then(async () => {
+         const ret = await axios.post('/api/shop/order/delete', {
+           orderno: order.orderno
+         });
+         if (ret.success) {
+           this.$message.success('删除订单成功');
+           this.$refs.table.reloadCurrentPage();
+         }
+      });
+    }
   },
   mounted() {
     this.$refs.table.query(this.searchForm);

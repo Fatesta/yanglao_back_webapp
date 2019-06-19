@@ -181,6 +181,10 @@ export default {
     });
 
     const ret = await axios.get('/api/currentUser');
+    if (ret.admin == null) {
+      this.$router.push('/login');
+      return;
+    }
     this.admin = ret.admin;
 
     const nodes = await axios.get('/api/admin/listAdminMenu');
@@ -266,22 +270,6 @@ export default {
         this.activeTabKey = activeTabKey;
       });
     },
-    /*
-    打开一个页面
-
-    pushPage('/shop/order/index');
-
-    pushPage({
-      path: '/user/details/index',
-      params: {id: user.id},
-    });
-    @param options string | object 路径，或
-      path     path
-      params   参数
-      title    标题，覆盖路由中的title
-      subTitle 子标题
-      key      标识页面，这样可以实例化多个path指向的组件，或定位
-    */
     pushPage(options) {
       if (typeof options == 'string') {
         options = { path: options };

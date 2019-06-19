@@ -70,11 +70,10 @@
         </template>
       </el-table-column>
       <el-table-column prop="lineState" label="线上下" width="70" :formatter="formatters.lineState"></el-table-column>
-      <el-table-column prop="linkman" label="联系人" width="80" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="creatorOrgName" label="下单人社区" width="110" show-overflow-tooltip></el-table-column>
       <el-table-column prop="providerName" label="商家店铺" width="240" show-overflow-tooltip></el-table-column>
       <el-table-column prop="industryId" label="行业" width="80" :formatter="formatters.industryId"></el-table-column>
       <el-table-column prop="creatorName" label="下单人" width="80" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="creatorOrgName" label="下单人社区" width="100" show-overflow-tooltip></el-table-column>
       <el-table-column prop="createTime" label="下单时间" width="170"></el-table-column>
       <el-table-column label="操作" width="140" fixed="right">
         <template slot-scope="scope">
