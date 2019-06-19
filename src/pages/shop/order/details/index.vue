@@ -44,6 +44,9 @@
 
 <script>
 export default {
+  _pageProps: {
+    title: '订单详情'
+  },
   data() {
     return {
       orderInfo: {}

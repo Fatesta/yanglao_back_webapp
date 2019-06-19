@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { Container } from 'element-ui';
-import Login from '@/pages/Login.vue';
+//import './index.css'; copy 运行时加载css，必须先加载js，在这之前的时间导致页面空白，因此不采用这种方式
+import Login from '@/Login.vue';
 import auth from '@/auth';
 import * as globalvars from './globalvars';
 import { APP_NAME } from '@/config/app.config';
@@ -18,7 +19,7 @@ const router = new VueRouter({
     {
       path: '/',
       component: () => ({
-        component: import('@/pages/app/App.vue'),
+        component: import('@/App.vue'),
         loading: Container,
         delay: 0
       }),

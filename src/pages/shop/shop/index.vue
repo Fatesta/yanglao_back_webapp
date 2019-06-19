@@ -106,6 +106,9 @@ import DispatchOrderModeSettings from './DispatchOrderModeSettings.vue';
 import { Select } from 'element-ui';
 
 export default {
+  _pageProps: {
+    title: '店铺管理'
+  },
   components: {
     OrgSelect: () => ({ component: import('@/pages/org/OrgSelect.vue'), loading: Select, delay: 0 }),
     ShopDetails,

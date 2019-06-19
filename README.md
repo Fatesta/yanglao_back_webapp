@@ -8,9 +8,9 @@
 ├── src                 # 源码
 │   ├── components      # 公共/抽象组件  
 │   ├── config          # 配置相关
-│   ├── pages           # 页面
+│   ├── pages           # 业务页面
 │   └── index.js        # SPA主入口
-│   └── routes.js       # 页面（tab页面）路由配置
+│   └── pages.js        # 页面配置
 │   └── index.html      # html模板
 │   └── index.css       # 基本的全局的样式
 └── webpack.config.js

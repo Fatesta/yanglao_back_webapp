@@ -155,6 +155,9 @@ import FinishForm from './flow/FinishForm.vue';
 import Comment from './flow/Comment.vue';
 
 export default {
+  _pageProps: {
+    title: '订单管理'
+  },
   components: {
     EmployeeQuerySelector: () => import('../EmployeeQuerySelector.vue'),
     StartForm,

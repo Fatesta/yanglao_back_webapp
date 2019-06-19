@@ -3,8 +3,8 @@ const { CleanWebpackPlugin} = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const glob = require('glob');
 const webpack = require('webpack');
+const PageDog = require('./dev/PageDog');
 const Jarvis = require("webpack-jarvis");
 
 
@@ -84,6 +84,7 @@ module.exports = {
     }
   },
   plugins: [
+    new PageDog(),
     new VueLoaderPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new CleanWebpackPlugin(),

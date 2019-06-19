@@ -29,6 +29,9 @@
 <script>
 import config from '@/config/app.config';
 export default {
+  _pageProps: {
+    title: '设置'
+  },
   data() {
     return {
       theme: config.get('theme'),

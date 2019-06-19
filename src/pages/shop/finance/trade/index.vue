@@ -87,6 +87,9 @@ import { stringify } from 'qs';
 import moment from 'moment';
 
 export default {
+  _pageProps: {
+    title: '交易流水'
+  },
   data() {
     return {
       formatters: {

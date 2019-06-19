@@ -156,6 +156,9 @@ import VipCardChange from './vipcard/change/Change.vue';
 import { stringify } from 'qs';
 
 export default {
+  _pageProps: {
+    title: '用户管理'
+  },
   components: {
     UserQuerier,
     UserDetails,

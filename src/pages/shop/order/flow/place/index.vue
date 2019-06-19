@@ -13,6 +13,9 @@ import OrderForm from './pages/OrderForm.vue';
 const pages = [Place, OrderForm];
 
 export default {
+  _pageProps: {
+    title: '下单'
+  },
   data() {
     return {
       index: 0,

@@ -90,6 +90,9 @@ import CheckDialog from './CheckDialog.vue';
 import PermissionSettings from './PermissionSettings.vue';
 
 export default {
+  _pageProps: {
+    title: '用户认证'
+  },
   components: {
     CheckDialog,
     PermissionSettings,

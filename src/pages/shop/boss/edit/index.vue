@@ -66,6 +66,9 @@
 
 <script>
 export default {
+  _pageProps: {
+    title: '编辑商家'
+  },
   components: {
     OrgCheckTree: () => import('@/pages/org/OrgCheckTree.vue')
   },

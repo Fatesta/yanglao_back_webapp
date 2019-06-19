@@ -97,6 +97,9 @@
 
 <script>
 export default {
+  _pageProps: {
+    title: '服务工单'
+  },
   components: {
     UserQuerySelector: () => import('@/pages/user/UserQuerySelector.vue')
   },

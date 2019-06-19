@@ -131,14 +131,12 @@
 <script>
 import Vue from 'vue';
 import ElementUI from 'element-ui';
-//import './index.css'; copy 运行时加载css，必须先加载js，在这之前的时间导致页面空白，因此不采用这种方式
 import '@/components/index'; // 公共vue组件，应全部打包到本入口文件只有一份
 import NavMenu from './NavMenu';
 import PasswordUpdateDialog from '@/pages/admin/PasswordUpdateDialog';
 import config, { APP_NAME } from '@/config/app.config';
-import routes from '@/routes';
+import pages from '@/_pages';
 import { stringify } from 'qs';
-
 
 Vue.use(ElementUI, { size: 'small' });
 
@@ -243,7 +241,7 @@ export default {
       }
     },
     onSettingClick() {
-      app.pushPage('/app/settings/index');
+      app.pushPage('/settings/index');
     },
     logout() {
       this.$router.replace('/logout');
@@ -289,8 +287,11 @@ export default {
         options = { path: options };
       }
       const { path } = options;
-      const route = routes.find(route => path.startsWith(route.path)); // 路由结果
-
+      const page = pages[path];
+      if (!page) {
+        this.$message.error('未找到指定页面：' + path);
+        return;
+      }
       // 将路径名 + 可选的key 作为tab的key
       const tabKey = path + (options.key ? '__' + options.key : '');
       // 根据key检查该tab是否已经打开
@@ -302,33 +303,42 @@ export default {
           this.activeTabKey = tabKey;
         });
       } else {
-        let title = (options.title || route.title);
-        if (options.subTitle) {
-          title += ` - ${options.subTitle}`;
-        }
         let tab = {
-          title,
+          title: options.title || '...',
           key: tabKey, //path作为key
           content: null, // vue组件
           loading: true // vue组件加载状态
         };
         this.tabs.push(tab);
         this.activeTabKey = tabKey;
-        loadTabContentComponent(tab);
+        loadAsyncComponentSetTabContent(tab);
       }
 
       /* 异步加载vue组件，并设置为tab的content */
-      function loadTabContentComponent(tab) {
+      function loadAsyncComponentSetTabContent(tab) {
         tab.loading = true;
 
-        if (typeof route.component === 'function') {
-          route.component().then(({default: component}) => {
+        if (typeof page === 'function') {
+          page().then(({default: component}) => {
+
+            // 设置标题
+            let title = (options.title
+              || (component._pageProps && component._pageProps.title)
+              || '未定义标题');
+            if (options.subTitle) {
+              title = `${options.subTitle} - ${title}`;
+            }
+            tab.title = title;
+
             component.props = component.props || {};
+            // 给组件设置props
             component.props['$params'] = {
               type: Object,
               default: () => options.params
             };
+            
             tab.content = component;
+
             tab.loading = false;
           });
         }
@@ -354,7 +364,7 @@ export default {
       var params = paramIdx == -1 ? "" : url.substr(paramIdx);
       if (path.endWiths('.js')) {
         this.pushPage({
-          path,
+          path: path.substring(0, path.length - 3),
           params,
           title: item.text
         });

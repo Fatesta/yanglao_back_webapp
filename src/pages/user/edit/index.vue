@@ -108,6 +108,9 @@
 import { Select } from 'element-ui';
 
 export default {
+  _pageProps: {
+    title: '编辑用户'
+  },
   components: {
     OrgSelect: () => ({ component: import('@/pages/org/OrgSelect.vue'), loading: Select, delay: 0 })
   },
