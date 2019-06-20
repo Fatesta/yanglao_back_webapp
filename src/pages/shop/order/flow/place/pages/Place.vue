@@ -29,9 +29,10 @@
             </template>
           </el-table-column>
           <el-table-column prop="name" width="260" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="simpleDescription" width="200" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="simpleDescription" width="300"
+            :formatter="(row) => row.simpleDescription || row.description" show-overflow-tooltip></el-table-column>
           <el-table-column prop="price" width="100" :formatter="formatters.price"></el-table-column>
-          <el-table-column align="right" width="200">
+          <el-table-column align="center">
             <template slot-scope="scope">
               <el-button
                 v-show="selections[scope.row.productId]"

@@ -294,7 +294,7 @@ export default {
         }
         let tab = {
           title: options.title || '...',
-          key: tabKey, //path作为key
+          key: tabKey,
           content: null, // vue组件
           loading: true // vue组件加载状态
         };
@@ -305,8 +305,6 @@ export default {
 
       /* 异步加载vue组件，并设置为tab的content */
       function loadAsyncComponentSetTabContent(tab, page) {
-        tab.loading = true;
-
         if (typeof page === 'function') {
           page().then(({default: component}) => {
 

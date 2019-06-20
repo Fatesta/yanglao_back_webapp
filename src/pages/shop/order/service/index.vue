@@ -144,10 +144,20 @@ export default {
         }
       });
     },
-    onDetailsClick({orderno}) {
-      openTab({
-        title: '工单详情 - ' + orderno,
-        url: '/view/shop/workOrder/orderDetail.do?orderCode=' + orderno
+    onDetailsClick(order) {
+      app.pushPage({
+        path: '/shop/order/details/index',
+        params: {
+          order,
+          type: 'service',
+          orderStatusText: this.statusMap[order.status],
+          onDeleteSuccess: () => {
+            this.$refs.table.reloadCurrentPage();
+          }
+        },
+        key: order.orderno,
+        title: '工单详情',
+        subTitle: order.orderno
       });
     },
     onLocationClick({orderno}) {

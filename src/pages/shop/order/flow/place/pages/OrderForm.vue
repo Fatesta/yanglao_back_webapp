@@ -1,13 +1,6 @@
 <template>
-  <div style="padding: 8px;">
-    <el-button
-      type="text"
-      icon="el-icon-back"
-     
-      style="font-size: 24px"
-      @click="placeFollow.back"
-    />
-    <el-card shadow="never">
+  <div style="padding: 8px;width: 70%;margin: 0 auto;">
+    <section>
       <el-row>
         <el-col :span="24">
           <el-form ref="userInfoForm" :model="form"
@@ -52,19 +45,19 @@
           </el-form>
         </el-col>
       </el-row>
-    </el-card>
-    <el-card shadow="never" style="margin-top: 16px">
-      <el-table :data="selections" :show-header="false">
-        <el-table-column prop="product.imageFile" width="100">
+    </section>
+    <section style="margin-top: 16px">
+      <el-table :data="selections" size="medium" style="width:70%">
+        <el-table-column prop="product.imageFile" label="商品" width="100">
           <template slot-scope="scope">
             <img :src="scope.row.product.imageFile" style="height: 50px;width: 80px;border-radius: 4px;" />
           </template>
         </el-table-column>
         <el-table-column prop="product.name" width="300"></el-table-column>
-        <el-table-column prop="num" width="100" :formatter="(row, col, val) => ('x' + val)"></el-table-column>
-        <el-table-column prop="product.price" width="200">
+        <el-table-column prop="num" label="商品数量" width="100"></el-table-column>
+        <el-table-column prop="product.price" label="单价">
           <template slot-scope="scope">
-            <span>¥&nbsp;{{scope.row.product.price}}</span>
+            <span>¥{{scope.row.product.price}}</span>
             <el-button
               icon="el-icon-edit"
              
@@ -73,8 +66,8 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-card>
-    <el-card shadow="never" style="margin-top: 16px">
+    </section>
+    <section style="margin-top: 16px">
       <el-form
         :model="form"
         label-width="100px"
@@ -86,16 +79,18 @@
           <el-input type="textarea" :rows="2" v-model="form.remark"  style="width: 300px"></el-input>
         </el-form-item>
       </el-form>
-    </el-card>
-    <div style="margin-top: 24px;text-align: center;">
+    </section>
+    <section style="margin-top: 24px;">
+      <el-button
+        @click="placeFollow.back"
+      >返回</el-button>
       <el-button
         type="primary"
-       
         @click="onSubmit"
         :loading="submitting"
         :disabled="submitDisabled"
         >完成下单</el-button>
-    </div>
+    </section>
 
     <user-query-selector ref="userQuerySelector" />
   </div>

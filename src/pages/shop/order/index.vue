@@ -81,100 +81,39 @@
       <el-table-column prop="payType" label="支付方式" width="120" :formatter="formatters.payType"></el-table-column>
       <el-table-column prop="linkman" label="下单人" width="120"></el-table-column>
       <el-table-column prop="createTime" label="下单时间" width="170"></el-table-column>
-      <el-table-column label="操作" width="260" fixed="right">
+      <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
           <el-button
+            type="primary"
+            plain
             @click="onDetailsClick(scope.row)">
             详情
           </el-button>
-
           <el-button
-            v-if="['housekeeping', 'catering'].includes(scope.row.industryId) && scope.row.status == 10"
+            v-if="
+              ['housekeeping', 'catering'].includes(scope.row.industryId)
+              && scope.row.status == 10"
             type="primary"
             plain
             @click="onTakingClick(scope.row)"
-            style="margin-left: 0px"
           >
             {{$params.shop.businessMode == 0 ? '接单' : '派单'}}
-          </el-button>
-          <el-button
-            v-else-if="['housekeeping'].includes(scope.row.industryId) &&
-              (scope.row.status >= 13 && !scope.row.startFlowTime)"
-            type="primary"
-            plain
-            @click="onFlowStartClick(scope.row)"
-            style="margin-left: 0px"
-          >
-            开始
-          </el-button>
-          <el-button
-            v-else-if="['housekeeping', 'catering'].includes(scope.row.industryId) &&
-              (scope.row.status >= 13 && !scope.row.endFlowTime)"
-            type="success"
-            plain
-            @click="onFlowFinishClick(scope.row)"
-            style="margin-left: 0px"
-          >
-            完成
-          </el-button>
-          <el-button
-            v-else-if="['housekeeping', 'catering'].includes(scope.row.industryId) &&
-              (scope.row.status == 15 && scope.row.starLevel == null)"
-            type="primary"
-            plain
-            @click="onCommentClick(scope.row)"
-            style="margin-left: 0px"
-          >
-            评价
-          </el-button>
-          <empty-button v-else width="56px" />
-          
-          <el-button
-            v-if="['housekeeping', 'catering'].includes(scope.row.industryId) && [10, 12, 13, 14].includes(scope.row.status)"
-            type="warning"
-            plain
-            @click="onCancelClick(scope.row)"
-            style="margin-left: 0px"
-          >
-            取消
-          </el-button>
-          <empty-button v-else width="56px" />
-
-          <el-button
-            v-if="scope.row.payStatus == 0"
-            type="danger"
-            plain
-            @click="onDeleteClick(scope.row)"
-            style="margin-left: 0px"
-          >
-            删除
           </el-button>
         </template>
       </el-table-column>
     </data-table>
-
+    
     <employee-query-selector ref="employeeQuerySelector" />
-    <start-form ref="startForm" />
-    <finish-form ref="finishForm" />
-    <comment ref="comment" />
-
   </data-table-app-page>
 </template>
 
 <script>
-import StartForm from './flow/StartForm.vue';
-import FinishForm from './flow/FinishForm.vue';
-import Comment from './flow/Comment.vue';
-
 export default {
   _pageProps: {
     title: '订单管理'
   },
   components: {
-    EmployeeQuerySelector: () => import('../EmployeeQuerySelector.vue'),
-    StartForm,
-    FinishForm,
-    Comment
+    EmployeeQuerySelector: () => import('../EmployeeQuerySelector.vue')
   },
   data() {
     return {
@@ -190,8 +129,7 @@ export default {
   methods: {
     onAddClick(order) {
       const { shop } = this.$params;
-      
-      if (shop.industryId == 'housekeeping') {
+      if (['housekeeping', 'catering'].includes(shop.industryId)) {
         app.pushPage({
           path: '/shop/order/flow/place/index',
           params: {
@@ -200,24 +138,16 @@ export default {
           },
           subTitle: shop.name
         });
+        openTab({
+          url: "/shop/order/orderAdd.do?providerId=" + shop.providerId,
+          title: shop.name + " - 下单"
+        });
       } else {
         openTab({
           url: "/shop/order/orderAdd.do?providerId=" + shop.providerId,
           title: shop.name + " - 下单"
         });
       }
-    },
-    onDetailsClick(order) {/*
-      app.pushPage({
-        path: '/shop/order/details/index',
-        params: { order },
-        subTitle: order.orderno
-      });
-      return;*/
-      openTab({
-        title: '订单详情 - ' + order.orderno,
-        url: '/view/shop/workOrder/orderDetail.do?orderCode=' + order.orderno
-      });
     },
     onTakingClick(order) {
       const submit = async (handler) => {
@@ -252,56 +182,18 @@ export default {
         submit();
       }
     },
-    onFlowStartClick(order) {
-      this.$refs.startForm.show({
-        order,
-        onSuccess: () => {
-          order.startFlowTime = 1;
-        }
-      })
-    },
-    onFlowFinishClick(order) {
-      this.$refs.finishForm.show({
-        order,
-        onSuccess: () => {
-          order.endFlowTime = 1;
-        }
-      })
-    },
-    onCommentClick(order) {
-      this.$refs.comment.show({
-        order,
-        onSuccess: (form) => {
-          order.starLevel = form.starLevel;
-        }
-      });
-    },
-    onCancelClick(order) {
-      this.$confirm(`确认取消订单 ${order.orderno} ？`, {
-        type: 'warning'
-      }).then(async () => {
-         const ret = await axios.post('/api/shop/order/cancel', {
-           orderno: order.orderno,
-           creator: order.creator,
-           operator: ''
-         });
-         if (ret.success) {
-           this.$message.success('取消订单成功');
-           order.status = 16;
-         }
-      });
-    },
-    onDeleteClick(order) {
-      this.$confirm(`确认删除订单 ${order.orderno} ？`, {
-        type: 'warning'
-      }).then(async () => {
-         const ret = await axios.post('/api/shop/order/delete', {
-           orderno: order.orderno
-         });
-         if (ret.success) {
-           this.$message.success('删除订单成功');
-           this.$refs.table.reloadCurrentPage();
-         }
+    onDetailsClick(order) {
+      app.pushPage({
+        path: '/shop/order/details/index',
+        params: {
+          order,
+          shop: this.$params.shop,
+          onDeleteSuccess: () => {
+            this.$refs.table.reloadCurrentPage();
+          }
+        },
+        key: order.orderno,
+        subTitle: order.orderno
       });
     }
   },
