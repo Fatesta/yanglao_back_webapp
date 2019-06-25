@@ -12,5 +12,6 @@ export default {
   "/shop/shop/index": () => import("@/pages/shop/shop/index"),
   "/user/edit/index": () => import("@/pages/user/edit/index"),
   "/user/index": () => import("@/pages/user/index"),
+  "/user/renzheng/certedit/index": () => import("@/pages/user/renzheng/certedit/index"),
   "/user/renzheng/index": () => import("@/pages/user/renzheng/index")
 };

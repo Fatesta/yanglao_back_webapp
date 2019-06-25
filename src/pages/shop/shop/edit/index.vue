@@ -11,7 +11,7 @@
     >
       <el-form-item
         prop="imgUrl"
-        label="店铺封面"
+        label="店铺图片"
       >
         <div>
           <el-image
@@ -61,6 +61,17 @@
         <type-select
           v-model="form.industryId"
           :items="DictMan.items('product.industry')"
+          style="width: 100%;" 
+        />
+      </el-form-item>
+      <el-form-item
+        prop="providerType"
+        label="店铺类型"
+        :rules="[{required: true, message: ' '}]"
+      >
+        <type-select
+          v-model="form.providerType"
+          :items="DictMan.items('provider.type')"
           style="width: 100%;" 
         />
       </el-form-item>
@@ -174,7 +185,7 @@
 
 <script>
 export default {
-  _pageProps: {
+  pageProps: {
     title: '编辑店铺'
   },
   components: {
@@ -192,7 +203,8 @@ export default {
         description: '',
         imgUrl: '',
         industryId: '',
-        diqu: null,
+        providerType: '0',
+        diqu: {prov: '湖北省', city: '武汉市'},
         address: '',
         serviceArea: '',
         serviceTime: ['08:00', '17:00'],
@@ -255,7 +267,8 @@ export default {
       return;
     }
     this.submitting = true;
-    const shop = await axios.get('/api/shop/pro/info', {params: {id: this.$params.shop.id}});
+    let shop = await axios.get('/api/shop/pro/info', {params: {id: this.$params.shop.id}});
+    shop.providerType = shop.providerType + '';
     this.submitting = false;
     for (let key in this.form) {
       this.form[key] = shop[key];

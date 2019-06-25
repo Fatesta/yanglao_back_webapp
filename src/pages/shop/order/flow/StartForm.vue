@@ -3,7 +3,6 @@
     title="开始订单"
     :visible.sync="visible"
     :close-on-click-modal="false"
-    top="5vh"
     width="640px"
   >
     <el-form ref="form" :model="form" label-width="50px">
@@ -25,7 +24,9 @@
           action="/api/util/upload"
           accept="image/*"
           list-type="picture"
-          :on-success="onUploadSuccess">
+          :file-list="fileList"
+          :on-success="onUploadSuccess"
+          :on-remove="onRemove">
           <el-button type="primary" plain>上传照片</el-button>
         </el-upload>
       </el-form-item>
@@ -51,6 +52,7 @@ export default {
   },
   methods: {
     async show(options) {
+      this.options = options;
       const { order } = options;
       this.form = {
         orderno: order.orderno,
@@ -61,12 +63,24 @@ export default {
         remark: '',
         startTime: moment().format('YYYYMMDDHHmmss')
       };
-      this.fileList = [];
+      if (order.startFlowTime) {
+        let orderFlowInfo = await axios.get('/api/shop/order/orderFlowInfo',
+          {params: { orderCode: order.orderno }});
+        this.form.remark = orderFlowInfo.orderStartRemark,
+        this.form.startTime = moment(order.startFlowTimestamp).format('YYYYMMDDHHmmss');
+        this.fileList = orderFlowInfo.orderStartImage.split(',').map(url => ({name: '', url}));
+      } else {
+        this.fileList = [];
+      }
       this.visible = true;
+      this.submitting = false;
       this.onSuccess = options.onSuccess;
     },
     onUploadSuccess(response, file) {
       this.fileList.push({name: '', url: response.data.url});
+    },
+    onRemove(file, fileList) {
+      this.fileList.splice(fileList.findIndex(f => f.url == file.url), 1);
     },
     onSubmit() {
       this.$refs.form.validate(async (valid) => {
@@ -76,9 +90,13 @@ export default {
         let postData = {...this.form};
         postData['pictureImage'] = this.fileList.map(f => f.url).join(',');
         this.submitting = true;
+        if (this.options.mode == 'update') {
+          await axios.post('/api/shop/order/housekeeping/deleteFlow',
+            {orderno: this.form.orderno, action: 5});
+        }
         const ret = await axios.post('/api/shop/order/housekeeping/start', postData);
         if (ret.success) {
-          this.$message.success('订单开始成功');
+          this.$message.success(this.options.mode == 'update' ? '修改成功' : '订单开始成功');
           this.visible = false;
           this.onSuccess(this.form);
         } else {

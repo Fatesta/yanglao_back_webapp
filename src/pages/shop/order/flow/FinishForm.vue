@@ -4,7 +4,6 @@
     title="完成订单"
     :visible.sync="visible"
     :close-on-click-modal="false"
-    top="5vh"
     width="640px"
   >
     <el-form ref="form" :model="form" label-width="50px">
@@ -27,7 +26,9 @@
           action="/api/util/upload"
           accept="image/*"
           list-type="picture"
-          :on-success="onPhotoUploadSuccess">
+          :file-list="fileList"
+          :on-success="onPhotoUploadSuccess"
+          :on-remove="onPhotoRemove">
           <el-button type="primary" plain>上传照片</el-button>
         </el-upload>
       </el-form-item>
@@ -77,6 +78,7 @@ export default {
   },
   methods: {
     async show(options) {
+      this.options = options;
       const { order } = options;
       this.form = {
         orderno: order.orderno,
@@ -86,6 +88,7 @@ export default {
         latitude: order.latitude,
         remark: '',
         endTime: moment().format('YYYYMMDDHHmmss')
+
       };
       if (this.$refs.imageUpload) {
         this.$refs.imageUpload.clearFiles();
@@ -94,13 +97,26 @@ export default {
         this.$refs.audioUpload.clearFiles();
         this.$refs.audio.src = '';
       }
-      this.fileList = [];
-      this.voiceFile = null;
+      if (order.endFlowTime) {
+        let orderFlowInfo = await axios.get('/api/shop/order/orderFlowInfo',
+          {params: { orderCode: order.orderno }});
+        this.form.remark = orderFlowInfo.orderEndRemark,
+        this.form.endTime = moment(order.endFlowTimestamp).format('YYYYMMDDHHmmss');
+        this.fileList = orderFlowInfo.orderEndImage.split(',').map(url => ({name: '', url}));
+        this.voiceFile = orderFlowInfo.voiceFile;
+      } else {
+        this.fileList = [];
+        this.voiceFile = null;
+      }
       this.visible = true;
+      this.submitting = false;
       this.onSuccess = options.onSuccess;
     },
     onPhotoUploadSuccess(response, file) {
       this.fileList.push({name: '', url: response.data.url});
+    },
+    onPhotoRemove(file, fileList) {
+      this.fileList.splice(fileList.findIndex(f => f.url == file.url), 1);
     },
     onOpenRecorderClick() {
       this.$refs.audioRecorderDialog.show({
@@ -130,9 +146,13 @@ export default {
         postData['pictureImage'] = this.fileList.map(f => f.url).join(',');
         postData['voiceFile'] = this.voiceFile;
         this.submitting = true;
+        if (this.options.mode == 'update') {
+          await axios.post('/api/shop/order/housekeeping/deleteFlow',
+            {orderno: this.form.orderno, action: 6});
+        }
         const ret = await axios.post('/api/shop/order/housekeeping/finish', postData);
         if (ret.success) {
-          this.$message.success('订单完成');
+          this.$message.success(this.options.mode == 'update' ? '修改成功' : '订单完成');
           this.visible = false;
           this.onSuccess(this.form);
         } else {

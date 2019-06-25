@@ -96,7 +96,7 @@
 
 <script>
 export default {
-  _pageProps: {
+  pageProps: {
     title: '服务工单'
   },
   components: {
@@ -150,7 +150,7 @@ export default {
         params: {
           order,
           type: 'service',
-          orderStatusText: this.statusMap[order.status],
+          statusMap: this.statusMap,
           onDeleteSuccess: () => {
             this.$refs.table.reloadCurrentPage();
           }

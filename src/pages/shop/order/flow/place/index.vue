@@ -8,15 +8,21 @@
 <script>
 /* 下单流程 */
 import Place from './pages/Place.vue';
-import OrderForm from './pages/OrderForm.vue';
 
-const pages = [Place, OrderForm];
+let pages = [Place];
 
 export default {
-  _pageProps: {
+  pageProps: {
     title: '下单'
   },
   data() {
+    ({
+      'housekeeping': () => import('./pages/types/housekeeping/OrderForm.vue'),
+      'catering': () => import('./pages/types/catering/OrderForm.vue')
+    })[this.$params.shop.industryId]().then(({default: page}) => {
+      pages[1] = page;
+    });
+
     return {
       index: 0,
       current: null

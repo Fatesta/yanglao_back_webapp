@@ -2,6 +2,7 @@ const defaultConfigValues = {
   autoLoginEnabled: false,
   rememberPasswordEnabled: false,
   theme: 'light',//dark
+  size: 'small',
   sideMenuCollapsed: false
 };
 

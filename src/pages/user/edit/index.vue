@@ -108,7 +108,7 @@
 import { Select } from 'element-ui';
 
 export default {
-  _pageProps: {
+  pageProps: {
     title: '编辑用户'
   },
   components: {

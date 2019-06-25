@@ -1,10 +1,5 @@
 <template>
-  <el-dialog
-    title="店铺信息详情"
-    :visible.sync="visible"
-    top="5vh"
-    width="600px"
-  >
+  <el-card shadow="never">
     <el-row>
       <el-col :span="5">店铺图片</el-col>
       <el-col :span="18"><img :src="shopInfo.imgUrl" style="height: 50px;width: 80px;border-radius: 4px;"/></el-col>
@@ -20,6 +15,10 @@
     <el-row>
       <el-col :span="5">所属行业</el-col>
       <el-col :span="18">{{shopInfo.industryText}}</el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="5">店铺类型</el-col>
+      <el-col :span="18">{{DictMan.itemMap('provider.type')[shopInfo.providerType]}}</el-col>
     </el-row>
     <el-row>
       <el-col :span="5">店铺地址</el-col>
@@ -55,23 +54,19 @@
       <el-col :span="5">商家工号</el-col>
       <el-col :span="18">{{shopInfo.adminUsername}}</el-col>
     </el-row>
-  </el-dialog>
+  </el-card>
 </template>
 
 
 <script>
 export default {
+  pageProps: {
+    title: '店铺详情'
+  },
   data() {
     return {
-      visible: false,
-      shopInfo: {}
+      shopInfo: this.$params.shop
     };
-  },
-  methods: {
-    show(shopInfo) {
-      this.visible = true;
-      this.shopInfo = shopInfo;
-    }
   }
 }
 </script>
@@ -79,6 +74,7 @@ export default {
 
 <style scoped>
 .el-row {
+  font-size: 14px;
   line-height: 40px;
 }
 .el-col-5 {

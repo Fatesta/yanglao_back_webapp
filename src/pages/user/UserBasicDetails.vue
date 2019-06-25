@@ -26,12 +26,16 @@
       <el-col :span="18">{{userInfo.age}}</el-col>
     </el-row>
     <el-row>
-      <el-col :span="5">身份证</el-col>
+      <el-col :span="5">身份证号码</el-col>
       <el-col :span="18">{{userInfo.idcard}}</el-col>
     </el-row>
     <el-row>
       <el-col :span="5">手机号</el-col>
       <el-col :span="18">{{userInfo.telphone}}</el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="5">社区</el-col>
+      <el-col :span="18">{{userInfo.orgName}}</el-col>
     </el-row>
     <el-row>
       <el-col :span="5">紧急联系人</el-col>
@@ -74,6 +78,9 @@
 
 <script>
 export default {
+  pageProps: {
+    title: '用户基本信息详情'
+  },
   data() {
     return {
       visible: false,
@@ -83,6 +90,7 @@ export default {
   methods: {
     async show(user) {
       this.visible = true;
+      this.userInfo = user;
       this.userInfo = await axios.get('/api/user/getBasicInfo', {params: {userId: user.id}});
     }
   }
@@ -92,6 +100,7 @@ export default {
 
 <style scoped>
 .el-row {
+  font-size: 14px;
   line-height: 40px;
 }
 .el-col-5 {

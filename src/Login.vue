@@ -202,7 +202,7 @@ export default {
   }
 
   .login-container {
-    width: 348px;
+    width: 338px;
     margin: 8% auto;
   }
   .checkboxes {

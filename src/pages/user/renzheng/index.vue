@@ -49,15 +49,17 @@
       <el-table-column label="操作" width="280">
         <template slot-scope="scope" fixed="right">
           <el-button
-            :disabled="scope.row.state != 1"
+            v-if="scope.row.state == 1"
             type="primary"
             plain
             style="margin-left: 0px"
             @click="onCheckClick(scope.row)">审核</el-button>
+          <empty-button v-else width="56px" />
           <el-button
-            :disabled="scope.row.state == 0"
+            v-if="scope.row.state > 0"
             style="margin-left: 0px"
             @click="onCertDetailsClick(scope.row)">认证信息</el-button>
+          <empty-button v-else width="80px" />
           <el-dropdown
             @command="onCommandClick($event, scope.row)"
             :show-timeout="100"
@@ -79,24 +81,18 @@
 
     <check-dialog ref="checkDialog"></check-dialog>
     <permission-settings ref="permissionSettings"></permission-settings>
-    <cert-edit-dialog ref="certEditDialog"></cert-edit-dialog>
   </data-table-app-page>
 </template>
 
 
 <script>
-import CertEditDialog from './CertEditDialog.vue';
-import CheckDialog from './CheckDialog.vue';
-import PermissionSettings from './PermissionSettings.vue';
-
 export default {
-  _pageProps: {
+  pageProps: {
     title: '用户认证'
   },
   components: {
-    CheckDialog,
-    PermissionSettings,
-    CertEditDialog
+    CheckDialog: () => import('./CheckDialog.vue'),
+    PermissionSettings: () => import('./PermissionSettings.vue')
   },
   data() {
     return {
@@ -118,9 +114,19 @@ export default {
     onCommandClick(cmd, user) {
       switch (cmd) {
         case 'certEdit': 
-          this.$refs.certEditDialog.open(user, false, (newRecord) => {
-            Object.assign(row, newRecord);
-            row.state = 1;
+          app.pushPage({
+            path: '/user/renzheng/certedit/index',
+            params: {
+              user,
+              readonly: false,
+              onSuccess: (certInfo) => {
+                Object.assign(user, certInfo);
+                user.state = 1;
+              }
+            },
+            key: user.id,
+            title: '认证编辑',
+            subTitle: user.realName
           });
           break;
         case 'permissionSettings':
@@ -131,8 +137,14 @@ export default {
           break;
       }
     },
-    onCertDetailsClick(row) {
-      this.$refs.certEditDialog.open(row, 'readonly');
+    onCertDetailsClick(user) {
+      app.pushPage({
+        path: '/user/renzheng/certedit/index',
+        params: { user, readonly: true },
+        key: user.id,
+        title: '认证信息',
+        subTitle: user.realName
+      });
     }
   }
 }

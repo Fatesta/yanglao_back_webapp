@@ -3,7 +3,6 @@
     title="评价订单"
     :visible.sync="visible"
     :close-on-click-modal="false"
-    top="5vh"
     width="600px"
   >
     <el-form ref="form" :model="form" label-width="100px">
@@ -28,7 +27,9 @@ export default {
   data() {
     return {
       visible: false,
-      form: {},
+      form: {
+        starLevel: 5
+      },
       submitting: false
     }
   },
@@ -37,7 +38,8 @@ export default {
       const { order } = options;
       this.form = {
         orderno: order.orderno,
-        operator: order.creator
+        operator: order.creator,
+        starLevel: 5
       };
       this.visible = true;
       this.options = options;

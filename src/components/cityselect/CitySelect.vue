@@ -55,6 +55,11 @@ export default {
       this.cascaderValue = [];
       this.onChange(this.cascaderValue);
     }
+  },
+  mounted() {
+    if (this.value != null) {
+      this.setValue(this.value);
+    }
   }
 }
 </script>

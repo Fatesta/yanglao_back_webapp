@@ -32,7 +32,7 @@
           <el-table-column prop="simpleDescription" width="300"
             :formatter="(row) => row.simpleDescription || row.description" show-overflow-tooltip></el-table-column>
           <el-table-column prop="price" width="100" :formatter="formatters.price"></el-table-column>
-          <el-table-column align="center">
+          <el-table-column align="right" style="right: 16px;">
             <template slot-scope="scope">
               <el-button
                 v-show="selections[scope.row.productId]"
@@ -44,7 +44,7 @@
               />
               <span
                 v-show="selections[scope.row.productId]"
-                style="font-size:18px;top:-2px;position:relative;">
+                style="font-size:18px;top:-2px;position:relative;font-weight: bold;">
                 {{selections[scope.row.productId] && selections[scope.row.productId].num}}
               </span>
               <el-button
@@ -66,12 +66,12 @@
           padding: 8px;">
         <el-col :span="6" style="line-height: 60px;">
           <div style="float:right">
-            <span>已选择 {{Object.keys(selections).length}} 种商品</span>
+            <span>已选择 <span style="font-weight: bold;">{{Object.keys(selections).length}}</span> 种商品</span>
             <el-button
               type="primary"
              
               @click="onNextClick"
-              style="margin-left: 8px;"
+              style="margin-left: 8px;margin-right:22px;"
               :disabled="Object.keys(selections).length == 0"
             >下一步</el-button>
           </div>
@@ -121,7 +121,6 @@ export default {
       }
     },
     onNextClick() {
-      
       // 家政订单数量检查
       if (this.$params.shop.industryId == 'housekeeping') {
         let total = 0;

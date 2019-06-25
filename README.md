@@ -30,10 +30,10 @@ npm i
 3.参考已有代码。  
 4.尽可能用vue单文件组件。  
 6.尽可能使用动态导入`import(...)`  
-7.给vue单文件组件增加`_pageProps`属性，例如：  
+7.给vue单文件组件增加`pageProps`属性，例如：  
 ```js
 export default {
-  _pageProps: {
+  pageProps: {
     title: '新的页面的标题，会作为tab的标题'
   }
 }
@@ -44,7 +44,7 @@ export default {
 |:-|:-|:-|
 |path|注意不是url，更像一个组件类的id|string|
 |params|参数|object|
-|title|标题，覆盖组件`_pageProps`属性中的title|string|
+|title|标题，覆盖组件`pageProps`属性中的title|string|
 |subTitle|子标题|string|
 |key|默认等于path，根据key判断是否已经打开标签页，如果打开了则选中，否则打开新的|string/number|
 
@@ -61,9 +61,9 @@ app.pushPage({
 
 #### pushPage的实现原理（ [源码](https://github.com/hulang1024/yanglao_back_webapp/blob/master/src/App.vue#L273) ）
 1. 将path + 可选的key 作为tab的key，判断是否已经打开标签页，如果打开了则选中，结束，否则下一步。
-2. 按照路径与页面vue/js的映射表（src/_pages.js，下文将提到），查询出页面对象，  
+2. 按照路径与页面vue/js的映射表（src/pages.js，下文将提到），查询出页面对象，  
 该页面对象实际上是一个请求页面组件js并返回Promise的函数，执行请求页面的函数，得到真正的页面组件，组件实际上是一个对象。  
-因此可以得到它的`_pageProps属性`，以及增加`$params` props。
+因此可以得到它的`pageProps属性`，以及增加`$params` props。
 
 #### 与pushPage类似的另一个方法: app.openTab（ [源码](https://github.com/hulang1024/yanglao_back_webapp/blob/master/src/App.vue#L336) ）
 `app.openTab`是为了兼容旧有代码而存在的，在以前，window.openModuleByCode、window.openTab将打开一个新的content为iframe的easyui tab。  
@@ -79,11 +79,14 @@ npm run build-dev #或开发（方便调试）版本
 ```
 #### 原理：
 值得注意的是，请查看webpack.config.js中的配置，编译开始时会调用 PageDog 插件，这是一个自定义插件，  
-它根据上述开发业务页面中所描述的命名约定，自动生成页面组件路径（pushPage的path参数）与`import(页面组件路径)`的映射定义的文件（src/_pages.js），被`app.pushPage`使用。  
-然后webpack继续编译，src/_pages.js也参与了编译，webpack将根据依赖关系，生成业务页面chunk的懒加载代码。
+它根据上述开发业务页面中所描述的命名约定，自动生成页面组件路径（pushPage的path参数）与`import(页面组件路径)`的映射定义的文件（src/pages.js），被`app.pushPage`使用。  
+然后webpack继续编译，src/pages.js也参与了编译，webpack将根据依赖关系，生成业务页面chunk的懒加载代码。
 
 ### 部署
-使用maven validate，将`/dist`内容复制到`webapp`目录
+将`/dist`内容复制到`webapp`目录
+```shell
+npm run copy-dev
+```
 
 ## 日志
 > 2019-05-12:  

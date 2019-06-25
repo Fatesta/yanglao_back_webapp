@@ -48,16 +48,22 @@
         >
           取消
         </el-button>
-        <el-tooltip content="修改" placement="bottom">
-          <el-button
-            type="danger"
-            plain
-            circle
-            icon="el-icon-edit"
-            @click="onEditClick"
-          />
+        <el-tooltip content="修正订单信息">
+          <el-dropdown placement="bottom-start" trigger="click" @command="onOrderModifyCommand">
+            <el-button
+              type="danger"
+              plain
+              circle
+              icon="el-icon-edit"
+            />
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-if="orderFlowInfo.orderStartTime" command="flow-start">订单过程-开始</el-dropdown-item>
+                <el-dropdown-item v-if="orderFlowInfo.orderEndTime" command="flow-finish">订单过程-结束</el-dropdown-item>
+                <el-dropdown-item command="remark">订单备注</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </el-tooltip>
-        <el-tooltip content="删除" placement="bottom">
+        <el-tooltip content="删除订单">
           <el-button
             v-if="$params.order.payStatus == 0"
             type="danger"
@@ -69,7 +75,7 @@
         </el-tooltip>
       </div>
       <h1>
-        <span style="margin-right: 8px;">{{orderOutName}}号：{{orderInfo.orderno}}</span>
+        <span style="margin-right: 16px;">{{orderOutName}}&nbsp;{{orderInfo.orderno}}</span>
         <template v-if="$params.type != 'service'">
           <el-tag size="big" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[$params.order.status]">
             {{DictMan.itemMap('productOrder.status')[$params.order.status]}}
@@ -77,11 +83,25 @@
         </template>
         <template v-else>
           <el-tag size="big" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[$params.order.status]">
-            {{$params.orderStatusText}}
+            {{$params.statusMap[$params.order.status]}}
           </el-tag>
         </template>
       </h1>
       <table class="info-table">
+        <tr>
+          <th>支付状态：</th>
+          <td colspan="3">
+            <el-tag :type="['warning', 'success'][$params.order.payStatus]">
+              {{DictMan.itemMap('payStatus')[$params.order.payStatus]}}
+            </el-tag>
+          </td>
+        </tr>
+        <tr>
+          <th>{{orderOutName}}金额：</th>
+          <td colspan="3">
+            {{$params.order.paymentFee > 0 ? `¥${$params.order.paymentFee}` : '免费'}}
+          </td>
+        </tr>
         <tr>
           <th>商家店铺：</th>
           <td colspan="3">{{orderInfo.providerName}}</td>
@@ -98,11 +118,7 @@
       <table class="info-table">
         <tr>
           <th>联系人：</th>
-          <td>{{orderInfo.linkman}}</td>
-        </tr>
-        <tr>
-          <th>联系电话：</th>
-          <td>{{orderInfo.linkphone}}</td>
+          <td>{{orderInfo.linkman}}，{{orderInfo.linkphone}}</td>
         </tr>
       </table>
     </section>
@@ -147,7 +163,7 @@
           placement="top"
           color="#67C23A"
         >
-          <el-card>
+          <el-card shadow="hover">
             <h4>完成服务</h4>
             <p>【{{orderFlowInfo.orderEndOperator}}】完成服务<template v-if="orderFlowInfo.orderEndAddress">于位置【{{orderFlowInfo.orderEndAddress}}】</template></p>
             <template v-if="orderFlowInfo.orderEndImage">
@@ -155,12 +171,13 @@
                 v-for="(url, index) in orderFlowInfo.orderEndImage.split(',')"
                 :key="index"
                 :src="url"
+                fit="cover"
                 class="order-flow-image"
                 @click="viewImage(url)"
               />
             </template>
             <p>备注：{{orderFlowInfo.orderEndRemark}}</p>
-            <audio :src="orderFlowInfo.voiceFile" controls style="vertical-align: middle;"></audio>
+            <audio v-if="orderFlowInfo.voiceFile" :src="orderFlowInfo.voiceFile" controls style="vertical-align: middle;"></audio>
           </el-card>
         </el-timeline-item>
         <el-timeline-item
@@ -169,7 +186,7 @@
           placement="top"
           color="#409EFF"
         >
-          <el-card>
+          <el-card shadow="hover">
             <h4>开始服务</h4>
             <p>【{{orderFlowInfo.orderStartOperator}}】开始服务<template v-if="orderFlowInfo.orderStartAddress">于位置【{{orderFlowInfo.orderStartAddress}}】</template></p>
             <template v-if="orderFlowInfo.orderStartImage">
@@ -177,6 +194,7 @@
                 v-for="(url, index) in orderFlowInfo.orderStartImage.split(',')"
                 :key="index"
                 :src="url"
+                fit="cover"
                 class="order-flow-image"
                 @click="viewImage(url)"
               />
@@ -188,7 +206,7 @@
           :timestamp="orderInfo.createTime"
           placement="top"
         >
-          <el-card>
+          <el-card shadow="hover">
             <h4>下单</h4>
             <p>【{{orderInfo.creatorName}}】提交了订单。</p>
           </el-card>
@@ -221,7 +239,7 @@ import FinishForm from '../flow/FinishForm.vue';
 import Comment from '../flow/Comment.vue';
 
 export default {
-  _pageProps: {
+  pageProps: {
     title: '订单详情'
   },
   components: {
@@ -251,8 +269,9 @@ export default {
         order,
         onSuccess: () => {
           order.startFlowTime = 1;
+          this.refreshOrderFlowInfo();
         }
-      })
+      });
     },
     onFlowFinishClick() {
       const { order } = this.$params;
@@ -260,8 +279,9 @@ export default {
         order,
         onSuccess: () => {
           order.endFlowTime = 1;
+          this.refreshOrderFlowInfo();
         }
-      })
+      });
     },
     onCommentClick() {
       const { order } = this.$params;
@@ -269,6 +289,7 @@ export default {
         order,
         onSuccess: (form) => {
           order.starLevel = form.starLevel;
+          this.refreshOrderFlowInfo();
         }
       });
     },
@@ -288,8 +309,40 @@ export default {
          }
       });
     },
-    onEditClick() {
-      this.$alert('开发中');
+    onOrderModifyCommand(cmd) {
+      const { order } = this.$params;
+      switch (cmd) {
+        case 'flow-start':
+          this.$refs.startForm.show({
+            order,
+            mode: 'update',
+            onSuccess: () => {
+              this.refreshOrderFlowInfo();
+            }
+          });
+          break;
+        case 'flow-finish':
+          this.$refs.finishForm.show({
+            order,
+            mode: 'update',
+            onSuccess: () => {
+              this.refreshOrderFlowInfo();
+            }
+          });
+          break;
+        case 'remark':
+          this.$prompt('修改订单备注', {inputType: 'textarea'}).then(async ({action, value}) => {
+            if ('confirm' == action) {
+              const ret = await axios.post('/api/shop/order/update',
+                {orderno: order.orderno, remark: value});
+              if (ret.success) {
+                this.$message.success('修改成功');
+                this.orderInfo.remark = order.remark = value;
+              }
+            }
+          });
+          break;
+      }
     },
     onDeleteClick() {
       const orderCode = this.$params.order.orderno;
@@ -301,8 +354,13 @@ export default {
          });
          if (ret.success) {
            this.$message.success('删除订单成功');
+           this.$params.onDeleteSuccess && this.$params.onDeleteSuccess();
          }
       });
+    },
+    async refreshOrderFlowInfo() {
+      this.orderFlowInfo = await axios.get('/api/shop/order/orderFlowInfo',
+        {params: { orderCode: this.$params.order.orderno }});
     }
   },
   async mounted() {
@@ -335,6 +393,7 @@ section > h1 {
   height: 100px;
   margin-right: 8px;
   cursor: pointer;
+  border-radius: 4px;
 }
 .info-table {
   width: 100%;

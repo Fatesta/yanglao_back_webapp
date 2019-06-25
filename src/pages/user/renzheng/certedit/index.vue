@@ -1,9 +1,7 @@
 <template>
-  <el-dialog
-    :title="!readonly ? '编辑认证' : '认证信息'"
-    :visible.sync="visible"
-    top="5vh"
-    width="600px"
+  <el-card
+    shadow="never"
+    body-style="width: 820px; margin: 0 auto;"
   >
     <el-form ref="form" :model="form" label-width="100px">
       <el-form-item
@@ -55,48 +53,35 @@
           <el-link target="_blank" :underline="false" :href="idcardImgUrls[index]" v-if="readonly" type="info">点击查看大图</el-link>
         </div>
       </div>
-    </div>
-    <span slot="footer">
-      <el-button type="default" @click="visible = false" v-if="!readonly">取消</el-button>
+
       <el-button type="primary" @click="onSubmit" v-if="!readonly" :loading="submitting">提交</el-button>
-    </span>
-  </el-dialog>
+    </div>
+  </el-card>
 </template>
 
 <script>
 /* 认证编辑 */
 
 export default {
+  pageProps: {
+    title: '认证'
+  },
   data() {
+    let { user } = this.$params;
     return {
       visible: false,
-      readonly: true,
-      form: {},
+      readonly: !!this.$params.readonly,
+      form: {
+        userId: user.id,
+        realName: user.realName,
+        idcard: user.idcard,
+        address: user.address,
+      },
       submitting: false,
       idcardImgUrls: new Array(3).fill('')
     }
   },
   methods: {
-    async open(user, readonly, onSuccess) {
-      this.form = {
-        userId: user.id,
-        realName: user.realName,
-        idcard: user.idcard,
-        address: user.address,
-      };
-      this.idcardImgUrls = new Array(3).fill('');
-      this.visible = true;
-      this.readonly = !!readonly;
-      this.onSuccess = onSuccess;
-      const filePage = await axios.get(
-        '/api/uploadfile/uploadfilePage',
-        {params: {type: 0, resourceId: user.id, page: 1, rows: 3}});
-      let urls = new Array(3).fill('');
-      filePage.rows.forEach((item, index) => {
-        urls[index] = item.imgPath;
-      });
-      this.idcardImgUrls = urls;
-    },
     onUploadSuccess(response, file, index) {
       this.idcardImgUrls.splice(index, 1, response.data.url);
     },
@@ -114,13 +99,23 @@ export default {
         if (ret.success) {
           this.$message.success('提交成功');
           this.visible = false;
-          this.onSuccess(this.form);
+          this.$params.onSuccess(this.form);
         } else {
           this.$message.error({226: '身份证号码不合法', 229: '身份证已被绑定'})[ret.code]
         }
         this.submitting = false;
       });
     }
+  },
+  async mounted() {
+    const filePage = await axios.get(
+      '/api/uploadfile/uploadfilePage',
+      {params: {type: 0, resourceId: this.$params.user.id, page: 1, rows: 3}});
+    let urls = new Array(3).fill('');
+    filePage.rows.forEach((item, index) => {
+      urls[index] = item.imgPath;
+    });
+    this.idcardImgUrls = urls;
   }
 }
 </script>

@@ -68,7 +68,7 @@
       <el-table-column prop="tradePrice" label="实收" width="70"></el-table-column>
       <el-table-column prop="formattedCouponAmount" label="优惠" width="200"></el-table-column>
       <el-table-column prop="userAccountAliasName" label="买家" width="100"></el-table-column>
-      <el-table-column prop="userAccountDeviceCode" label="设备号" width="150"></el-table-column>
+      <el-table-column prop="userAccountDeviceCode" label="设备号" width="150" :formatter="formatters.userAccountDeviceCode"></el-table-column>
       <el-table-column prop="providerName" label="店铺名称" width="240" show-overflow-tooltip v-if="!searchForm.providerId"></el-table-column>
       <el-table-column prop="operationAccountUsername" label="操作商家工号" width="120"></el-table-column>
       <el-table-column prop="operationPhoneLogo" label="操作商家手机标识" width="140" show-overflow-tooltip></el-table-column>
@@ -87,12 +87,13 @@ import { stringify } from 'qs';
 import moment from 'moment';
 
 export default {
-  _pageProps: {
+  pageProps: {
     title: '交易流水'
   },
   data() {
     return {
       formatters: {
+        userAccountDeviceCode: (row, col, v) => [2,9].includes(+row.userAccount[0]) ? v : '-',
         payType: (row, col, val) => DictMan.itemMap('payType')[val]
       },
       searchForm: {

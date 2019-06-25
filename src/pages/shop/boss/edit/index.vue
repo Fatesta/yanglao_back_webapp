@@ -66,7 +66,7 @@
 
 <script>
 export default {
-  _pageProps: {
+  pageProps: {
     title: '编辑商家'
   },
   components: {

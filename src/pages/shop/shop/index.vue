@@ -93,7 +93,6 @@
       </el-table-column>
     </data-table>
 
-    <shop-details ref="shopDetails" />
     <dispatch-order-mode-settings ref="dispatchOrderModeSettings" />
     <boss-query-selector ref="bossQuerySelector" />
   </data-table-app-page>
@@ -101,18 +100,15 @@
 
 
 <script>
-import ShopDetails from './ShopDetails.vue';
-import DispatchOrderModeSettings from './DispatchOrderModeSettings.vue';
 import { Select } from 'element-ui';
 
 export default {
-  _pageProps: {
+  pageProps: {
     title: '店铺管理'
   },
   components: {
     OrgSelect: () => ({ component: import('@/pages/org/OrgSelect.vue'), loading: Select, delay: 0 }),
-    ShopDetails,
-    DispatchOrderModeSettings,
+    DispatchOrderModeSettings: () => import('./DispatchOrderModeSettings.vue'),
     BossQuerySelector: () => import('@/pages/shop/BossQuerySelector.vue')
   },
   data() {
@@ -134,7 +130,12 @@ export default {
       });
     },
     onDetailsClick(shop) {
-      this.$refs.shopDetails.show(shop);
+      app.pushPage({
+        path: '/shop/shop/details/index',
+        params: { shop },
+        subTitle: shop.name,
+        key: shop.id
+      });
     },
     onAddClick(shop) {
       app.pushPage({

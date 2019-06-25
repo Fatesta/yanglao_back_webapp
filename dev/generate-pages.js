@@ -37,7 +37,7 @@ module.exports = {
         types.objectExpression(pageProperties))
     ]);
 
-    fs.writeFileSync('src/_pages.js', babel.transformFromAstSync(program).code);
-    console.log('已生成: src/_pages.js');
+    fs.writeFileSync('src/pages.js', babel.transformFromAstSync(program).code);
+    console.log('已生成: src/pages.js');
   }
 }

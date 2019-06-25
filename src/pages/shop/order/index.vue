@@ -92,7 +92,7 @@
           <el-button
             v-if="
               ['housekeeping', 'catering'].includes(scope.row.industryId)
-              && scope.row.status == 10"
+              && (scope.row.status == 10 || scope.row.status == 12)"
             type="primary"
             plain
             @click="onTakingClick(scope.row)"
@@ -109,7 +109,7 @@
 
 <script>
 export default {
-  _pageProps: {
+  pageProps: {
     title: '订单管理'
   },
   components: {
@@ -138,10 +138,6 @@ export default {
           },
           subTitle: shop.name
         });
-        openTab({
-          url: "/shop/order/orderAdd.do?providerId=" + shop.providerId,
-          title: shop.name + " - 下单"
-        });
       } else {
         openTab({
           url: "/shop/order/orderAdd.do?providerId=" + shop.providerId,
@@ -151,16 +147,20 @@ export default {
     },
     onTakingClick(order) {
       const submit = async (handler) => {
+        handler = handler || this.$params.shop.adminId;
+        let operator = this.$params.shop.adminId;
         const ret = await axios.post(
           '/api/shop/order/taking',
           {
             orderno: order.orderno,
             creator: order.creator,
-            operator: this.$params.shop.adminId,
-            handler: handler || this.$params.shop.adminId
+            operator,
+            handler
           });
         if (ret.success) {
           order.status = 13;
+          order.operator = operator;
+          order.handler = handler;
           this.$message.success((this.$params.shop.businessMode == 0 ? '接单' : '派单') + '成功');
         } else {
           this.$message.error(ret.message);

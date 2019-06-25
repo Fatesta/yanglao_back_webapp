@@ -40,7 +40,7 @@
               prop="address"
               label="订单地址"
               :rules="[{required: true, message: ' '}]">
-              <el-input type="textarea" :rows="2" v-model="form.address"  style="width: 300px"></el-input>
+              <el-input type="textarea" :rows="2" v-model="form.address" style="width: 300px"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -60,7 +60,6 @@
             <span>¥{{scope.row.product.price}}</span>
             <el-button
               icon="el-icon-edit"
-             
               @click="onEditPriceClick(scope.row.product)"
             />
           </template>

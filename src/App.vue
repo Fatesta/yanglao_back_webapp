@@ -36,7 +36,7 @@
           ref="messagePopover"
           placement="bottom-end"
           width="200"
-          trigger="click"
+          trigger="hover"
           content="暂无新消息。">
           <div
             slot="reference"
@@ -135,10 +135,10 @@ import '@/components/index'; // 公共vue组件，应全部打包到本入口文
 import NavMenu from './NavMenu';
 import PasswordUpdateDialog from '@/pages/admin/PasswordUpdateDialog';
 import config, { APP_NAME } from '@/config/app.config';
-import pages from '@/_pages';
+import pages from '@/pages';
 import { stringify } from 'qs';
 
-Vue.use(ElementUI, { size: 'small' });
+Vue.use(ElementUI, { size: config.get('size') });
 
 export default {
   components: {
@@ -310,7 +310,7 @@ export default {
 
             // 设置标题
             let title = (options.title
-              || (component._pageProps && component._pageProps.title)
+              || (component.pageProps && component.pageProps.title)
               || '未定义标题');
             if (options.subTitle) {
               title = `${options.subTitle} - ${title}`;

@@ -73,7 +73,7 @@
 import { Select } from 'element-ui';
 
 export default {
-  _pageProps: {
+  pageProps: {
     title: '商家管理'
   },
   components: {

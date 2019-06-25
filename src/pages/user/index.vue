@@ -141,7 +141,7 @@
     </data-table>
 
     <user-querier ref="userQuerier"></user-querier>
-    <user-details ref="userDetails"></user-details>
+    <user-basic-details ref="userBasicDetails"></user-basic-details>
     <device-user-import-dialog ref="deviceUserImportDialog"></device-user-import-dialog>
     <vip-card-change ref="vipCardChange"></vip-card-change>
   </data-table-app-page>
@@ -149,21 +149,17 @@
 
 
 <script>
-import UserQuerier from './UserQuerier.vue';
-import UserDetails from './UserDetails.vue';
-import DeviceUserImportDialog from './DeviceUserImportDialog.vue';
-import VipCardChange from './vipcard/change/Change.vue';
 import { stringify } from 'qs';
 
 export default {
-  _pageProps: {
+  pageProps: {
     title: '用户管理'
   },
   components: {
-    UserQuerier,
-    UserDetails,
-    DeviceUserImportDialog,
-    VipCardChange
+    UserQuerier: () => import('./UserQuerier.vue'),
+    UserBasicDetails: () => import('./UserBasicDetails.vue'),
+    DeviceUserImportDialog: () => import('./DeviceUserImportDialog.vue'),
+    VipCardChange: () => import('./vipcard/change/Change.vue'),
   },
   data() {
     const unknownIfEmpty = (row, col, v) => v ? v : '未知';
@@ -172,7 +168,7 @@ export default {
         realName: unknownIfEmpty,
         idcard: unknownIfEmpty,
         telphone: unknownIfEmpty,
-        deviceCode: (row, col, v) => v ? v : '-',
+        deviceCode: (row, col, v) => [2,9].includes(row.userType) ? v : '-',
         sex(row, col, val) { return DictMan.itemMap('user.gender')[val]; },
         userType(row, col, val) { return DictMan.itemMap('user.type')[val]; },
         applyTypesText(row, col, val) { return val || '未申请'; },
@@ -215,7 +211,7 @@ export default {
       });
     },
     onDetailsClick(user) {
-      this.$refs.userDetails.show(user);
+      this.$refs.userBasicDetails.show(user);
     },
     onExportClick() {
       this.$message.info('后台正在处理导出，请稍等...');
