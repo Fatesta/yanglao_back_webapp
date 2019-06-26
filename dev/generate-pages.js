@@ -17,7 +17,7 @@ module.exports = {
     }
     */
     let pageProperties = [];
-    // 遍历pages中每个index.vue/js
+    // 遍历pages中每个**Page.vue/js
     glob.sync('./src/pages/**/*/**Page.+(js|vue)').forEach((filename) => {
       let path = /\.\/src\/pages\/(.*?).(js|vue)/.exec(filename)[1];
       const nameIndex = path.lastIndexOf('/');
