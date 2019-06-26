@@ -14,7 +14,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "core-js": "^3.1.4",
-    "element-ui": "^2.9.2",
+    "element-ui": "^2.10.0",
     "fingerprint": "0.0.1",
     "moment": "^2.24.0",
     "qs": "^6.7.0",

@@ -10,14 +10,9 @@
       style="width: 500px;margin: 0 auto"
     >
       <el-form-item
-        prop="aliasName"
-        label="昵称"
-        :rules="[{required: true, message: ' '}]">
-        <el-input v-model.trim="form.aliasName"></el-input>
-      </el-form-item>
-      <el-form-item
         prop="realName"
         label="姓名"
+        :rules="[{required: true, message: ' '}]"
       >
         <el-input v-model.trim="form.realName"></el-input>
       </el-form-item>
@@ -38,19 +33,20 @@
           type="date"
           value-format="yyyy-MM-dd"
           placeholder="选择日期"
+          :default-value="moment().subtract('y', 60).month(0).toDate()"
           v-model="form.birthday" />
       </el-form-item>
       <el-form-item
         prop="idcard"
         label="身份证"
-        :rules="[{len: 18, message: '长度为18'}]"
+        :rules="[{required: false, message: ' '}]"
       >
         <el-input v-model.trim="form.idcard"></el-input>
       </el-form-item>
       <el-form-item
         prop="telephone"
         label="手机号"
-        :rules="[{required: form.userType == 1, message: ' '}, {min: 6, max: 11, message: '长度为6~11'}]">
+        :rules="[{required: form.userType == 1, message: ' '}]">
         <el-input v-model.trim="form.telephone"></el-input>
       </el-form-item>
       <el-form-item
@@ -62,7 +58,7 @@
       <el-form-item
         prop="contactTel"
         label="紧急联系电话"
-        :rules="[{min: 6, max: 11, message: '长度为6~11'}]">
+        :rules="[{required: false, message: ' '}]">
         <el-input v-model.trim="form.contactTel"></el-input>
       </el-form-item>
       <el-form-item
@@ -106,6 +102,7 @@
 
 <script>
 import { Select } from 'element-ui';
+import moment from 'moment';
 
 export default {
   pageProps: {
@@ -135,6 +132,7 @@ export default {
         imagePath: '',
         deviceCode: ''
       },
+      moment,
       submitting: false
     }
   },
@@ -155,6 +153,7 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
         this.submitting = true;
+        this.form.aliasName = this.form.realName;
         const ret = await axios.post('/api/user/registUser', this.form);
         this.submitting = false;
         if (ret.success) {
@@ -175,6 +174,7 @@ export default {
         data.userId = this.form.id;
         data.appUserId = data.userId;
         data.userType = this.form.userType;
+        data.aliasName = this.form.realName;
         const ret = await axios.post('/api/user/updateUser', data);
         this.submitting = false;
         if (ret.success) {

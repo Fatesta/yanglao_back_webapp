@@ -203,7 +203,13 @@ export default {
 
     document.addEventListener('keydown', (e) => {
       if (27 == e.keyCode) {
-        this.logout();
+        if (this.tabs.length > 0) {
+          this.onTabRemove(this.tabs[this.tabs.length - 1].key);
+        } else if (location.hash != '#/login') {
+          this.logout();
+        } else {
+          location.reload();
+        }
       }
     });
   },
