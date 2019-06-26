@@ -79,12 +79,12 @@
       <h1>
         <span style="margin-right: 16px;">{{orderOutName}}&nbsp;{{orderInfo.orderno}}</span>
         <template v-if="$params.type != 'service'">
-          <el-tag size="big" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[$params.order.status]">
+          <el-tag size="large" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[$params.order.status]">
             {{$params.order.statusText}}
           </el-tag>
         </template>
         <template v-else>
-          <el-tag size="big" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[$params.order.status]">
+          <el-tag size="large" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[$params.order.status]">
             {{$params.statusMap[$params.order.status]}}
           </el-tag>
         </template>
@@ -93,7 +93,7 @@
         <tr>
           <th>支付状态：</th>
           <td colspan="3">
-            <el-tag :type="['warning', 'success'][$params.order.payStatus]">
+            <el-tag size="medium" :type="['warning', 'success'][$params.order.payStatus]">
               {{$params.order.payStatusText}}
             </el-tag>
           </td>
@@ -114,7 +114,7 @@
         </tr>
         <tr>
           <th>{{orderOutName}}备注：</th>
-          <td colspan="3" v-html="orderInfo.remark || '&nbsp;'"></td>
+          <td colspan="3" v-html="orderInfo.remark.split('\n').join('<br>') || '无'"></td>
         </tr>
       </table>
       <table class="info-table">
@@ -146,12 +146,12 @@
           position: relative;
           right: 8px;
           margin-top: 8px;
-          font-size: 13px;
+          font-size: 14px;
         ">
         <table>
           <tr>
             <td>商品总额：</td>
-            <td style="font-size: 16px;">¥{{orderInfo.paymentFee}}</td>
+            <td>¥{{orderInfo.paymentFee}}</td>
           </tr>
         </table>
       </div>
@@ -332,7 +332,7 @@ export default {
           });
           break;
         case 'remark':
-          this.$prompt(null, '修改订单备注', {inputType: 'textarea'}).then(async ({action, value}) => {
+          this.$prompt(null, '修改订单备注', {inputType: 'textarea', inputValue: order.remark, rows: 4}).then(async ({action, value}) => {
             if ('confirm' == action) {
               const ret = await axios.post('/api/shop/order/update',
                 {orderno: order.orderno, remark: value});
@@ -403,14 +403,14 @@ section > h1 {
 }
 .info-table th {
   text-align: left;
-  font-size: 13px;
-  width: 80px;
+  font-size: 14px;
+  width: 70px;
   padding: 4px;
 }
 .info-table td {
   text-align: left;
   padding: 5px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 25px;
 }
 </style>

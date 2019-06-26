@@ -11,7 +11,7 @@
 	<div data-options="region:'center'" sstyle="width: 78%;">
 	   <div id="volunteerLocationMapContainer" class="map-container"></div>
 	</div>
-	<div data-options="region:'east',collapsible:true,split:true" title="搜索" style="width: 22%;">
+	<div data-options="region:'east',collapsible:true,split:true" title="搜索" style="width: 290px;">
 	    <div name="tbr">
 	        <form id="queryForm">
 	            <table class="form">	         

@@ -75,7 +75,12 @@
         <el-form-item
           prop="remark"
           label="订单备注">
-          <el-input type="textarea" :rows="2" v-model="form.remark"  style="width: 300px"></el-input>
+          <el-input
+            type="textarea"
+            :rows="4"
+            v-model="form.remark"
+            placeholder="提示：如有多个事项请在每个事项之后换行"
+            style="width: 500px"></el-input>
         </el-form-item>
       </el-form>
     </section>

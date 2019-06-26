@@ -376,7 +376,7 @@ export default {
 
           let tab = {
             title: item.text,
-            key: item.id,
+            key: item.id || item.text,
             content: {
               render(h) {
                 return h(
@@ -409,7 +409,7 @@ export default {
             loading: true
           };
           this.tabs.push(tab);
-          this.activeTabKey = item.id;
+          this.activeTabKey = tab.key;
       }
     }
   }

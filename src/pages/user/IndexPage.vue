@@ -64,7 +64,7 @@
       <el-table-column prop="telphone" label="手机号" width="120" :formatter="formatters.telphone"></el-table-column>
       <el-table-column prop="orgName" label="社区" width="160" show-overflow-tooltip></el-table-column>
       <el-table-column prop="userType" label="用户类型" :formatter="formatters.userType" width="120"></el-table-column>
-      <el-table-column prop="deviceCode" label="设备号/卡号" :formatter="formatters.deviceCode" width="150"></el-table-column>
+      <el-table-column prop="deviceCode" label="设备号/卡号" :formatter="formatters.deviceCode" width="160"></el-table-column>
       <el-table-column prop="onLine" label="在线状态" width="80">
         <template slot-scope="scope">
           {{scope.row.onLine ? '在线' : '离线'}}

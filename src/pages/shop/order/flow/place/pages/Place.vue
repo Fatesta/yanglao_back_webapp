@@ -44,7 +44,7 @@
               />
               <span
                 v-show="selections[scope.row.productId]"
-                style="font-size:18px;top:-2px;position:relative;font-weight: bold;">
+                style="font-size:16px;top:-3px;position:relative;font-weight: bold;">
                 {{selections[scope.row.productId] && selections[scope.row.productId].num}}
               </span>
               <el-button
