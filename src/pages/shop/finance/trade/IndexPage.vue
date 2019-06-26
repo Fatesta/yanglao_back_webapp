@@ -150,7 +150,7 @@ export default {
       });
     },
     onExportClick() {
-      this.$message.info('后台正在处理导出，请稍等...');
+      this.$message.info('正在处理导出，请稍等...');
       location.href = "api/shop/finance/exportTradeDetail?" + stringify(this.getQueryParams());
     }
   },

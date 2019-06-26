@@ -25,7 +25,7 @@ npm i
 ```
 
 ### 开发新业务页面
-1.在`src/pages`目录新建子目录，目录结构按业务分类，新的页面代码文件命名为`index.vue`或`index.js`。    
+1.在`src/pages`目录新建子目录，目录结构按业务分类，新的页面代码文件命名为`[name]Page.vue`或`[name]Page.js`。    
 2.查看`src/components`存在的可复用组件。也可以创建新的可复用组件（建议必须是常用的）。    
 3.参考已有代码。  
 4.尽可能用vue单文件组件。  
@@ -53,7 +53,7 @@ export default {
 app.pushPage('/shop/order/index');
 
 app.pushPage({
-  path: '/user/details/index',
+  path: '/user/edit',
   params: {id: user.id},
 });
 ```

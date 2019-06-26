@@ -50,11 +50,17 @@
       <el-button
         v-if="this.$params.shop.industryId != 'activity' && [1,2,4,9,14].includes(app.admin.roleId)"
         type="primary"
-       
         icon="el-icon-plus"
         @click="onAddClick"
       >
         下单
+      </el-button>
+      <el-button
+        type="default"
+        icon="el-icon-download"
+        @click="onExportClick"
+      >
+        导出
       </el-button>
     </div>
     <data-table
@@ -66,19 +72,19 @@
       <el-table-column prop="status" label="订单状态" width="120">
         <template slot-scope="scope">
           <el-tag :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[scope.row.status]">
-            {{DictMan.itemMap('productOrder.status')[scope.row.status]}}
+            {{scope.row.statusText}}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="paymentFee" label="金额" width="70"></el-table-column>
+      <el-table-column prop="paymentFee" label="订单金额" width="90"></el-table-column>
       <el-table-column prop="payStatus" label="支付状态" width="90">
         <template slot-scope="scope">
           <el-tag :type="['warning', 'success'][scope.row.payStatus]">
-            {{DictMan.itemMap('payStatus')[scope.row.payStatus]}}
+            {{scope.row.payStatusText}}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="payType" label="支付方式" width="120" :formatter="formatters.payType"></el-table-column>
+      <el-table-column prop="payTypeText" label="支付方式" width="120"></el-table-column>
       <el-table-column prop="linkman" label="下单人" width="120"></el-table-column>
       <el-table-column prop="createTime" label="下单时间" width="170"></el-table-column>
       <el-table-column label="操作" fixed="right">
@@ -108,6 +114,8 @@
 </template>
 
 <script>
+import { stringify } from 'qs';
+
 export default {
   pageProps: {
     title: '订单管理'
@@ -117,9 +125,6 @@ export default {
   },
   data() {
     return {
-      formatters: {
-        payType: (row, col, val) => DictMan.itemMap('payType')[val]
-      },
       searchForm: {
         providerId: this.$params.shop.providerId
       },
@@ -184,7 +189,7 @@ export default {
     },
     onDetailsClick(order) {
       app.pushPage({
-        path: '/shop/order/details/index',
+        path: '/shop/order/details',
         params: {
           order,
           shop: this.$params.shop,
@@ -195,6 +200,10 @@ export default {
         key: order.orderno,
         subTitle: order.orderno
       });
+    },
+    onExportClick() {
+      this.$message.info('正在处理导出，请稍等...');
+      location.href = "api/shop/order/export?" + stringify(this.searchForm);
     }
   },
   mounted() {

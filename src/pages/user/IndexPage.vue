@@ -187,7 +187,7 @@ export default {
     },
     onAddClick() {
       app.pushPage({
-        path: '/user/edit/index',
+        path: '/user/edit',
         title: '增加用户',
         params: {
           mode: 'add',
@@ -199,7 +199,7 @@ export default {
     },
     onEditClick(user) {
        app.pushPage({
-        path: '/user/edit/index',
+        path: '/user/edit',
         title: '修改用户',
         params: {
           mode: 'update',
@@ -214,7 +214,7 @@ export default {
       this.$refs.userBasicDetails.show(user);
     },
     onExportClick() {
-      this.$message.info('后台正在处理导出，请稍等...');
+      this.$message.info('正在处理导出，请稍等...');
       location.href = "api/user/export?" + stringify(this.searchForm);
     },
     onCommandClick(cmd, user) {

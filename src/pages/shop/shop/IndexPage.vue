@@ -131,7 +131,7 @@ export default {
     },
     onDetailsClick(shop) {
       app.pushPage({
-        path: '/shop/shop/details/index',
+        path: '/shop/shop/details',
         params: { shop },
         subTitle: shop.name,
         key: shop.id
@@ -139,7 +139,7 @@ export default {
     },
     onAddClick(shop) {
       app.pushPage({
-        path: '/shop/shop/edit/index',
+        path: '/shop/shop/edit',
         title: '新建店铺',
         params: {
           mode: 'add',
@@ -207,7 +207,7 @@ export default {
           break;*/
         case 'edit':
           app.pushPage({
-            path: '/shop/shop/edit/index',
+            path: '/shop/shop/edit',
             title: '修改店铺',
             params: {
               mode: 'update',

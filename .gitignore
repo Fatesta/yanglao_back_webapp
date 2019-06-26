@@ -1,4 +1,4 @@
 /node_modules
 /dist
-/src/_pages.js
+/src/pages.js
 /dev/publish.sh

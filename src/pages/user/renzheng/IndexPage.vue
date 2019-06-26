@@ -115,7 +115,7 @@ export default {
       switch (cmd) {
         case 'certEdit': 
           app.pushPage({
-            path: '/user/renzheng/certedit/index',
+            path: '/user/renzheng/cert-edit',
             params: {
               user,
               readonly: false,
@@ -139,7 +139,7 @@ export default {
     },
     onCertDetailsClick(user) {
       app.pushPage({
-        path: '/user/renzheng/certedit/index',
+        path: '/user/renzheng/cert-edit',
         params: { user, readonly: true },
         key: user.id,
         title: '认证信息',

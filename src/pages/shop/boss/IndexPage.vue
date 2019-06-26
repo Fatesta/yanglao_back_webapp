@@ -91,7 +91,7 @@ export default {
   methods: {
     onAddClick() {
       app.pushPage({
-        path: '/shop/boss/edit/index',
+        path: '/shop/boss/edit',
         title: '增加商家',
         params: {
           mode: 'add',
@@ -103,7 +103,7 @@ export default {
     },
     onUpdateClick(boss) {
       app.pushPage({
-        path: '/shop/boss/edit/index',
+        path: '/shop/boss/edit',
         title: '修改商家',
         params: {
           mode: 'update',

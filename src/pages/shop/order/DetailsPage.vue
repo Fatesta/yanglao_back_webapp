@@ -58,7 +58,7 @@
             />
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-if="orderFlowInfo.orderStartTime" command="flow-start">订单过程-开始</el-dropdown-item>
-                <el-dropdown-item v-if="orderFlowInfo.orderEndTime" command="flow-finish">订单过程-结束</el-dropdown-item>
+                <el-dropdown-item v-if="orderFlowInfo.orderEndTime" command="flow-finish">订单过程-完成</el-dropdown-item>
                 <el-dropdown-item command="remark">订单备注</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -78,7 +78,7 @@
         <span style="margin-right: 16px;">{{orderOutName}}&nbsp;{{orderInfo.orderno}}</span>
         <template v-if="$params.type != 'service'">
           <el-tag size="big" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[$params.order.status]">
-            {{DictMan.itemMap('productOrder.status')[$params.order.status]}}
+            {{$params.order.statusText}}
           </el-tag>
         </template>
         <template v-else>
@@ -92,7 +92,7 @@
           <th>支付状态：</th>
           <td colspan="3">
             <el-tag :type="['warning', 'success'][$params.order.payStatus]">
-              {{DictMan.itemMap('payStatus')[$params.order.payStatus]}}
+              {{$params.order.payStatusText}}
             </el-tag>
           </td>
         </tr>
@@ -112,7 +112,7 @@
         </tr>
         <tr>
           <th>{{orderOutName}}备注：</th>
-          <td colspan="3">{{orderInfo.remark}}</td>
+          <td colspan="3" v-html="orderInfo.remark || '&nbsp;'"></td>
         </tr>
       </table>
       <table class="info-table">
@@ -149,7 +149,7 @@
         <table>
           <tr>
             <td>商品总额：</td>
-            <td style="font-size: 16px;">¥{{orderInfo.totalFee}}</td>
+            <td style="font-size: 16px;">¥{{orderInfo.paymentFee}}</td>
           </tr>
         </table>
       </div>
@@ -218,7 +218,10 @@
       <table class="info-table">
         <tr>
           <th>分数评价：</th>
-          <td colspan="3"><el-rate v-model="orderFlowInfo.starLevel" disabled/></td>
+          <td colspan="3">
+            <el-rate v-model="orderFlowInfo.starLevel" disabled style="display:inline-block" />
+            <template v-if="isNaN(parseInt(orderFlowInfo.startLevel))">（未评价）</template>
+          </td>
         </tr>
         <tr>
           <th>文字评价：</th>
@@ -234,18 +237,14 @@
 </template>
 
 <script>
-import StartForm from '../flow/StartForm.vue';
-import FinishForm from '../flow/FinishForm.vue';
-import Comment from '../flow/Comment.vue';
-
 export default {
   pageProps: {
     title: '订单详情'
   },
   components: {
-    StartForm,
-    FinishForm,
-    Comment
+    StartForm: () => import('./flow/StartForm.vue'),
+    FinishForm: () => import('./flow/FinishForm.vue'),
+    Comment: () => import('./flow/Comment.vue')
   },
   data() {
     return {

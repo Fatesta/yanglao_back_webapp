@@ -146,7 +146,7 @@ export default {
     },
     onDetailsClick(order) {
       app.pushPage({
-        path: '/shop/order/details/index',
+        path: '/shop/order/details',
         params: {
           order,
           type: 'service',
