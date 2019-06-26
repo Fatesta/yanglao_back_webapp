@@ -63,6 +63,7 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-tooltip>
+        <!--
         <el-tooltip content="删除订单">
           <el-button
             v-if="$params.order.payStatus == 0"
@@ -73,6 +74,7 @@
             @click="onDeleteClick"
           />
         </el-tooltip>
+        -->
       </div>
       <h1>
         <span style="margin-right: 16px;">{{orderOutName}}&nbsp;{{orderInfo.orderno}}</span>
@@ -330,7 +332,7 @@ export default {
           });
           break;
         case 'remark':
-          this.$prompt('修改订单备注', {inputType: 'textarea'}).then(async ({action, value}) => {
+          this.$prompt(null, '修改订单备注', {inputType: 'textarea'}).then(async ({action, value}) => {
             if ('confirm' == action) {
               const ret = await axios.post('/api/shop/order/update',
                 {orderno: order.orderno, remark: value});
@@ -343,6 +345,7 @@ export default {
           break;
       }
     },
+    /*
     onDeleteClick() {
       const orderCode = this.$params.order.orderno;
       this.$confirm(`确认删除订单 ${orderCode} ？`, {
@@ -357,6 +360,7 @@ export default {
          }
       });
     },
+    */
     async refreshOrderFlowInfo() {
       this.orderFlowInfo = await axios.get('/api/shop/order/orderFlowInfo',
         {params: { orderCode: this.$params.order.orderno }});
