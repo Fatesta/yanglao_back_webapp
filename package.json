@@ -4,7 +4,7 @@
   "description": "智慧养老平台后台Web前端项目",
   "main": "index.js",
   "scripts": {
-    "build-dev": "cross-env NODE_ENV=development webpack",
+    "dev": "cross-env NODE_ENV=development webpack",
     "build": "cross-env NODE_ENV=production webpack",
     "copy-dev": "node dev/copy-dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -49,6 +49,7 @@
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.35.0",
     "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-dev-server": "^3.7.2",
     "webpack-jarvis": "^0.3.2"
   }
 }

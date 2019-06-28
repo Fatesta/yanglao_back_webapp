@@ -48,7 +48,6 @@
         :rules="[{required: true, message: ' '}]"
       >
         <org-check-tree
-          ref="orgCheckTree"
           v-model="form.orgIds"
           style="width: 100%;" />
         <el-alert
@@ -114,11 +113,7 @@ export default {
     const boss = await axios.get('/api/shop/boss', {params: {id: this.$params.boss.id}});
     this.submitting = false;
     for (let key in this.form) {
-      if (key == 'orgIds') {
-        this.$refs.orgCheckTree.setValue(boss.orgIds.split(','));
-      } else {
-        this.form[key] = boss[key];
-      }
+      this.form[key] = boss[key];
     }
   }
 }

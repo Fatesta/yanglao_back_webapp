@@ -51,6 +51,9 @@ export default {
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
+    },
+    value(val) {
+      this.setValue(val);
     }
   },
   methods: {

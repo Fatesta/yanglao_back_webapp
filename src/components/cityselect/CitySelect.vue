@@ -7,7 +7,7 @@
       label: 'n',
       value: 'n'
     }"
-    @change="onChange"
+    @change="onCascaderValueChange"
     filterable>
   </el-cascader>
 </template>
@@ -22,7 +22,7 @@ export default {
     event: 'change'
   },
   props: {
-    value: 'Object'
+    value: Object
   },
   data() {
     return {
@@ -30,8 +30,13 @@ export default {
       data: data
     };
   },
+  watch: {
+    value(val) {
+      this.cascaderValue = Object.values(val).filter(Boolean);
+    }
+  },
   methods: {
-    onChange(value) {
+    onCascaderValueChange(value) {
       var ret = {
         prov: value[0]
       };
@@ -49,17 +54,15 @@ export default {
     },
     setValue(value) {
       this.cascaderValue = Object.values(value).filter(Boolean);
-      this.onChange(this.cascaderValue);
+      this.onCascaderValueChange(this.cascaderValue);
     },
     clear() {
       this.cascaderValue = [];
-      this.onChange(this.cascaderValue);
+      this.onCascaderValueChange(this.cascaderValue);
     }
   },
   mounted() {
-    if (this.value != null) {
-      this.setValue(this.value);
-    }
+    this.value && this.setValue(this.value);
   }
 }
 </script>

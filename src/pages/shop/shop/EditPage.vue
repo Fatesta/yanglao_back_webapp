@@ -80,7 +80,7 @@
         label="所在地区"
         :rules="[{required: true, message: ' '}]"
       >
-        <city-select ref="citySelect" v-model="form.diqu" style="width: 100%;"></city-select>
+        <city-select v-model="form.diqu" style="width: 100%;"></city-select>
       </el-form-item>
       <el-form-item
         prop="address"
@@ -99,7 +99,6 @@
         </el-radio-group>
         <org-check-tree
           v-show="isOrgLimited"
-          ref="orgCheckTree"
           v-model="form.orgId"
           style="width: 100%;" />
         <el-alert
@@ -184,6 +183,8 @@
 </template>
 
 <script>
+import { waitNotNull } from '@/utils/async-utils';
+
 export default {
   pageProps: {
     title: '编辑店铺'
@@ -222,7 +223,7 @@ export default {
     onSelectBossClick() {
       this.$refs.bossQuerySelector.show({
         onOk: (boss) => {
-          this.form.bossId = boss.id;
+          this.form.bossId = boss.adminId;
           this.selectedBossName = boss.realName;
           return true;
         }
@@ -271,15 +272,18 @@ export default {
     shop.providerType = shop.providerType + '';
     this.submitting = false;
     for (let key in this.form) {
-      this.form[key] = shop[key];
+      if (shop[key]) {
+        this.form[key] = shop[key];
+      }
     }
     this.form.id = shop.id;
     this.form.serviceTime = shop.serviceTime.match(/(\d{2}:\d{2})/);
     this.form.bossId = shop.adminId;
     this.isOrgLimited = shop.orgId != -1;
     this.isServiceScopeLimited = shop.serviceArea != 0;
-    this.$refs.orgCheckTree.setValue(shop.orgId);
-    this.$refs.citySelect.setValue({prov: shop.province, city: shop.city, dist: shop.area});
+
+    this.form.orgId = shop.orgId;
+    this.form.diqu = {prov: shop.province, city: shop.city, dist: shop.area};
   },
 }
 </script>

@@ -53,7 +53,11 @@ module.exports = {
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
         loader: 'file-loader'
-      }
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: 'url-loader?limit=25000&name=images/[hash:8].[name].[ext]'
+      },
     ]
   },
   resolve: {
@@ -106,5 +110,16 @@ module.exports = {
       watchOnly: true,
       port: 3000
     })
-  ]
+  ],
+  /*
+  devServer: {
+    contentBase: path.join(__dirname, '/dist'),
+    hot: true
+  }*/
+  //watch: process.env.NODE_ENV == 'development',
+  watchOptions: {
+    aggregateTimeout: 3000,
+    poll: 1000,
+    ignored: /node_modules/
+  }
 };

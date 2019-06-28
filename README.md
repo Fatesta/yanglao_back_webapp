@@ -75,7 +75,7 @@ app.pushPage({
 ### 构建
 ```shell
 npm run build
-npm run build-dev #或开发（方便调试）版本
+npm run dev #或开发
 ```
 #### 原理：
 值得注意的是，请查看webpack.config.js中的配置，编译开始时会调用 PageDog 插件，这是一个自定义插件，  

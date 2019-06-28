@@ -44,6 +44,9 @@ export default {
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
+    },
+    value(val) {
+      this.setValue(val);
     }
   },
   methods: {
@@ -58,7 +61,6 @@ export default {
       if (typeof orgIds == 'string')
         orgIds = orgIds.split(',');
       this.$refs.tree.setCheckedKeys(orgIds);
-      this.$emit('change', orgIds);
     },
     clear() {
       this.$refs.tree.setCheckedKeys([]);

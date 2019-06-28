@@ -65,7 +65,7 @@
         prop="orgId"
         label="社区"
         :rules="[{required: true, message: ' '}]">
-        <org-select ref="orgSelect" v-model="form.orgId" />
+        <org-select v-model="form.orgId" />
       </el-form-item>
       <el-form-item
         prop="address"
@@ -109,7 +109,7 @@ export default {
     title: '编辑用户'
   },
   components: {
-    OrgSelect: () => ({ component: import('@/pages/org/OrgSelect.vue'), loading: Select, delay: 0 })
+    OrgSelect: () => import('@/pages/org/OrgSelect.vue')
   },
   data() {
     return {
@@ -193,7 +193,6 @@ export default {
       this.submitting = false;
       this.form = user;
       this.form.telephone = user.telphone;
-      this.$refs.orgSelect.setValue(user.orgId);
     }
   }
 }
