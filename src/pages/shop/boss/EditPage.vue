@@ -110,7 +110,7 @@ export default {
       return;
     }
     this.submitting = true;
-    const boss = await axios.get('/api/shop/boss', {params: {id: this.$params.boss.id}});
+    const boss = await this.axios.get('/api/shop/boss', {params: {id: this.$params.boss.id}});
     this.submitting = false;
     for (let key in this.form) {
       this.form[key] = boss[key];

@@ -22,9 +22,9 @@ export default {
     event: 'change'
   },
   props: {
-    value: 'Object',
+    value: Object,
     items: {
-      type: 'Array' //[{text, value}...]
+      type: Array //[{text, value}...]
     },
   },
   beforeCreate() {

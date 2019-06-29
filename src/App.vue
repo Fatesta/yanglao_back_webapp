@@ -180,14 +180,14 @@ export default {
       this.contentMaxHeight = document.body.offsetHeight;
     });
 
-    const ret = await axios.get('/api/currentUser');
+    const ret = await this.axios.get('/api/currentUser');
     if (ret.admin == null) {
       this.$router.push('/login');
       return;
     }
     this.admin = ret.admin;
 
-    const nodes = await axios.get('/api/admin/listAdminMenu');
+    const nodes = await this.axios.get('/api/admin/listAdminMenu');
     this.$refs.navMenu.menuTreeNodes = nodes.map((node, index) => {
       node.iconCls = ['user', 'goods', 'data-board', 'monitor', 'sunny', 'star-off', 'setting', 'help'][index];
       return node;
@@ -259,9 +259,9 @@ export default {
     onTabRemove(key) {
       let tabs = this.tabs;
       let activeTabKey = this.activeTabKey;
-      if (activeTabKey === key) {
+      if (activeTabKey == key) {
         tabs.forEach((tab, index) => {
-          if (tab.key === key) {
+          if (tab.key == key) {
             let nextTab = tabs[index + 1] || tabs[index - 1];
             if (nextTab) {
               activeTabKey = nextTab.key;
@@ -300,7 +300,7 @@ export default {
         }
         let tab = {
           title: options.title || '...',
-          key: tabKey,
+          key: tabKey + '',
           content: null, // vue组件
           loading: true // vue组件加载状态
         };
@@ -327,7 +327,7 @@ export default {
             // 给组件设置props
             component.props['$params'] = {
               type: Object,
-              default: () => options.params
+              default: () => (options.params || {})
             };
             
             tab.content = component;
@@ -376,7 +376,7 @@ export default {
 
           let tab = {
             title: item.text,
-            key: item.id || item.text,
+            key: (item.id || item.text).toString(),
             content: {
               render(h) {
                 return h(

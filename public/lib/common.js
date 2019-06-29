@@ -4,7 +4,7 @@ function inheritGlobalVars(window, parent) {
     /* https://github.com/hulang1024/notes/blob/master/about-iframe.md */
     /* 继承父级window全局变量 */
     [/*'require', 'define',*/
-        'axios', 'moment', '_', 'Signal', 'Base64',
+        'moment', '_', 'Signal', 'Base64',
      'sysDicts', 'sysFormatters', 'Dict', 'DictItem', 'DictMan',
      'Observer', 'Observable',
      'openTab',

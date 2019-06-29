@@ -6,9 +6,11 @@ import Login from '@/Login.vue';
 import auth from '@/auth';
 import * as globalvars from './globalvars';
 import { APP_NAME } from '@/config/app.config';
-import '@/api';
+import { axios } from '@/api';
+import VueAxios from 'vue-axios';
 
 Vue.use(VueRouter);
+Vue.use(VueAxios, axios);
 
 Object.assign(Vue.prototype, globalvars.default);
 

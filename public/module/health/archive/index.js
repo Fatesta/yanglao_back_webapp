@@ -48,11 +48,10 @@ function loadAllInfo(userId) {
 
     function loadUserBasicInfo() {
         $('.value').text('');
-        axios.get('user/getBasicInfo.do?userId=' + userId)
-            .then(function(user) {
-                for (var p in user)
-                    $('#basicInfo [name=' + p + ']').text(user[p] || '');
-            });
+        $.get('/user/getBasicInfo.do?userId=' + userId, function(user) {
+            for (var p in user)
+                $('#basicInfo [name=' + p + ']').text(user[p] || '');
+        });
     }
 
     function loadLatestHealthData() {
@@ -101,8 +100,7 @@ function HealthHistoryGroup(options) {
             historyTypePanelMap['health.arthive.' + historyType] = panel.find('div');
         }
     });
-    axios.get('health/arthive/allHealthHistoryItems.do')
-        .then(function (items) {
+    $.get('/health/arthive/allHealthHistoryItems.do', function (items) {
             items.forEach(function (item) {
                 var panel = historyTypePanelMap[item.dictName];
                 panel.append(new HealthHistoryItemTag({
@@ -116,18 +114,16 @@ function HealthHistoryGroup(options) {
                             return;
                         var tag = this;
                         tag.toggleCheck();
-                        axios.post('health/arthive/healthHistory/setItems.do', {
+                        $.post('/health/arthive/healthHistory/setItems.do', {
                             userId: userId,
                             type: tag.data('type'),
                             keyCsv: getCheckedKeys(panel).join(',')
-                        }).then(function(ret) {
+                        }, function(ret) {
                             if (ret.success) {
                                 showOpOkMessage('设置成功');
                             } else {
                                 tag.toggleCheck();
                             }
-                        }).catch(function() {
-                            tag.toggleCheck();
                         });
 
                         function getCheckedKeys(panel) {
@@ -140,15 +136,15 @@ function HealthHistoryGroup(options) {
                     }
                 }));
             });
+
+            options.onLoadSuccess();
         })
-        .then(options.onLoadSuccess);
 
     this.loadByUserId = function(userId) {
         for (var type in historyTypePanelMap) {
             historyTypePanelMap[type].find('.checked').removeClass('checked');
         }
-        axios.get('health/arthive/healthHistory/getByUserId.do?userId=' + userId)
-            .then(function (items) {
+        $.get('health/arthive/healthHistory/getByUserId.do?userId=',function (items) {
                 items.forEach(function (item) {
                     if (!item.keyCsv)
                         return;

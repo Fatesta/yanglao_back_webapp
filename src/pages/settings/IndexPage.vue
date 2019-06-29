@@ -8,7 +8,7 @@
       style="width: 500px;margin: 0 auto;">
       <el-form-item label="外观主题">
         <el-radio-group v-model="theme" @change="onThemeChange">
-          <el-radio label="light">浅色</el-radio>
+          <el-radio label="light">浅色1</el-radio>
           <el-radio label="dark">深色</el-radio>
         </el-radio-group>
       </el-form-item>

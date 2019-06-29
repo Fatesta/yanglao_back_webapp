@@ -80,12 +80,12 @@ export default {
     async queryRooms(buildingId, floorNo) {
       this.roomsLoading = true;
       this.rooms = [];
-      this.rooms = await axios.get('/api/community/berth/checkin/rooms', {params: {buildingId, floorNo}});
+      this.rooms = await this.axios.get('/api/community/berth/checkin/rooms', {params: {buildingId, floorNo}});
       this.roomsLoading = false;
     }
   },
   async mounted() {
-    this.buildings = (await axios.get('/api/community/berth/berthSetting/building/page',
+    this.buildings = (await this.axios.get('/api/community/berth/berthSetting/building/page',
       {params: {rows: 100, page: 1}})).rows;
     this.activeBuilding = this.buildings[0];
     this.loading = false;

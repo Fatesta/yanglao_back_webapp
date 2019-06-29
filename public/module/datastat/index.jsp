@@ -12,7 +12,6 @@ CONFIG["libPath"] = "${libPath}";
 CONFIG['modulePath'] = '${modulePath}';
 CONFIG['imagePath'] = '${imagePath}';
 </script>
-	<script src="${libPath}utils/axios.min.js"></script>
 
 	<script src="${libPath}dicts.js?v=1.3"></script>
 <script>

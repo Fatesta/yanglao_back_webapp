@@ -72,10 +72,14 @@ app.pushPage({
 - 后缀如果是`.js`，这是新开发模式页面的url表示方式，转换为对`app.pushPage`的调用。
 
 
+### 开发调试
+```shell
+npm start
+```
+
 ### 构建
 ```shell
 npm run build
-npm run dev #或开发
 ```
 #### 原理：
 值得注意的是，请查看webpack.config.js中的配置，编译开始时会调用 PageDog 插件，这是一个自定义插件，  

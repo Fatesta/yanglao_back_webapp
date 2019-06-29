@@ -108,7 +108,7 @@ export default {
     }
   },
   async mounted() {
-    const filePage = await axios.get(
+    const filePage = await this.axios.get(
       '/api/uploadfile/uploadfilePage',
       {params: {type: 0, resourceId: this.$params.user.id, page: 1, rows: 3}});
     let urls = new Array(3).fill('');

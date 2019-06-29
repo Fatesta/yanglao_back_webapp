@@ -8,13 +8,15 @@ const PageDog = require('./dev/PageDog');
 const Jarvis = require("webpack-jarvis");
 
 
+const mode = process.env.NODE_ENV;
+
 module.exports = {
-  mode: process.env.NODE_ENV,
+  mode,
   entry: {
     index: './src/index'
   },
   output: {
-    filename: '[name].[chunkhash].js',
+    filename: mode == 'development' ? '[name].[hash:8].js' : '[name].[chunkhash].js',
     chunkFilename: '[chunkhash].js',
     path: path.join(__dirname, '/dist')
   },
@@ -39,14 +41,9 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          { loader: 'style-loader' },
           {
             loader: 'css-loader',
-            options: {
-              //modules: true,
-              //localIdentName: '[hash:base64:5]',
-              //camelCase: true
-            }
           }
         ]
       },
@@ -55,8 +52,12 @@ module.exports = {
         loader: 'file-loader'
       },
       {
-        test: /\.(png|jpg)$/,
-        loader: 'url-loader?limit=25000&name=images/[hash:8].[name].[ext]'
+        test: /\.(png|jpg|gif)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 5000,
+          name: 'assets/[hash:8].[name].[ext]'
+        }
       },
     ]
   },
@@ -85,41 +86,63 @@ module.exports = {
       }
     },
     runtimeChunk: {
-        name:'webpack' //独立出清单变化
+      name:'webpack' //独立出清单变化
     }
   },
   plugins: [
-    new PageDog(),
+    mode == 'development' && new webpack.HotModuleReplacementPlugin(),
+    mode == 'production' && new PageDog(), // 条件是为了修正在启动热更新情况下出现反复编译现象，所以必须先运行npm run build产生pages.js
     new VueLoaderPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
-      process.env.NODE_ENV == 'production' &&
+      mode == 'production' &&
       { from: './public/', copyUnmodified: false },
-      { from: './src/index.html' },
       { from: './src/index.css' }
-    ]),
+    ].filter(Boolean)),
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      template: './src/index.html',
       inject: 'body',
       hash: false,
-      minify: true,
+      minify: {
+        collapseWhitespace: true
+      },
       chunks: ['webpack', 'common', 'index'],
     }),
     new Jarvis({
       watchOnly: true,
       port: 3000
     })
-  ],
-  /*
+  ].filter(Boolean),
   devServer: {
-    contentBase: path.join(__dirname, '/dist'),
-    hot: true
-  }*/
-  //watch: process.env.NODE_ENV == 'development',
-  watchOptions: {
-    aggregateTimeout: 3000,
-    poll: 1000,
-    ignored: /node_modules/
-  }
+    proxy: [
+      // 新开发模式后端服务器API路径
+      {
+        context: ['/api'],
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      },
+      // 兼容旧开发模式Spring控制器URL
+      {
+        context: ['**/*.do'],
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      },
+      // 兼容旧开发模式代码引用的资源
+      {
+        context: ['/module', '/lib', '/images', '/css', '/statics'],
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      }
+    ],
+    contentBase: 'dist',
+    inline: true,
+    port: 8888,
+    compress: true,
+    hot: true,
+    open: true,
+    overlay: {
+      errors: true
+    }
+  },
 };

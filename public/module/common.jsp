@@ -21,6 +21,6 @@ if (window.top.inheritGlobalVars) {
     window.top.openTab = window.openTab;
 }
 var CONFIG = {
-  "libPath": "${libPath}", "baseUrl": '${urlPath}', "modulePath": "${modulePath}", 'imagePath': '${imagePath}', 'SESSION_EXP': +'${SESSION_EXP}'
+  "libPath": "/lib/", "baseUrl": '/', "modulePath": "/module/", 'imagePath': '/images/', 'SESSION_EXP': +'${SESSION_EXP}'
 };
 </script>

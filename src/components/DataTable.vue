@@ -49,6 +49,7 @@ export default {
   },
   data() {
     return {
+      fetchParams: this.queryParams,
       pagination: {
         pageSizes: [5, 8, 10, 20, 30, 50],
         pageSize: 10,
@@ -75,7 +76,7 @@ export default {
     query(params) {
       // 如果传递了 查询参数，则覆盖上次的
       if (typeof params == 'object') {
-        this.queryParams = params;
+        this.fetchParams = params;
       }
       this.currentPage = 1;
       this._fetch();
@@ -85,7 +86,7 @@ export default {
     },
     async _fetch() {
       const params = {
-        ...this.queryParams,
+        ...this.fetchParams,
         ...{rows: this.pagination.pageSize, page: this.currentPage}
       };
 
@@ -93,7 +94,7 @@ export default {
       if (!this.loading) {
         this.loading = true;
       }
-      const ret = await axios.get(this.url, {params});
+      const ret = await this.axios.get(this.url, {params});
       // 加载数据，并让用户感知到执行了查询，在小于MIN_TIME毫秒之内，有相同的时长感觉
       const MIN_TIME = 100;
       const renderData = () => {

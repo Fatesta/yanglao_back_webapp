@@ -43,12 +43,11 @@ define(function() {
             f.updated = true;
         }
 
-        axios.get('user/getBasicInfo.do?userId=' + user.userId)
-            .then(function(_user) {
-                user = _user;
-                for (var p in user)
-                    $('#telecare-report-layout .user-info [name=' + p + ']').text(user[p] || '');
-            });
+        $.get('/user/getBasicInfo.do?userId=' + user.userId, function(_user) {
+            user = _user;
+            for (var p in user)
+                $('#telecare-report-layout .user-info [name=' + p + ']').text(user[p] || '');
+        });
 
         $('#openVideo').click(function() {
             new VideoArrayWindow().openVideo(user.deviceCode, user.aliasName);

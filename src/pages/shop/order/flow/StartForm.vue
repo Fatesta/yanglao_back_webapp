@@ -65,7 +65,7 @@ export default {
         startTime: moment().format('YYYYMMDDHHmmss')
       };
       if (order.startFlowTime) {
-        let orderFlowInfo = await axios.get('/api/shop/order/orderFlowInfo',
+        let orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo',
           {params: { orderCode: order.orderno }});
         this.form.remark = orderFlowInfo.orderStartRemark,
         this.form.startTime = moment(order.startFlowTimestamp).format('YYYYMMDDHHmmss');

@@ -142,7 +142,7 @@ export default {
     }
   },
   async mounted() {
-    const ret = await axios.get(
+    const ret = await this.axios.get(
       '/api/shop/product/categoryList',
       {
         params: {

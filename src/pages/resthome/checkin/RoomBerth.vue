@@ -71,7 +71,7 @@
 import empty_bed from './img/empty_bed.png';
 import photo_icon_man from './img/photo_icon_man.png';
 import photo_icon_woman from './img/photo_icon_woman.png';
-//TODO: 图片的使用待优化
+
 export default {
   props: {
     berth: Object

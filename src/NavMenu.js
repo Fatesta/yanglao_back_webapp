@@ -37,7 +37,7 @@ export default {
           'el-submenu',
           {
             props: {
-              index: node.id
+              index: node.id + ''
             }
           }, [
             h('template', {slot: 'title'}, [
@@ -49,7 +49,7 @@ export default {
         return h(
           'el-menu-item',
           {
-            props: {index: node.id}
+            props: {index: node.id + ''}
           },
           node.text
         );
@@ -80,7 +80,7 @@ export default {
       f(this.menuTreeNodes);
       function f(nodes) {
         nodes.forEach(node => {
-          map.set(node.id, node);
+          map.set(node.id+'', node);
           f(node.children);
         });
       }

@@ -91,7 +91,7 @@ export default {
     async show(user) {
       this.visible = true;
       this.userInfo = user;
-      this.userInfo = await axios.get('/api/user/getBasicInfo', {params: {userId: user.id}});
+      this.userInfo = await this.axios.get('/api/user/getBasicInfo', {params: {userId: user.id}});
     }
   }
 }

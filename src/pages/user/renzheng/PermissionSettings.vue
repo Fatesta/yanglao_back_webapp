@@ -58,7 +58,7 @@ export default {
         userId: userId,
         permissionTypes: []
       };
-      const ret = await axios.get(
+      const ret = await this.axios.get(
         'api/user/permission/getPermissionTypesByUserId',
         {params: {userId: userId}});
       this.form.permissionTypes = ret;

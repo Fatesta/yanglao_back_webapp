@@ -189,7 +189,7 @@ export default {
   async mounted() {
     if (this.mode == 'update') {
       this.submitting = true;
-      const user = await axios.get('/api/user/getBasicInfo', {params: {userId: this.$params.user.id}});
+      const user = await this.axios.get('/api/user/getBasicInfo', {params: {userId: this.$params.user.id}});
       this.submitting = false;
       this.form = user;
       this.form.telephone = user.telphone;

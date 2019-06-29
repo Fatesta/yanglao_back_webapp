@@ -1,6 +1,6 @@
 import { stringify } from 'qs';
-
-
+import axios from 'axios';
+ 
 axios.defaults.baseURL = '/';
 
 /* 实现默认使用表单数据格式 */
@@ -30,3 +30,5 @@ axios默认把data作为其属性的response对象作为参数传递给then回�
 axios.interceptors.response.use(function(response) {
     return response.config.response ? response : response.data;
 });
+
+export { axios };

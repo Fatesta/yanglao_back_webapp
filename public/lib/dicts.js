@@ -6,14 +6,14 @@ var DictMan = (function() {
     return {
         cleanCache: function(onDone) {
             var self = this;
-            axios.get('/api/dict/cleanCache').then(function() {
+            $.get('/api/dict/cleanCache', function() {
                 self.fetch();
                 onDone && onDone();
             });
         },
         fetch: function(onSuccess) {
             var self = this;
-            axios.get('/api/dict/list').then(function(ret) {
+            $.get('/api/dict/list', function(ret) {
                 data = ret.data ? ret.data : ret;
                 self.setData(data);
                 onSuccess && onSuccess(data);

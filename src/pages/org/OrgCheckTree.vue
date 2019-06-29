@@ -31,7 +31,7 @@ export default {
     event: 'change'
   },
   props: {
-    value: 'Object'
+    value: Object
   },
   data() {
     return {
@@ -68,7 +68,7 @@ export default {
     }
   },
   async mounted() {
-    const orgs = await axios.get('/api/org/listOrg');
+    const orgs = await this.axios.get('/api/org/listOrg');
     this.orgs = orgs;
     this.loading = false;
   }

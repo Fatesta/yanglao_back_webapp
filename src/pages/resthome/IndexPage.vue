@@ -77,7 +77,7 @@ export default {
       }
       this.loading = true;
       this.currentPage++;
-      let page = await axios.get('/api/resthome',
+      let page = await this.axios.get('/api/resthome',
         {params: { rows: this.pageSize, page: this.currentPage }});
       this.resthomePage = {rows: this.resthomePage.rows.concat(page.rows)};
       this.noMore = page.rows == 0;

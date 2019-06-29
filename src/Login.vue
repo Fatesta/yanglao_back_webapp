@@ -172,7 +172,7 @@ export default {
       const { username, password } = this.form;
       this.submitting = true;
       this.errorText = '';
-      const ret = await axios({
+      const ret = await this.axios({
         url: 'api/admin/login',
         method: 'post',
         data: `username=${username}&password=${password}`,

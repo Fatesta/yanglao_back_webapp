@@ -268,7 +268,7 @@ export default {
       return;
     }
     this.submitting = true;
-    let shop = await axios.get('/api/shop/pro/info', {params: {id: this.$params.shop.id}});
+    let shop = await this.axios.get('/api/shop/pro/info', {params: {id: this.$params.shop.id}});
     shop.providerType = shop.providerType + '';
     this.submitting = false;
     for (let key in this.form) {

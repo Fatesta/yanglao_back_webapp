@@ -362,17 +362,17 @@ export default {
     },
     */
     async refreshOrderFlowInfo() {
-      this.orderFlowInfo = await axios.get('/api/shop/order/orderFlowInfo',
+      this.orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo',
         {params: { orderCode: this.$params.order.orderno }});
     }
   },
   async mounted() {
     const orderCode = this.$params.order.orderno;
     // TODO：合并请求为一个
-    this.orderProducts = (await axios.get('/api/shop/order/orderDetailPage', {params: {orderno: orderCode}})).rows;
+    this.orderProducts = (await this.axios.get('/api/shop/order/orderDetailPage', {params: {orderno: orderCode}})).rows;
     this.loadings.orderProducts = false;
-    this.orderInfo = await axios.get('/api/shop/order/detail',  {params: { orderCode }});
-    this.orderFlowInfo = await axios.get('/api/shop/order/orderFlowInfo', {params: { orderCode }});
+    this.orderInfo = await this.axios.get('/api/shop/order/detail',  {params: { orderCode }});
+    this.orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo', {params: { orderCode }});
   }
 }
 </script>
