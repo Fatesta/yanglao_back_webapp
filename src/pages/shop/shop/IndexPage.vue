@@ -130,7 +130,7 @@ export default {
       });
     },
     onDetailsClick(shop) {
-      app.pushPage({
+      this.pushPage({
         path: '/shop/shop/details',
         params: { shop },
         subTitle: shop.name,
@@ -138,7 +138,7 @@ export default {
       });
     },
     onAddClick(shop) {
-      app.pushPage({
+      this.pushPage({
         path: '/shop/shop/edit',
         title: '新建店铺',
         params: {
@@ -156,7 +156,7 @@ export default {
           title: shop.name + " - " + "订单管理"
         });
       } else {
-        app.pushPage({
+        this.pushPage({
           path: '/shop/order/index',
           subTitle: shop.name,
           params: { shop },
@@ -192,7 +192,7 @@ export default {
           });
           break;
         case 'trade':
-          app.pushPage({
+          this.pushPage({
             path: '/shop/finance/trade/index',
             subTitle: shop.name,
             params: { shop },
@@ -206,7 +206,7 @@ export default {
           });
           break;*/
         case 'edit':
-          app.pushPage({
+          this.pushPage({
             path: '/shop/shop/edit',
             title: '修改店铺',
             params: {

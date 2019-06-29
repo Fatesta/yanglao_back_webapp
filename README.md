@@ -38,7 +38,7 @@ export default {
   }
 }
 ```
-8.打开新的页面，请使用`app.pushPage`方法，参数说明：
+8.打开新的页面，请使用在Vue实例方法中的`pushPage`方法，参数说明：
 
 |参数|说明|类型
 |:-|:-|:-|
@@ -50,9 +50,9 @@ export default {
 
 示例：
 ```js
-app.pushPage('/shop/order/index');
+this.pushPage('/shop/order/index');
 
-app.pushPage({
+this.pushPage({
   path: '/user/edit',
   params: {id: user.id},
 });
@@ -69,7 +69,7 @@ app.pushPage({
 `app.openTab`是为了兼容旧有代码而存在的，在以前，window.openModuleByCode、window.openTab将打开一个新的content为iframe的easyui tab。  
 现在，这些方法的实现将变为对`app.openTab`的调用，而`app.openTab`根据url判断:
 - 后缀如果是`.do`，则识别为老页面，用一个渲染iframe的vue组件包装起来，并且[解决easyui模板闪现的问题](https://github.com/hulang1024/yanglao_back_webapp/blob/master/src/App.vue#L396)。
-- 后缀如果是`.js`，这是新开发模式页面的url表示方式，转换为对`app.pushPage`的调用。
+- 后缀如果是`.js`，这是新开发模式页面的url表示方式，转换为对`this.pushPage`的调用。
 
 
 ### 开发调试
@@ -83,7 +83,7 @@ npm run build
 ```
 #### 原理：
 值得注意的是，请查看webpack.config.js中的配置，编译开始时会调用 PageDog 插件，这是一个自定义插件，  
-它根据上述开发业务页面中所描述的命名约定，自动生成页面组件路径（pushPage的path参数）与`import(页面组件路径)`的映射定义的文件（src/pages.js），被`app.pushPage`使用。  
+它根据上述开发业务页面中所描述的命名约定，自动生成页面组件路径（pushPage的path参数）与`import(页面组件路径)`的映射定义的文件（src/pages.js），被`this.pushPage`使用。  
 然后webpack继续编译，src/pages.js也参与了编译，webpack将根据依赖关系，生成业务页面chunk的懒加载代码。
 
 ### 部署

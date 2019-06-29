@@ -145,7 +145,7 @@ export default {
       });
     },
     onDetailsClick(order) {
-      app.pushPage({
+      this.pushPage({
         path: '/shop/order/details',
         params: {
           order,

@@ -156,7 +156,10 @@ export default {
     };
   },
   async mounted() {
-    DictMan.fetch();
+    // 实例方法
+    Vue.prototype.pushPage = this.pushPage.bind(this);
+
+    // 暴漏给以前的（未使用webpack前）代码
     window.app = this;
 
     // 兼容老版本api
@@ -176,9 +179,7 @@ export default {
       }
     }
 
-    window.addEventListener('resize', () => {
-      this.contentMaxHeight = document.body.offsetHeight;
-    });
+    DictMan.fetch();
 
     const ret = await this.axios.get('/api/currentUser');
     if (ret.admin == null) {
@@ -211,6 +212,10 @@ export default {
           location.reload();
         }
       }
+    });
+
+    window.addEventListener('resize', () => {
+      this.contentMaxHeight = document.body.offsetHeight;
     });
   },
   computed: {
@@ -251,7 +256,7 @@ export default {
       }
     },
     onSettingClick() {
-      app.pushPage('/settings/index');
+      this.pushPage('/settings/index');
     },
     logout() {
       this.$router.replace('/logout');

@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     onAddClick() {
-      app.pushPage({
+      this.pushPage({
         path: '/shop/boss/edit',
         title: '增加商家',
         params: {
@@ -102,7 +102,7 @@ export default {
       });
     },
     onUpdateClick(boss) {
-      app.pushPage({
+      this.pushPage({
         path: '/shop/boss/edit',
         title: '修改商家',
         params: {
@@ -125,7 +125,7 @@ export default {
       });
     },
     onShopClick(boss) {
-      app.pushPage({
+      this.pushPage({
         path: '/shop/shop/index',
         params: { boss },
         subTitle: boss.realName,
@@ -133,7 +133,7 @@ export default {
       });
     },
     onTradeClick(boss) {
-      app.pushPage({
+      this.pushPage({
         path: '/shop/finance/trade/index',
         params: { boss },
         subTitle: boss.realName,

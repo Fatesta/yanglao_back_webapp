@@ -186,7 +186,7 @@ export default {
       });
     },
     onAddClick() {
-      app.pushPage({
+      this.pushPage({
         path: '/user/edit',
         title: '增加用户',
         params: {
@@ -198,7 +198,7 @@ export default {
       });
     },
     onEditClick(user) {
-       app.pushPage({
+       this.pushPage({
         path: '/user/edit',
         title: '修改用户',
         params: {

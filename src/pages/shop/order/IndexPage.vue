@@ -135,7 +135,7 @@ export default {
     onAddClick(order) {
       const { shop } = this.$params;
       if (['housekeeping', 'catering'].includes(shop.industryId)) {
-        app.pushPage({
+        this.pushPage({
           path: '/shop/order/flow/place/index',
           params: {
             shop,
@@ -188,7 +188,7 @@ export default {
       }
     },
     onDetailsClick(order) {
-      app.pushPage({
+      this.pushPage({
         path: '/shop/order/details',
         params: {
           order,

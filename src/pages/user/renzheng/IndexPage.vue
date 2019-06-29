@@ -114,7 +114,7 @@ export default {
     onCommandClick(cmd, user) {
       switch (cmd) {
         case 'certEdit': 
-          app.pushPage({
+          this.pushPage({
             path: '/user/renzheng/cert-edit',
             params: {
               user,
@@ -138,7 +138,7 @@ export default {
       }
     },
     onCertDetailsClick(user) {
-      app.pushPage({
+      this.pushPage({
         path: '/user/renzheng/cert-edit',
         params: { user, readonly: true },
         key: user.id,

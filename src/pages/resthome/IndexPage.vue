@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     onCheckinClick(resthome) {
-      app.pushPage({
+      this.pushPage({
         path: '/resthome/checkin/index',
         params: { resthome },
         subTitle: resthome.name,
