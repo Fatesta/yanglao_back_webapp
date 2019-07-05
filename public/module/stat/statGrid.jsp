@@ -238,8 +238,7 @@
 								         data-options="
 				                            data: DictMan.items('user.type'),
 				                            loadFilter: function(arr) {
-				                              arr.unshift({value: '-3', text: '全部'});
-				                              return arr;
+				                              return [{value: '-3', text: '全部'}].concat(arr);
 				                            },
 				                            value: '-3'"
 								        style="width: 90px;">

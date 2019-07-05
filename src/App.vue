@@ -95,8 +95,7 @@
             <i class="el-icon-arrow-down" />
           </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-house" command="index">首页</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-key" command="modifyPassword" divided>密码</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-key" command="modifyPassword">密码</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -116,7 +115,9 @@
             :key="tab.key"
             :name="tab.key"
             :label="tab.title"
-            :style='{height: (contentMaxHeight - 108) + "px"}'
+            :style='{
+              height: (contentMaxHeight - (theme == "dark" ? 103 : 104)) + "px"
+            }'
             v-loading="tab.loading"
           >
             <component :is="tab.content" />
@@ -190,7 +191,16 @@ export default {
     }
     this.admin = ret.admin;
 
-    const nodes = await this.axios.get('/api/admin/listAdminMenu');
+    const nodes = await this.axios.get('/api/admin/listAdminMenu');/*
+    nodes.unshift({
+      text: '首页',
+      id: 94,//态势图
+      children: [],
+      attributes: {
+        code: "taishitu",
+        url: 'stat/showStatGrid.do'
+      }
+    });*/
     this.$refs.navMenu.menuTreeNodes = nodes.map((node, index) => {
       node.iconCls = ['user', 'goods', 'data-board', 'monitor', 'sunny', 'star-off', 'setting', 'help'][index];
       return node;
@@ -249,9 +259,6 @@ export default {
     },
     onCommandClick(cmd) {
       switch (cmd) {
-        case 'index':
-          openModuleByCode('taishitu');
-          break;
         case 'modifyPassword':
           this.$refs.passwordUpdateDialog.visible = true;
           break;
@@ -351,7 +358,7 @@ export default {
       if (addedTab) {
         this.activeTabKey = '';
         setTimeout(() => {
-          this.activeTabKey = item.id;
+          this.activeTabKey = item.id + '';
         });
         return;
       }
@@ -438,16 +445,19 @@ export default {
   font-weight: bold;
 }
 
-.el-main > .el-tabs >>> .el-tabs__content {
-  padding: 0px;
-}
 .el-main > .el-tabs--border-card {
   box-shadow: unset;
   border-bottom: none;
   border-right: none;
   border-left: none;
 }
-.el-main > .el-tabs--border-card >>> .el-tabs__header {
+</style>
+
+<style>
+.el-main > .el-tabs > .el-tabs__content {
+  padding: 0px;
+}
+.el-main > .el-tabs--border-card > .el-tabs__header {
   border-left: 1px solid #DCDFE6;
 }
 </style>

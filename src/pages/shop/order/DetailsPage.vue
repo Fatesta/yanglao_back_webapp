@@ -7,7 +7,8 @@
             ['housekeeping'].includes(orderInfo.industryId)
             && (orderInfo.status >= 13
             && orderInfo.status != 16
-            && !orderInfo.startFlowTime)"
+            && !loadings.orderFlowInfo
+            && !orderFlowInfo.orderStartTime)"
           type="primary"
           round
           @click="onFlowStartClick"
@@ -19,7 +20,8 @@
             ['housekeeping', 'catering'].includes(orderInfo.industryId)
             && (orderInfo.status >= 13
             && orderInfo.status != 16
-            && !orderInfo.endFlowTime)"
+            && !loadings.orderFlowInfo
+            && !orderFlowInfo.orderEndTime)"
           type="success"
           round
           @click="onFlowFinishClick"
@@ -29,7 +31,7 @@
         <el-button
           v-else-if="
             ['housekeeping', 'catering'].includes(orderInfo.industryId)
-            && (orderInfo.status == 15 && orderInfo.starLevel == null)"
+            && (orderInfo.status == 15 && !loadings.orderFlowInfo && !orderFlowInfo.starLevel)"
           type="primary"
           plain
           round
@@ -63,10 +65,9 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-tooltip>
-        <!--
         <el-tooltip content="删除订单">
           <el-button
-            v-if="orderInfo.payStatus == 0"
+            v-if="orderInfo.status == 16"
             type="danger"
             plain
             circle
@@ -74,13 +75,12 @@
             @click="onDeleteClick"
           />
         </el-tooltip>
-        -->
       </div>
       <h1>
         <span style="margin-right: 16px;">{{orderOutName}}&nbsp;{{orderInfo.orderno}}</span>
         <template v-if="$params.type != 'service'">
           <el-tag size="large" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[orderInfo.status]">
-            {{orderInfo.statusText || DictMan.itemMap('productOrder.status')[orderInfo.status] }}
+            {{DictMan.itemMap('productOrder.status')[orderInfo.status] }}
           </el-tag>
         </template>
         <template v-else>
@@ -255,18 +255,30 @@ export default {
       orderFlowInfo: {},
       orderProducts: [],
       loadings: {
+        orderFlowInfo: true,
         orderProducts: true
       },
       app
     }
   },
-  async mounted() {
+  mounted() {
     const orderCode = this.orderInfo.orderno;
-    // TODO：合并请求为一个
-    this.orderInfo = await this.axios.get('/api/shop/order/detail', {params: { orderCode: this.$params.order.orderno }});
-    this.orderProducts = (await this.axios.get('/api/shop/order/orderDetailPage', {params: {orderno: orderCode}})).rows;
-    this.loadings.orderProducts = false;
-    this.orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo', {params: { orderCode }});
+    if (typeof this.$params.order.status == 'undefined') {//没有传递过来完整的订单实体，则查询
+      this.axios.get('/api/shop/order/detail', {params: { orderCode: this.$params.order.orderno }})
+        .then(ret => {
+          Object.assign(this.orderInfo, ret);
+        });
+    }
+    this.axios.get('/api/shop/order/orderDetailPage', {params: {orderno: orderCode}})
+      .then(page => {
+        this.orderProducts = page.rows;
+        this.loadings.orderProducts = false;
+      });
+    this.axios.get('/api/shop/order/orderFlowInfo', {params: { orderCode }})
+      .then(ret => {
+        this.orderFlowInfo = ret;
+        this.loadings.orderFlowInfo = false;
+      });
   },
   methods: {
     viewImage(url) {
@@ -353,7 +365,6 @@ export default {
           break;
       }
     },
-    /*
     onDeleteClick() {
       const orderCode = this.orderInfo.orderno;
       this.$confirm(`确认删除订单 ${orderCode} ？`, {
@@ -368,7 +379,6 @@ export default {
          }
       });
     },
-    */
     async refreshOrderFlowInfo() {
       this.orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo',
         {params: { orderCode: this.orderInfo.orderno }});

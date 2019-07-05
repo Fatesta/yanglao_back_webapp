@@ -54,6 +54,10 @@
       <el-col :span="5">商家工号</el-col>
       <el-col :span="18">{{shopInfo.adminUsername}}</el-col>
     </el-row>
+    <el-row>
+      <el-col :span="5">创建时间</el-col>
+      <el-col :span="18">{{shopInfo.createTime}}</el-col>
+    </el-row>
   </normal-page>
 </template>
 

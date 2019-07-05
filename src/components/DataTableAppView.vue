@@ -35,7 +35,7 @@ export default {
     window.addEventListener('resize', resize);
   
     function resize() {
-      let restHeight = document.body.offsetHeight - (104 + 32 * 2 + 10);
+      let restHeight = document.body.offsetHeight - (104 + 32 * 2 + 6);
       if (toolbarElm)
         restHeight -= toolbarElm.offsetHeight;
       table.height = restHeight;

@@ -39,7 +39,8 @@ export default {
       this.form = {
         orderno: order.orderno,
         operator: order.creator,
-        starLevel: 5
+        starLevel: 5,
+        feedbackMessage: ''
       };
       this.visible = true;
       this.options = options;

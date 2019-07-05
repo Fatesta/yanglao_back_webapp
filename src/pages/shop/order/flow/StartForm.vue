@@ -67,9 +67,9 @@ export default {
       if (order.startFlowTime) {
         let orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo',
           {params: { orderCode: order.orderno }});
-        this.form.remark = orderFlowInfo.orderStartRemark,
+        this.form.remark = orderFlowInfo.orderStartRemark;
         this.form.startTime = moment(order.startFlowTimestamp).format('YYYYMMDDHHmmss');
-        this.fileList = orderFlowInfo.orderStartImage.split(',').map(url => ({name: '', url}));
+        this.fileList = orderFlowInfo.orderStartImage.split(',').filter(Boolean).map(url => ({name: '', url}));
       } else {
         this.fileList = [];
       }

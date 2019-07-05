@@ -6,8 +6,9 @@
       :height="attrs.height || height"
       v-bind="attrs"
       :data="tableData"
-      @current-change="onCurrentRowChange"
       size="medium"
+      @current-change="onCurrentRowChange"
+      element-loading-text="查询数据中"
     >
       <slot></slot>
     </el-table>

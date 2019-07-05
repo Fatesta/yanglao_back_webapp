@@ -3,13 +3,13 @@
     <div style="padding-bottom: 8px">
       <el-form :inline="true" :model="searchForm">
         <el-form-item label="订单号">
-          <el-input v-model="searchForm.orderno" clearable style="width: 190px"></el-input>
+          <el-input v-model="searchForm.orderno" clearable style="width: 210px"></el-input>
         </el-form-item>
         <el-form-item label="订单状态">
           <type-select
             v-model="searchForm.status"
             :items="DictMan.items('productOrder.status')"
-            style="width: 130px"
+            style="width: 110px"
           />
         </el-form-item>
         <el-form-item label="支付状态">

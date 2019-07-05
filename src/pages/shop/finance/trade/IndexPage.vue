@@ -47,14 +47,16 @@
         <el-form-item>
           <data-table-query-button :query-params="getQueryParams" />
         </el-form-item>
+        <el-form-item>
+          <el-button
+            type="default"
+            icon="el-icon-download"
+            @click="onExportClick"
+          >
+            导出
+          </el-button>
+        </el-form-item>
       </el-form>
-      <el-button
-        type="default"
-        icon="el-icon-download"
-        @click="onExportClick"
-      >
-        导出
-      </el-button>
     </div>
     <data-table
       ref="table"

@@ -7,6 +7,7 @@ export default {
   },
   render(h) {
     const styles = this.styles;
+    let children = this.menuTreeNodes.map(node => buildSubmenu(node, 1));
 
     return h(
       'el-aside',
@@ -29,11 +30,11 @@ export default {
               select: this.onSelect
             }
           },
-          this.menuTreeNodes.map(node => children(node, 1))
+          children
         )
       ]);
 
-    function children(node, level) {
+    function buildSubmenu(node, level) {
       if (node.children.length) {
         return h(
           'el-submenu',
@@ -50,14 +51,21 @@ export default {
                 }),
               h('span', node.text)
             ])
-          ].concat(node.children.map(node => children(node, level + 1))));
+          ].concat(node.children.map(node => buildSubmenu(node, level + 1))));
       } else {
         return h(
           'el-menu-item',
           {
             props: {index: node.id + ''}
           },
-          node.text
+          [h('template', {slot: 'title'}, [
+            level == 1 && h('i',
+              {
+                'class': `el-icon-${node.iconCls || 'menu'}`,
+                style: {color: styles.iconColor}
+              }),
+            h('span', node.text)
+          ])]
         );
       }
     }

@@ -1,8 +1,8 @@
 <template>
   <data-table-app-page>
     <el-form :inline="true" :model="searchForm">
-      <el-form-item label="工单号">
-        <el-input v-model="searchForm.orderno" clearable style="width: 170px"></el-input>
+      <el-form-item label="工单编号">
+        <el-input v-model="searchForm.orderno" clearable style="width: 210px"></el-input>
       </el-form-item>
       <el-form-item label="工单状态">
         <type-select

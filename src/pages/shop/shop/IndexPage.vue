@@ -52,19 +52,25 @@
       <el-table-column prop="linkman" label="联系人" width="80"></el-table-column>
       <el-table-column prop="telephone" label="联系电话" width="140"></el-table-column>
       <el-table-column prop="adminUsername" label="商家工号" width="100"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="170"></el-table-column>
-      <el-table-column label="操作" width="250">
-        <template slot-scope="scope">
+      <el-table-column label="操作">
+        <template slot-scope="{row}">
           <el-button
             type="primary"
             plain
             icon="el-icon-s-order"
-            @click="onOrderClick(scope.row)"
+            @click="onOrderClick(row)"
           >
             订单
           </el-button>
+          <el-button
+            type="primary"
+            plain
+            @click="onTradeRecordClick(row)"
+          >
+            交易流水
+          </el-button>
           <el-dropdown
-            @command="onCommandClick($event, scope.row)"
+            @command="onCommandClick($event, row)"
             :show-timeout="100"
           >
             <el-button
@@ -78,14 +84,13 @@
               <el-dropdown-item command="product" icon="el-icon-s-goods">商品</el-dropdown-item>
               <el-dropdown-item command="service" icon="el-icon-water-cup" v-if="[1,2,4,9,14].includes(app.admin.roleId)">服务</el-dropdown-item>
               <el-dropdown-item command="employee" icon="el-icon-user">员工</el-dropdown-item>
-              <el-dropdown-item command="trade" icon="el-icon-notebook-2">流水</el-dropdown-item>
-              <!--<el-dropdown-item command="coupon" icon="el-icon-discount" v-if="['catering'].includes(scope.row.industryId)">优惠券</el-dropdown-item>-->
+              <!--<el-dropdown-item command="coupon" icon="el-icon-discount" v-if="['catering'].includes(row.industryId)">优惠券</el-dropdown-item>-->
               <el-dropdown-item command="edit" icon="el-icon-edit" divided v-if="[1,2,4,9,14].includes(app.admin.roleId)">修改</el-dropdown-item>
               <el-dropdown-item command="businessMode" icon="el-icon-setting" v-if="[1,2,4,9,14].includes(app.admin.roleId)">派单模式设置</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <el-button
-            @click="onDetailsClick(scope.row)"
+            @click="onDetailsClick(row)"
           >
             详情
           </el-button>
@@ -164,6 +169,14 @@ export default {
         });
       }
     },
+    onTradeRecordClick(shop) {
+      this.pushPage({
+        path: '/shop/finance/trade/index',
+        subTitle: shop.name,
+        params: { shop },
+        key: shop.providerId
+      });
+    },
     onCommandClick(cmd, shop) {
       switch (cmd) {
         case 'product':
@@ -191,14 +204,7 @@ export default {
             title: shop.name + ' - 员工管理'
           });
           break;
-        case 'trade':
-          this.pushPage({
-            path: '/shop/finance/trade/index',
-            subTitle: shop.name,
-            params: { shop },
-            key: shop.providerId
-          });
-          break;/*
+        /*
         case 'coupon':
           openTab({
             url: 'view/coupon/batch/index.do',
@@ -231,7 +237,7 @@ export default {
 </script>
 
 <style scoped>
-.cell > .el-button--mini {
+.cell > .el-button--small {
   margin-left: 0px;
 }
 

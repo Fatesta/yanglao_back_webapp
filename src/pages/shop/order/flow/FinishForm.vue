@@ -103,7 +103,7 @@ export default {
           {params: { orderCode: order.orderno }});
         this.form.remark = orderFlowInfo.orderEndRemark,
         this.form.endTime = moment(order.endFlowTimestamp).format('YYYYMMDDHHmmss');
-        this.fileList = orderFlowInfo.orderEndImage.split(',').map(url => ({name: '', url}));
+        this.fileList = orderFlowInfo.orderEndImage.split(',').filter(Boolean).map(url => ({name: '', url}));
         this.voiceFile = orderFlowInfo.voiceFile;
       } else {
         this.fileList = [];

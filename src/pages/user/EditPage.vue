@@ -93,7 +93,7 @@
         />
       </el-form-item>
       <el-form-item
-        v-if="[2,9].includes(+form.userType)"
+        v-if="mode == 'add' && [2,9].includes(+form.userType)"
         prop="deviceCode"
         :label="form.userType == 2 ? '卡号' : '设备号'"
         :rules="[{required: true, message: ' '}]">

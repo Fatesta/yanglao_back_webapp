@@ -39,9 +39,14 @@
               prop="address"
               label="订单地址"
               :rules="[{required: true, message: ' '}]">
-              <el-input type="textarea" :rows="1" v-model="form.address" style="width: 300px"></el-input>
+              <el-input
+                v-model="form.address"
+                type="textarea"
+                :rows="1"
+                placeholder="请输入详细地址，如某省某市(县)某区某地方"
+                style="width: 300px"
+              />
             </el-form-item>
-
             <el-form-item
               v-if="$params.shop.industryId == 'catering'"
               prop="mealNumber"
