@@ -12,13 +12,13 @@
             :style="{
               fontSize: '26px',
               fontWeight: 600,
-              color: styles.titleColor
+              color: '#333'
             }">呼贝智慧养老服务平台</span>
           <div
             :style="{
               fontSize: '14px',
               paddingTop: '8px',
-              color: styles.subtitleColor
+              color: '#555'
             }">欢迎使用</div>
         </div>
         <el-form :model="form" :rules="rules" ref="form" label-width="0px" size="large">
@@ -81,7 +81,7 @@
 
 <script>
 import Vue from 'vue';
-import { Container, Main, Footer, Link, Alert, Form, FormItem, Input, Checkbox, Button } from 'element-ui';
+import { Container, Main, Footer, Link, Alert, Form, FormItem, Input, Checkbox, Button, Message } from 'element-ui';
 
 import config from '@/config/app.config';
 import auth from '@/auth';
@@ -112,24 +112,7 @@ export default {
       moment
     };
   },
-  computed: {
-    styles() {
-      const themeStyles = {
-        dark: {
-          titleColor: "#eee",
-          subtitleColor: "#ccc",
-        },
-        light: {
-          titleColor: "#333",
-          subtitleColor: "#555",
-        }
-      };
-      return themeStyles[config.get('theme')];
-    }
-  },
   mounted() {
-    document.body.style.backgroundColor =
-      config.get('theme') == 'dark' ? '#242f42' : '#f0f2f5';
     if (this.autoLoginEnabled && !window.fromLogout) {
       const username = config.get('username');
       const password = config.get('password');
@@ -142,6 +125,25 @@ export default {
         }, 100);
       }
     }
+
+    (() => {
+      var userAgent = navigator.userAgent;
+      if (!(userAgent.indexOf("Firefox") > -1 || userAgent.indexOf("Chrome") > -1)) {
+        Message.info({
+          message: `
+            检测到您正在使用的不是
+            <a href="https://www.baidu.com/s?wd=Chrome"
+               target="_blank" style="color: inherit;">谷歌Chrome</a>
+            或
+            <a href="http://www.firefox.com.cn/"
+               target="_blank" style="color: inherit;">Firefox 浏览器</a>，`
+            + '为了更好的体验，请优先使用这些浏览器&nbsp;',
+          dangerouslyUseHTMLString: true,
+          duration: 0,
+          showClose: true
+        });
+      }
+    })();
   },
   methods: {
     onAutoLoginChange(checked) {

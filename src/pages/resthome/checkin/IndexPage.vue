@@ -1,6 +1,16 @@
 <template>
-  <el-card shadow="never" v-loading="loading">
-    <el-tabs tab-position="top" :value="activeBuilding.id" @tab-click="onBuildingTabClick">
+  <normal-page
+    v-loading="loading"
+    :style="{
+      padding: '4px'
+    }"
+  >
+    <el-tabs
+      :value="activeBuilding.id"
+      tab-position="top"
+      class="building-tabs"
+      @tab-click="onBuildingTabClick"
+    >
       <el-tab-pane
         v-for="building in buildings"
         :key="building.id"
@@ -8,7 +18,11 @@
         :label="building.name || building.buildingNo"
       />
     </el-tabs>
-    <el-tabs tab-position="left" :value="activeFloorNo" @tab-click="onFloorTabClick">
+    <el-tabs
+      :value="activeFloorNo"
+      tab-position="left"
+      class="floor-tabs"
+      @tab-click="onFloorTabClick">
       <el-tab-pane
         v-for="num in activeBuilding.floorsNum"
         :key="activeBuilding.floorsNum - num + 1"
@@ -27,7 +41,7 @@
           <el-alert
             v-if="!roomsLoading && rooms.length == 0"
             class="load-info"
-            title="没有房间。"
+            title="没有房间数据。"
             type="info"
             center
             :closable="false"
@@ -35,7 +49,7 @@
         </div>
       </el-tab-pane>
     </el-tabs>
-  </el-card>
+  </normal-page>
 </template>
 
 <script>
@@ -67,6 +81,18 @@ export default {
       return map;
     }
   },
+  async mounted() {
+    this.buildings = (await this.axios.get('/api/community/berth/berthSetting/building/page',
+      {params: {communityId: this.$params.resthome.id, rows: 100, page: 1}})).rows;
+    if (this.buildings.length == 0) {
+      this.$alert('无数据');
+      this.$closeCurrentPage();
+      return;
+    }
+    this.activeBuilding = this.buildings[0];
+    this.loading = false;
+    this.queryRooms(this.activeBuilding.id, this.activeFloorNo);
+  },
   methods: {
     onBuildingTabClick(tab) {
       this.activeBuilding = this.buildingMap[tab.paneName];
@@ -83,13 +109,6 @@ export default {
       this.rooms = await this.axios.get('/api/community/berth/checkin/rooms', {params: {buildingId, floorNo}});
       this.roomsLoading = false;
     }
-  },
-  async mounted() {
-    this.buildings = (await this.axios.get('/api/community/berth/berthSetting/building/page',
-      {params: {rows: 100, page: 1}})).rows;
-    this.activeBuilding = this.buildings[0];
-    this.loading = false;
-    this.queryRooms(this.activeBuilding.id, this.activeFloorNo);
   }
 }
 </script>
@@ -104,5 +123,10 @@ export default {
 .el-tabs >>> .el-tabs__content {
   overflow: auto;
 }
+.building-tabs >>> .el-tabs__nav {
+  padding-left: 16px;
+}
+.floor-tabs >>> .el-tabs__nav {
+  padding-left: 0px;
+}
 </style>
-

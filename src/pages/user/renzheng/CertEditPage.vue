@@ -1,7 +1,6 @@
 <template>
-  <el-card
-    shadow="never"
-    body-style="width: 820px; margin: 0 auto;"
+  <normal-page
+    style="width: 820px; margin: 0 auto;"
   >
     <el-form ref="form" :model="form" label-width="100px">
       <el-form-item
@@ -56,7 +55,7 @@
 
       <el-button type="primary" @click="onSubmit" v-if="!readonly" :loading="submitting">提交</el-button>
     </div>
-  </el-card>
+  </normal-page>
 </template>
 
 <script>
@@ -95,7 +94,7 @@ export default {
         }
         this.form['headImages'] = this.idcardImgUrls.join(',');
         this.submitting = true;
-        const ret = await axios.post('/api/user/renzheng/saveRenzhengInfo', this.form);
+        const ret = await this.axios.post('/api/user/renzheng/saveRenzhengInfo', this.form);
         if (ret.success) {
           this.$message.success('提交成功');
           this.visible = false;

@@ -5,11 +5,11 @@
     width="920px"
   >
     <el-form :inline="true" :model="searchForm">
-      <el-form-item label="昵称">
-        <el-input v-model="searchForm.aliasName" clearable style="width: 90px"></el-input>
-      </el-form-item>
       <el-form-item label="姓名">
         <el-input v-model="searchForm.realName" clearable style="width: 90px"></el-input>
+      </el-form-item>
+      <el-form-item label="昵称">
+        <el-input v-model="searchForm.aliasName" clearable style="width: 90px"></el-input>
       </el-form-item>
       <el-form-item label="身份证号码">
         <el-input v-model="searchForm.idcard" clearable style="width: 180px"></el-input>

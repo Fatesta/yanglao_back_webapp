@@ -11,11 +11,11 @@
     <el-tabs tab-position="left" style="height: 440px">
       <el-tab-pane label="基本信息">
         <el-form :model="form" label-width="110px" style="width: 400px">
-          <el-form-item label="昵称">
-            <el-input v-model="form.aliasName" clearable></el-input>
-          </el-form-item>
           <el-form-item label="姓名">
             <el-input v-model="form.realName" clearable></el-input>
+          </el-form-item>
+          <el-form-item label="昵称">
+            <el-input v-model="form.aliasName" clearable></el-input>
           </el-form-item>
           <el-form-item label="身份证">
             <el-input v-model="form.idcard" clearable></el-input>

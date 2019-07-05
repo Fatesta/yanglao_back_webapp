@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :title="`${mode == 'update' && '修改'}订单开始`"
+    :title="`${mode == 'update' ? '修改' : ''}订单开始`"
     :visible.sync="visible"
     :close-on-click-modal="false"
     width="640px"
@@ -92,10 +92,10 @@ export default {
         postData['pictureImage'] = this.fileList.map(f => f.url).join(',');
         this.submitting = true;
         if (this.mode == 'update') {
-          await axios.post('/api/shop/order/housekeeping/deleteFlow',
+          await this.axios.post('/api/shop/order/housekeeping/deleteFlow',
             {orderno: this.form.orderno, action: 5});
         }
-        const ret = await axios.post('/api/shop/order/housekeeping/start', postData);
+        const ret = await this.axios.post('/api/shop/order/housekeeping/start', postData);
         if (ret.success) {
           this.$message.success(this.mode == 'update' ? '修改成功' : '订单开始成功');
           this.visible = false;

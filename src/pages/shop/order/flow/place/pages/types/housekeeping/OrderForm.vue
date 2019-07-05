@@ -40,7 +40,7 @@
               prop="address"
               label="订单地址"
               :rules="[{required: true, message: ' '}]">
-              <el-input type="textarea" :rows="2" v-model="form.address" style="width: 300px"></el-input>
+              <el-input type="textarea" :rows="1" v-model="form.address" style="width: 300px"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -60,6 +60,7 @@
             <span>¥{{scope.row.product.price}}</span>
             <el-button
               icon="el-icon-edit"
+              size="mini"
               @click="onEditPriceClick(scope.row.product)"
             />
           </template>
@@ -102,10 +103,11 @@
 
 
 <script>
+import { setTimeout } from 'timers';
 /* 订单表单 */
 export default {
   components: {
-    UserQuerySelector: () => import('@/pages/user/UserQuerySelector.vue')
+    UserQuerySelector: () => import('@/pages/user/UserQuerySelector')
   },
   data() {
     return {
@@ -113,6 +115,8 @@ export default {
         linkman: '',
         linkphone: '',
         address: '',
+        longitude: 0,
+        latitude: 0,
         remark: ''
       },
       user: null, // 选择下单用户
@@ -169,16 +173,17 @@ export default {
         }));
         let data = {
           providerId: this.$params.shop.providerId,
-          industryId: this.$params.shop.industryId,
+          industryId: 'housekeeping',
           creator: this.user.id,
           payType: 33,
           productListJSON,
           totalFee: totalPrice,
           paymentFee: totalPrice,
-          ...this.form,
+          ...this.form
         };
+ 
         this.submitting = true;
-        const ret = await axios.post('/api/shop/order/addOrder', data);
+        const ret = await this.axios.post('/api/shop/order/addOrder', data);
         this.submitting = false;
         if (ret.success) {
           this.$message.success('下单成功');

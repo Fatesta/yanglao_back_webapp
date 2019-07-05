@@ -17,7 +17,7 @@ var berthType = (function() {
         var row = datagrid.datagrid('getSelected');
         if(!row) return;
         openConfirmDeleteDialog(function(){
-            $.post(CONFIG.baseUrl + 'community/berth/berthType/delete.do?id=' + row.id, function(ret){
+            $.post(CONFIG.baseUrl + 'community/berth/berthType/delete.do?id=' + row.id, function(code){
                 if (code == 0) {
                     datagrid.datagrid('load');
                     showOpOkMessage();
@@ -31,11 +31,11 @@ var berthType = (function() {
     });
 
     function edit(isUpdate) {
-        var href = 'community/berth/berthType/form.do';
+        var href = 'community/berth/berthType/form.do?communityId=' + resthomeId;
         if (isUpdate) {
             var row = datagrid.datagrid('getSelected');
             if(row) {
-                href += '?id=' + row.id;
+                href += '&id=' + row.id;
             }
         }
         var dlg = openEditDialog({

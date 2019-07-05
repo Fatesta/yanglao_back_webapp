@@ -61,7 +61,7 @@ export default {
     onSubmit() {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
-        const ret = await axios.post('/api/admin/changePwd', {
+        const ret = await this.axios.post('/api/admin/changePwd', {
           passwd: this.form.confirmPassword
         });
         if (ret.success) {

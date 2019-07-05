@@ -1,21 +1,27 @@
 <template>
-  <el-card shadow="never"
+  <normal-page
     v-infinite-scroll="load"
-    body-style="overflow:auto"
+    body-style="overflow:auto;"
+    style="background-color:#fafafa"
   >
     <el-card
       v-for="resthome in resthomePage.rows"
       :key="resthome.id"
       class="resthome"
     >
-      <div slot="header">
+      <div slot="header" style="color:#303133;font-size: 16px;">
         {{resthome.name}}
       </div>
-      <div style="text-align:center">
-        <el-button type="text" @click="onCheckinClick(resthome)">入住管理</el-button>
-        <el-button type="text" @click="onCheckinRecordClick(resthome)">入住记录</el-button>
-        <el-button type="text" @click="onBerthSettingClick(resthome)">床位设置</el-button>
-        <el-button type="text" @click="onBerthTypeSettingClick(resthome)">床位类型管理</el-button>
+      <div class="stat">
+        <div class="item">总床位数：<span class="number">{{resthome.berthCount}}</span></div>
+        <div class="item">已入住数：<span class="number" style="color:#F56C6C">{{resthome.usedBerthCount}}</span></div>
+        <div class="item">空床位数：<span class="number" style="color:#67C23A">{{resthome.emptyBerthCount}}</span></div>
+      </div>
+      <div class="operations">
+        <el-button type="primary" plain @click="onCheckinClick(resthome)">入住管理</el-button>
+        <el-button type="default" @click="onCheckinRecordClick(resthome)">入住记录</el-button>
+        <el-button type="default" @click="onBerthSettingClick(resthome)">床位设置</el-button>
+        <el-button type="default" @click="onBerthTypeSettingClick(resthome)">床位类型管理</el-button>
       </div>
     </el-card>
 
@@ -35,7 +41,7 @@
       center
       :closable="false"
     />
-  </el-card>
+  </normal-page>
 </template>
 
 <script>
@@ -53,8 +59,16 @@ export default {
       currentPage: 1
     };
   },
+  mounted() {
+    app.$refs.navMenu.collapsed = true;
+    this.load();
+  },
   methods: {
     onCheckinClick(resthome) {
+      if (resthome.berthCount == 0) {
+        this.$alert('无床位数据');
+        return;
+      }
       this.pushPage({
         path: '/resthome/checkin/index',
         params: { resthome },
@@ -63,42 +77,66 @@ export default {
       });
     },
     onCheckinRecordClick(resthome) {
-
+      this.pushPage({
+        path: '/resthome/checkin/record/checkin-record',
+        params: {
+          resthomeId: resthome.id
+        },
+        subTitle: resthome.name
+      });
     },
     onBerthSettingClick(resthome) {
-
+      openTab({
+        url: 'view/community/berth/berthSetting/index.do?_func_id=397&resthome_id=' + resthome.id,
+        title: resthome.name + ' - 床位设置'
+      });
     },
     onBerthTypeSettingClick(resthome) {
-
+      openTab({
+        url: 'view/community/berth/berthType/index.do?_func_id=400&resthome_id=' + resthome.id,
+        title: resthome.name + ' - 床位类型设置'
+      });
     },
     async load() {
       if (this.noMore) {
         return;
       }
       this.loading = true;
-      this.currentPage++;
       let page = await this.axios.get('/api/resthome',
         {params: { rows: this.pageSize, page: this.currentPage }});
       this.resthomePage = {rows: this.resthomePage.rows.concat(page.rows)};
+      this.currentPage++;
       this.noMore = page.rows == 0;
       this.loading = false;
     }
-  },
-  mounted() {
-    this.load();
   }
 }
 </script>
 
 <style scoped>
 .resthome {
-  width: 340px;
-  height: 130px;
-  margin: 10px 10px;
+  width: 400px;
+  height: 160px;
+  margin: 8px 8px;
   float: left;
 }
-.resthome:hover {
-  font-weight: bolder;
+
+.stat {
+  color: #909399;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+.stat > .item {
+  display: inline;
+  padding-right: 24px;
+}
+.stat > .item > .number {
+  font-weight: bold;
+  color: #303133;
+  font-size: 16px;
+}
+.operations > .el-button {
+  margin-left: 0px;
 }
 
 .load-info {

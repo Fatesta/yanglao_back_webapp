@@ -30,7 +30,7 @@ export default {
       this.visible = true;
     },
     async onChange(value) {
-      const ret = await axios.post('/api/shop/pro/businessMode',
+      const ret = await this.axios.post('/api/shop/pro/businessMode',
         {id: this.shop.id, businessMode: value});
       if (ret.success) {
         this.$message.success(`${value ? '开启' : '关闭'}派单模式成功`);

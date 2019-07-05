@@ -1,7 +1,7 @@
 <template>
   <div>
   <el-dialog
-    :title="`${mode == 'update' && '修改'}订单完成`"
+    :title="`${mode == 'update' ? '修改' : ''}订单完成`"
     :visible.sync="visible"
     :close-on-click-modal="false"
     width="640px"
@@ -124,7 +124,7 @@ export default {
         onSuccess: async (result) => {
           let formData = new FormData();
           formData.append('file', result.blod);
-          const response = await axios.create().post('/api/util/upload', formData);
+          const response = await this.axios.create().post('/api/util/upload', formData);
           if (response.data.success) {
             this.voiceFile = response.data.data.url;
             this.$refs.audio.src = this.voiceFile;
@@ -148,10 +148,10 @@ export default {
         postData['voiceFile'] = this.voiceFile;
         this.submitting = true;
         if (this.mode == 'update') {
-          await axios.post('/api/shop/order/housekeeping/deleteFlow',
+          await this.axios.post('/api/shop/order/housekeeping/deleteFlow',
             {orderno: this.form.orderno, action: 6});
         }
-        const ret = await axios.post('/api/shop/order/housekeeping/finish', postData);
+        const ret = await this.axios.post('/api/shop/order/housekeeping/finish', postData);
         if (ret.success) {
           this.$message.success(this.mode == 'update' ? '修改成功' : '订单完成成功');
           this.visible = false;

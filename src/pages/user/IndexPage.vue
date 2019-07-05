@@ -264,7 +264,7 @@ export default {
             type: 'warning'
           }).then(async () => {
             const actVal = +!user.isvalid;
-            const ret = await axios.post('/api/device/setValid',
+            const ret = await this.axios.post('/api/device/setValid',
               {deviceId: user.id, isvalid: actVal});
             if (ret.success) {
               this.$message.success('操作成功');
@@ -276,7 +276,7 @@ export default {
           this.$confirm(`确认注销用户 ${user.aliasName}？`, `确认`, {
             type: 'warning'
           }).then(async () => {
-            const ret = await axios.post('/api/user/cancelUser',
+            const ret = await this.axios.post('/api/user/cancelUser',
                 {userId: user.id, userType: user.userType});
             if (ret.success) {
               this.$message.success('注销用户成功');
@@ -288,7 +288,7 @@ export default {
           this.$confirm(`确认重置用户 ${user.aliasName} 的密码 ？`, `确认`, {
             type: 'warning'
           }).then(async () => {
-            const ret = await axios.post('/api/user/resetPassword', {userId: user.id});
+            const ret = await this.axios.post('/api/user/resetPassword', {userId: user.id});
             if (ret.success) {
               this.$message.success('重置密码成功');
             }
@@ -320,7 +320,7 @@ export default {
             inputPattern: /^\d+$/
           }).then(async ({action, value}) => {
             if ('confirm' == action) {
-              const ret = await axios.post('/api/device/changeDeviceCode',
+              const ret = await this.axios.post('/api/device/changeDeviceCode',
                 {deviceCode: value, oldDeviceId: user.id, oldDeviceCode: user.deviceCode});
               if (ret.success) {
                 this.$message.success('更换设备号成功');

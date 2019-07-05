@@ -6,11 +6,13 @@ export default {
     height: Number
   },
   render(h) {
+    const styles = this.styles;
+
     return h(
       'el-aside',
       {
         style: {
-          width: this.collapsed ? '65px' : '200px',
+          width: this.collapsed ? '65px' : '210px',
           height: this.height + 'px'
         }
       }, [
@@ -20,7 +22,7 @@ export default {
             props: {
               collapse: this.collapsed,
               uniqueOpened: true,
-              ...this.styles
+              ...styles
             },
             style: 'height: 100%',
             on: {
@@ -41,7 +43,11 @@ export default {
             }
           }, [
             h('template', {slot: 'title'}, [
-              level == 1 && h('i', {'class': `el-icon-${node.iconCls || 'menu'}`}),
+              level == 1 && h('i',
+                {
+                  'class': `el-icon-${node.iconCls || 'menu'}`,
+                  style: {color: styles.iconColor}
+                }),
               h('span', node.text)
             ])
           ].concat(node.children.map(node => children(node, level + 1))));
@@ -67,11 +73,14 @@ export default {
     styles() {
       const themeStyles = {
         dark: {
-          backgroundColor: "#324157",
+          backgroundColor: "#0a2e57",
           textColor: "#ccc",
-          activeTextColor: "#20a0ff"
+          activeTextColor: "#20a0ff",
+          iconColor: '#fff'
         },
-        light: {}
+        light: {
+
+        }
       };
       return themeStyles[this.theme];
     },

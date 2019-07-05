@@ -16,7 +16,7 @@
         reload();
         
         function reload() {
-            $.get(CONFIG.baseUrl + "community/berth/berthSetting/trees.do", function(data) {
+            $.get(CONFIG.baseUrl + "community/berth/berthSetting/trees.do?resthomeId=" + resthomeId, function(data) {
                 tree.tree({
                     data: data,
                     onSelect: function(node) {
@@ -146,17 +146,17 @@
                 {field:'floorsNum',title:"楼层数量",width:'60',halign:'center', align:'center'}
             ];
             datagrid.datagrid({
-                url: CONFIG.baseUrl + 'community/berth/berthSetting/building/page.do',
-                columns: [columns]
+                url: CONFIG.baseUrl + 'community/berth/berthSetting/building/page.do?communityId=' + resthomeId,
+                columns: [columns],
             });
         }
 
         self.edit = function(isUpdate) {
-            var url = 'community/berth/berthSetting/building/form.do';
+            var url = 'community/berth/berthSetting/building/form.do?communityId=' + resthomeId;
             if (isUpdate) {
                 var row = datagrid.datagrid('getSelected')
                 if (!row) return;
-                url += '?id=' + row.id;
+                url += '&id=' + row.id;
             }
              
             var dlg = openEditDialog({
@@ -259,11 +259,11 @@
         }
         
         self.edit = function(isUpdate, parentInfo) {
-            var url = 'community/berth/berthSetting/room/form.do';
+            var url = 'community/berth/berthSetting/room/form.do?communityId=' + resthomeId;
             if (isUpdate) {
                 var row = datagrid.datagrid('getSelected')
                 if (!row) return;
-                url += '?id=' + row.id;
+                url += '&id=' + row.id;
             }
              
             var dlg = openEditDialog({

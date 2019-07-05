@@ -38,7 +38,7 @@ export default {
     event: 'change'
   },
   props: {
-    value: Object
+    value: [String, Number]
   },
   data() {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="never">
+  <normal-page>
     <el-row>
       <el-col :span="5">店铺图片</el-col>
       <el-col :span="18"><img :src="shopInfo.imgUrl" style="height: 50px;width: 80px;border-radius: 4px;"/></el-col>
@@ -54,7 +54,7 @@
       <el-col :span="5">商家工号</el-col>
       <el-col :span="18">{{shopInfo.adminUsername}}</el-col>
     </el-row>
-  </el-card>
+  </normal-page>
 </template>
 
 

@@ -3,125 +3,130 @@
     shadow="hover"
     class="room-berth"
     :style="{
-      'background-color': berth.isEmpty ? '#ecf5ff' : '#fef0f0'
+      'background-color': berth.isEmpty ? '#f0f9eb' : '#fef0f0'
     }"
     :body-style="{
       'padding': '10px'
     }">
     <div slot="header">
-      床位{{berth.berthNo}}
+      床{{berth.berthNo}}
       <span style="color:#909399">{{berth.berthTypeName}}</span>
       <el-dropdown @command="onCommand" style="float: right;">
         <span class="el-dropdown-link">
           <i class="el-icon-setting"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="updateDeposit" v-if="!berth.isEmpty">交押金</el-dropdown-item>
-          <el-dropdown-item command="userInfo" v-if="!berth.isEmpty">当前入住人详情</el-dropdown-item>
-          <el-dropdown-item command="checkinRecord">历史入住记录</el-dropdown-item>
-          <el-dropdown-item command="checkinPayRecord">历史账单</el-dropdown-item>
-          <el-dropdown-item command="setServicePlan">服务计划</el-dropdown-item>
+          <el-dropdown-item command="payDeposit" v-if="!berth.isEmpty">交押金</el-dropdown-item>
+          <el-dropdown-item command="pay" v-if="!berth.isEmpty">交费</el-dropdown-item>
+          <el-dropdown-item command="userInfo" v-if="!berth.isEmpty">入住人详情</el-dropdown-item>
+          <el-dropdown-item command="checkinRecord">入住记录</el-dropdown-item>
+          <el-dropdown-item command="checkinPayRecord">账单</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <el-row>
-      <el-col :span="12" style="text-align:center">
-        <img :src="berth.isEmpty ?
-          empty_bed :
-          (berth.berthCheckin.userInfo.sex == 1 ? photo_icon_woman : photo_icon_man)"
-        />
+      <el-col :span="12" class="user-info">
+        <el-row>
+          <el-col v-html="!berth.isEmpty && berth.berthCheckin.userInfo ? berth.berthCheckin.userInfo.realName : '&nbsp;'"></el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <span v-html="!berth.isEmpty && berth.berthCheckin.userInfo ? (berth.berthCheckin.userInfo.sex == 1 ? '女' : '男') : '&nbsp;'"></span>
+            <span style="margin-left:4px;" v-if="!berth.isEmpty && berth.berthCheckin.userInfo">{{berth.berthCheckin.userInfo.age}}岁</span>
+          </el-col>
+        </el-row>
       </el-col>
-      <el-col v-if="berth.isEmpty" :span="12" style="line-height: 90px;text-align:center">
+      <el-col :span="12" class="operations">
         <el-button
+          v-if="berth.isEmpty"
           size="mini"
-          type="primary"
+          type="success"
+          plain
           @click="onCheckinClick"
         >入住</el-button>
-      </el-col>
-      <el-col v-else :span="12">
-        <div class="user-info">
-          <el-row>
-            <el-col>{{berth.berthCheckin.userInfo.realName}}</el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <span>{{berth.berthCheckin.userInfo.sex == 1 ? '女' : '男'}}</span>
-              <span style="margin-left:4px;">{{berth.berthCheckin.userInfo.age}}岁</span>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <el-button
-                size="mini"
-                type="danger"
-                plain
-                @click="onCheckoutClick"
-              >退住</el-button>
-            </el-col>
-          </el-row>
-        </div>
+        <el-button
+          v-else
+          size="mini"
+          type="danger"
+          plain
+          @click="onCheckoutClick"
+        >退住</el-button>
       </el-col>
     </el-row>
 
-    <user-basic-details ref="userBasicDetails"></user-basic-details>
+    <user-basic-details ref="userBasicDetails" />
+    <deposit-pay ref="depositPay" />
+    <normal-pay ref="normalPay" />
   </el-card>
 </template>
 
 <script>
-import empty_bed from './img/empty_bed.png';
-import photo_icon_man from './img/photo_icon_man.png';
-import photo_icon_woman from './img/photo_icon_woman.png';
 
 export default {
+  components: {
+    UserBasicDetails: () => import('@/pages/user/UserBasicDetails.vue'),
+    DepositPay: () => import('./DepositPay'),
+    NormalPay: () => import('./NormalPay')
+  },
   props: {
     berth: Object
   },
-  components: {
-    UserBasicDetails: () => import('@/pages/user/UserBasicDetails.vue'),
-  },
-  data() {
-    return {
-      empty_bed,
-      photo_icon_man,
-      photo_icon_woman
-    };
-  },
   methods: {
     onCheckinClick() {
-      openTab({
-        url: 'view/community/berth/checkin/checkinForm.do?berthId='
-          + this.berth.id + '&berthNo=' + this.berth.berthNo,
-        title: '登记入住'
+      this.pushPage({
+        path: '/resthome/checkin/checkin-form',
+        params: {
+          berth: this.berth,
+          onSuccess: (user) => {
+            this.berth.isEmpty = false;
+            this.berth.berthCheckin = {userInfo: user};
+          }
+        },
+        key: this.berth.id
       });
     },
     onCheckoutClick() {
-      openTab({
-        url: 'community/berth/checkin/leaveForm.do?berthId=' + this.berth.id,
-        title: '办理退住'
+      this.pushPage({
+        path: '/resthome/checkin/leave-form',
+        params: {
+          berth: this.berth,
+          onSuccess: () => {
+            this.berth.isEmpty = true;
+          }
+        },
+        key: this.berth.id
       });
     },
     onCommand(cmd) {
       switch (cmd) {
-        case 'updateDeposit':
-          this.$alert('更新中');
+        case 'payDeposit':
+          this.$refs.depositPay.show(this.berth);
+          break;
+        case 'pay':
+          this.$refs.normalPay.show(this.berth);
           break;
         case 'userInfo':
           this.$refs.userBasicDetails.show({id: this.berth.berthCheckin.userId});
           break;
         case 'checkinRecord':
-          openTab({
-            url: 'view/community/berth/checkinRecord.do?berthId=' + this.berth.id,
-            title: '入住记录'
+          this.pushPage({
+            path: '/resthome/checkin/record/checkin-record',
+            params: {
+              berthId: this.berth.id
+            },
+            key: this.berth.id,
+            subTitle: `床位${this.berth.berthNo}`
           });
           break;
         case 'checkinPayRecord':
-          openTab({
-            url: 'view/community/berth/checkinPayRecord.do?berthId=' + this.berth.id,
-            title: `床位${this.berth.berthNo}历史账单`
+          this.pushPage({
+            path: '/resthome/checkin/finance/pay-record',
+            params: {
+              berthId: this.berth.id
+            },
+            key: this.berth.id,
+            subTitle: `床位${this.berth.berthNo}`
           });
-          break;
-        case 'setServicePlan':
-          openModuleByCode('servicePlan');
           break;
       }
     }
@@ -130,7 +135,7 @@ export default {
     let { berth } = this;
     if (!berth.isEmpty) {
       if (berth.berthCheckin == null) {
-          berth.berthCheckin = {userInfo: {}};
+          berth.berthCheckin = {userInfo: null};
       }
     }
   }
@@ -141,11 +146,14 @@ export default {
 .room-berth {
   width: 190px;
   font-size: 14px;
+  color: #606266;
 }
-.room-berth >>> .el-card__header {
-  padding: 4px 5px;
+.user-info {
+  padding-left: 20px;
+  line-height: 24px;
+  text-align: left;
 }
-.user-info > .el-row > .el-col {
-  height: 30px;
+.operations {
+  line-height: 48px;
 }
 </style>

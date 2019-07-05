@@ -76,7 +76,7 @@ export default {
       this.checkAll = checked;
     },
     async onOkClick() {
-      const ret = await axios.post(
+      const ret = await this.axios.post(
         '/api/user/permission/save',
         {userId: this.form.userId, typeCsv: this.form.permissionTypes.join(',')});
       if (ret.success) {

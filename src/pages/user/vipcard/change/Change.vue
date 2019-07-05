@@ -81,7 +81,7 @@ export default {
         if (!valid) return;
         this.submitting = true;
         let data = {...this.form, userId: this.userInfo.id, oldCardCode: this.userInfo.deviceCode};
-        const ret = await axios.post('/api/user/vipcard/change/change', data);
+        const ret = await this.axios.post('/api/user/vipcard/change/change', data);
         this.submitting = false;
         if (ret.success) {
           this.$message.success('更换会员卡成功');

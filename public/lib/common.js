@@ -17,8 +17,7 @@ function inheritGlobalVars(window, parent) {
     
     extendLang(window);
     window.jqueryExtend(window.$);
-    if (typeof UI == 'function')
-        UI(window);
+    top.UI(window);
 }
 
 extendLang(window);

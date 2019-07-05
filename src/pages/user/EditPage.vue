@@ -2,7 +2,7 @@
 增加用户
 -->
 <template>
-  <el-card shadow="never">
+  <normal-page>
     <el-form
       ref="form"
       :model="form" 
@@ -68,8 +68,14 @@
         <org-select v-model="form.orgId" />
       </el-form-item>
       <el-form-item
+        prop="diqu"
+        label="家庭地址-地区"
+      >
+        <city-select v-model="city" style="width: 100%;"></city-select>
+      </el-form-item>
+      <el-form-item
         prop="address"
-        label="家庭地址"
+        label="家庭地址-详细"
       >
         <el-input type="textarea" :rows="1" v-model.trim="form.address"></el-input>
       </el-form-item>
@@ -97,7 +103,7 @@
         <el-button type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
       </el-form-item>
     </el-form>
-  </el-card>
+  </normal-page>
 </template>
 
 <script>
@@ -109,7 +115,8 @@ export default {
     title: '编辑用户'
   },
   components: {
-    OrgSelect: () => import('@/pages/org/OrgSelect.vue')
+    OrgSelect: () => import('@/pages/org/OrgSelect'),
+    CitySelect: () => import('@/components/cityselect/CitySelect')
   },
   data() {
     return {
@@ -132,6 +139,7 @@ export default {
         imagePath: '',
         deviceCode: ''
       },
+      city: {prov: '湖北省', city: '武汉市'},
       moment,
       submitting: false
     }
@@ -153,8 +161,12 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
         this.submitting = true;
-        this.form.aliasName = this.form.realName;
-        const ret = await axios.post('/api/user/registUser', this.form);
+        let userData = {...this.form};
+        userData.aliasName = userData.realName;
+        userData.address = (this.city.prov || '')
+          + (this.city.city || '')
+          + (this.city.dist || '') + userData.address;
+        const ret = await this.axios.post('/api/user/registUser', userData);
         this.submitting = false;
         if (ret.success) {
           this.$message.success('增加用户成功');
@@ -171,11 +183,14 @@ export default {
         this.submitting = true;
         let data = _.pick({...this.form},
           'aliasName,realName,sex,birthday,idcard,telephone,name,contactTel,orgId,address'.split(','));
+        data.address = (this.city.prov || '')
+          + (this.city.city || '')
+          + (this.city.dist || '') + data.address;
         data.userId = this.form.id;
         data.appUserId = data.userId;
         data.userType = this.form.userType;
         data.aliasName = this.form.realName;
-        const ret = await axios.post('/api/user/updateUser', data);
+        const ret = await this.axios.post('/api/user/updateUser', data);
         this.submitting = false;
         if (ret.success) {
           this.$message.success('修改用户成功');

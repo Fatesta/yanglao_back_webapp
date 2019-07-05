@@ -154,7 +154,7 @@ export default {
       const submit = async (handler) => {
         handler = handler || this.$params.shop.adminId;
         let operator = this.$params.shop.adminId;
-        const ret = await axios.post(
+        const ret = await this.axios.post(
           '/api/shop/order/taking',
           {
             orderno: order.orderno,

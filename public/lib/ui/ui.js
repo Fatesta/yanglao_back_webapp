@@ -1,9 +1,6 @@
 UI(window);
-function UI(window) {
-    var $ = window.$;
-    var document = window.document;
-    var exports = window;
-
+function UI(win) {
+(function($, exports, document) {
     /**
      * 打开Tab，如果Tabs中已有相同标题的Tab，只选中
      * @param options
@@ -313,7 +310,6 @@ function UI(window) {
         return html;
     }
 
-    window.DialogManager = exports.DialogManager;
     exports.UICommon = UICommon;
     //todo: 属性继承,更好的统一options
     exports.DialogManager = (function() {
@@ -325,7 +321,7 @@ function UI(window) {
             },
             openSimpleDialog: function(options){
                 // 元素id
-                var id = 'dialog_' + (options.id || window.DialogManager.getNewDialogId());
+                var id = 'dialog_' + (options.id || exports.DialogManager.getNewDialogId());
                 
                 // 创建dom元素
                 if ($("#" +id).length == 0)
@@ -381,7 +377,7 @@ function UI(window) {
     exports.openEditDialog = (function(){
         return function(options) {
             // 元素id
-            var id = 'dialog_' + (options.id || window.DialogManager.getNewDialogId());
+            var id = 'dialog_' + (options.id || exports.DialogManager.getNewDialogId());
             
             // 创建dom元素
             if ($("#" +id).length == 0)
@@ -535,7 +531,7 @@ function UI(window) {
     }
     
     exports.openConfirmDeleteDialog = function(ok, cancel) {
-        return openConfirmDialog("确认删除?", ok, cancel);
+        return exports.openConfirmDialog("确认删除?", ok, cancel);
     }
     
 
@@ -628,4 +624,6 @@ function UI(window) {
 			datagrid.datagrid('showColumn', col);
         });
     }
+
+})(win.$, win, win.document);
 }

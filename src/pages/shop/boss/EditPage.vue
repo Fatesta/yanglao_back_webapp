@@ -2,7 +2,7 @@
 增加用户
 -->
 <template>
-  <el-card shadow="never">
+  <normal-page>
     <el-form
       ref="form"
       :model="form" 
@@ -60,7 +60,7 @@
         <el-button type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
       </el-form-item>
     </el-form>
-  </el-card>
+  </normal-page>
 </template>
 
 <script>
@@ -94,7 +94,7 @@ export default {
         formData.orgIds = this.form.orgIds.join(',');
         
         this.submitting = true;
-        const ret = await axios.post('/api/shop/boss/saveBoss', formData);
+        const ret = await this.axios.post('/api/shop/boss/saveBoss', formData);
         this.submitting = false;
         if (ret.success) {
           this.$message.success(`${this.$params.mode == 'add' ? '增加' : '修改'}商家成功`);

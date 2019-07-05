@@ -1,9 +1,9 @@
 <template>
-  <el-card class="box-card" shadow="never">
+  <normal-page style="min-height: unset;">
     <data-table-app-view>
       <slot></slot>
     </data-table-app-view>
-  </el-card>
+  </normal-page>
 </template>
 
 <script>

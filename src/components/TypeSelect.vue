@@ -22,7 +22,7 @@ export default {
     event: 'change'
   },
   props: {
-    value: Object,
+    value: [Object, String],
     items: {
       type: Array //[{text, value}...]
     },

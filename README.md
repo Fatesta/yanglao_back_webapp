@@ -47,7 +47,6 @@ export default {
 |title|标题，覆盖组件`pageProps`属性中的title|string|
 |subTitle|子标题|string|
 |key|默认等于path，根据key判断是否已经打开标签页，如果打开了则选中，否则打开新的|string/number|
-
 示例：
 ```js
 this.pushPage('/shop/order/index');

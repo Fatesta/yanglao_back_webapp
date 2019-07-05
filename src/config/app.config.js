@@ -1,13 +1,19 @@
 const defaultConfigValues = {
   autoLoginEnabled: false,
   rememberPasswordEnabled: false,
-  theme: 'light',//dark
+  theme: 'dark',//light
   size: 'small',
   sideMenuCollapsed: false
 };
 
 class Config {
   constructor() {
+    //TODO:过一段时间之后删掉
+    if (this.get('version') == null) {
+      this.set('version', '20190704');
+      this.set('theme', 'dark');
+    }
+
     for (let key in defaultConfigValues) {
       if (this.get(key) == null) {
         this.set(key, defaultConfigValues[key]);

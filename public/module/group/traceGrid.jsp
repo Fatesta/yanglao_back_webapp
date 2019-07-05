@@ -61,7 +61,21 @@ map.addControl(new BMap.CityListControl({
    	anchor: BMAP_ANCHOR_TOP_RIGHT,
    	offset: BMap.Size(10, 20)
 }));
-
+(function() {
+    var resultName = null;
+    new BMap.LocalCity().get(result => {
+        var point = new BMap.Point(result.center.lng, result.center.lat);
+        map.centerAndZoom(point, result.level);
+        resultName = result.name;
+    });
+    new BMap.Geolocation().getCurrentPosition(function(result) {
+        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            if (result.address.city != resultName) {
+                map.centerAndZoom(result.address.city);
+            }
+        }
+    });
+})();
 map.zoomendTimes = 0;
 map.addEventListener("zoomend", function(){
     map.zoomendTimes++;

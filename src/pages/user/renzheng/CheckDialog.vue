@@ -42,7 +42,7 @@ export default {
       this._check(3);
     },
     async _check(state) {
-      const ret = await axios.post('/api/user/renzheng/check',
+      const ret = await this.axios.post('/api/user/renzheng/check',
         {...this.checkForm, ...{state: state}});
       if (ret.success) {
         this.$message.success('审核成功');

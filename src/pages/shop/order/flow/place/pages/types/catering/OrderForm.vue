@@ -39,7 +39,7 @@
               prop="address"
               label="订单地址"
               :rules="[{required: true, message: ' '}]">
-              <el-input type="textarea" :rows="2" v-model="form.address" style="width: 300px"></el-input>
+              <el-input type="textarea" :rows="1" v-model="form.address" style="width: 300px"></el-input>
             </el-form-item>
 
             <el-form-item
@@ -67,6 +67,7 @@
             <span>¥{{scope.row.product.price}}</span>
             <el-button
               icon="el-icon-edit"
+              size="mini"
               @click="onEditPriceClick(scope.row.product)"
             />
           </template>
@@ -175,7 +176,7 @@ export default {
         }));
         let data = {
           providerId: this.$params.shop.providerId,
-          industryId: this.$params.shop.industryId,
+          industryId: 'catering',
           creator: this.user.id,
           payType: 33,
           productListJSON,
@@ -186,7 +187,7 @@ export default {
           ...this.form,
         };
         this.submitting = true;
-        const ret = await axios.post('/api/shop/order/addOrder', data);
+        const ret = await this.axios.post('/api/shop/order/addOrder', data);
         this.submitting = false;
         if (ret.success) {
           this.$message.success('下单成功');

@@ -10,7 +10,8 @@
       'padding': '8px'
     }">
     <div slot="header">
-      房间{{room.roomNo}}
+      房{{room.roomNo}}
+      <span style="color:#909399">{{room.remark}}</span>
     </div>
     <RoomBerth
       v-for="berth in room.berths"
@@ -39,6 +40,7 @@ export default {
   margin-left: 8px;
   margin-top: 8px;
   font-size: 14px;
+  color: #606266;
 }
 .room >>> .el-card__header {
   padding: 9px 10px;

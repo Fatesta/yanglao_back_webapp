@@ -63,7 +63,7 @@
         style="
           width:100%;
           background-color: #EBEEF5;
-          padding: 8px;">
+        ">
         <el-col :span="6" style="line-height: 60px;">
           <div style="float:right">
             <span>已选择 <span style="font-weight: bold;">{{Object.keys(selections).length}}</span> 种商品</span>

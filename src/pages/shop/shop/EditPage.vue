@@ -1,8 +1,9 @@
 <!--
 增加用户
 -->
+
 <template>
-  <el-card shadow="never">
+  <normal-page>
     <el-form
       ref="form"
       :model="form" 
@@ -179,7 +180,7 @@
     </el-form>
 
     <boss-query-selector ref="bossQuerySelector" />
-  </el-card>
+  </normal-page>
 </template>
 
 <script>
@@ -252,7 +253,7 @@ export default {
         formData.orgId = this.isOrgLimited ? this.form.orgId.join(',') : -1;
         
         this.submitting = true;
-        const ret = await axios.post('/api/shop/pro/savePro', formData);
+        const ret = await this.axios.post('/api/shop/pro/savePro', formData);
         this.submitting = false;
         if (ret.success) {
           this.$message.success(`${this.$params.mode == 'add' ? '新建' : '修改'}店铺成功`);

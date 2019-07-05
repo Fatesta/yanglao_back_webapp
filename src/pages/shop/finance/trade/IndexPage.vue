@@ -144,9 +144,14 @@ export default {
       return queryParams;
     },
     onOrderDetailsClick(orderno) {
-      openTab({
-        title: '订单详情 - ' + orderno,
-        url: '/view/shop/workOrder/orderDetail.do?orderCode=' + orderno
+      this.pushPage({
+        path: '/shop/order/details',
+        params: {
+          order: {orderno},
+          shop: this.$params.shop
+        },
+        key: orderno,
+        subTitle: orderno
       });
     },
     onExportClick() {

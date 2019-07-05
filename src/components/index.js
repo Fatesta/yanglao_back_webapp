@@ -5,8 +5,10 @@ import DataTableQueryButton from './DataTableQueryButton.vue';
 import DataTableAppView from './DataTableAppView.vue';
 import DataTableAppPage from './DataTableAppPage.vue';
 import EmptyButton from './EmptyButton.vue';
+import NormalPage from './NormalPage.vue';
 
 // 这些组件很常用，为方便使用和性能，应打包为initial chunk
+Vue.component(NormalPage.name, NormalPage);
 Vue.component(DataTable.name, DataTable);
 Vue.component(TypeSelect.name, TypeSelect);
 Vue.component(DataTableQueryButton.name, DataTableQueryButton);

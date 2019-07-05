@@ -1,13 +1,13 @@
 <template>
-  <el-card shadow="never">
+  <normal-page>
     <section style="margin-top: -20px">
       <div class="order-operations" v-if="[1,2,4,9,14].includes(app.admin.roleId)">
         <el-button
           v-if="
-            ['housekeeping'].includes($params.order.industryId)
-            && ($params.order.status >= 13
-            && $params.order.status != 16
-            && !$params.order.startFlowTime)"
+            ['housekeeping'].includes(orderInfo.industryId)
+            && (orderInfo.status >= 13
+            && orderInfo.status != 16
+            && !orderInfo.startFlowTime)"
           type="primary"
           round
           @click="onFlowStartClick"
@@ -16,10 +16,10 @@
         </el-button>
         <el-button
           v-else-if="
-            ['housekeeping', 'catering'].includes($params.order.industryId)
-            && ($params.order.status >= 13
-            && $params.order.status != 16
-            && !$params.order.endFlowTime)"
+            ['housekeeping', 'catering'].includes(orderInfo.industryId)
+            && (orderInfo.status >= 13
+            && orderInfo.status != 16
+            && !orderInfo.endFlowTime)"
           type="success"
           round
           @click="onFlowFinishClick"
@@ -28,8 +28,8 @@
         </el-button>
         <el-button
           v-else-if="
-            ['housekeeping', 'catering'].includes($params.order.industryId)
-            && ($params.order.status == 15 && $params.order.starLevel == null)"
+            ['housekeeping', 'catering'].includes(orderInfo.industryId)
+            && (orderInfo.status == 15 && orderInfo.starLevel == null)"
           type="primary"
           plain
           round
@@ -39,8 +39,8 @@
         </el-button>
         
         <el-button
-          v-if="['housekeeping', 'catering'].includes($params.order.industryId)
-            && [10, 12, 13, 14].includes($params.order.status)"
+          v-if="['housekeeping', 'catering'].includes(orderInfo.industryId)
+            && [10, 12, 13, 14].includes(orderInfo.status)"
           type="warning"
           plain
           round
@@ -66,7 +66,7 @@
         <!--
         <el-tooltip content="删除订单">
           <el-button
-            v-if="$params.order.payStatus == 0"
+            v-if="orderInfo.payStatus == 0"
             type="danger"
             plain
             circle
@@ -79,13 +79,13 @@
       <h1>
         <span style="margin-right: 16px;">{{orderOutName}}&nbsp;{{orderInfo.orderno}}</span>
         <template v-if="$params.type != 'service'">
-          <el-tag size="large" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[$params.order.status]">
-            {{$params.order.statusText}}
+          <el-tag size="large" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[orderInfo.status]">
+            {{orderInfo.statusText || DictMan.itemMap('productOrder.status')[orderInfo.status] }}
           </el-tag>
         </template>
         <template v-else>
-          <el-tag size="large" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[$params.order.status]">
-            {{$params.statusMap[$params.order.status]}}
+          <el-tag size="large" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[orderInfo.status]">
+            {{$params.statusMap[orderInfo.status]}}
           </el-tag>
         </template>
       </h1>
@@ -93,15 +93,15 @@
         <tr>
           <th>支付状态：</th>
           <td colspan="3">
-            <el-tag size="medium" :type="['warning', 'success'][$params.order.payStatus]">
-              {{$params.order.payStatusText}}
+            <el-tag size="medium" :type="['warning', 'success'][orderInfo.payStatus]">
+              {{orderInfo.payStatusText || DictMan.itemMap('payStatus')[orderInfo.payStatus]}}
             </el-tag>
           </td>
         </tr>
         <tr>
           <th>{{orderOutName}}金额：</th>
           <td colspan="3">
-            {{$params.order.paymentFee > 0 ? `¥${$params.order.paymentFee}` : '免费'}}
+            {{orderInfo.paymentFee > 0 ? `¥${orderInfo.paymentFee}` : '免费'}}
           </td>
         </tr>
         <tr>
@@ -114,7 +114,7 @@
         </tr>
         <tr>
           <th>{{orderOutName}}备注：</th>
-          <td colspan="3" v-html="orderInfo.remark.split('\n').join('<br>') || '无'"></td>
+          <td colspan="3" v-html="(orderInfo.remark && orderInfo.remark.split('\n').join('<br>')) || '无'"></td>
         </tr>
       </table>
       <table class="info-table">
@@ -222,7 +222,7 @@
           <th>分数评价：</th>
           <td colspan="3">
             <el-rate v-model="orderFlowInfo.starLevel" disabled style="display:inline-block" />
-            <template v-if="isNaN(parseInt(orderFlowInfo.startLevel))">（未评价）</template>
+            <template v-if="isNaN(parseInt(orderFlowInfo.starLevel))">（未评价）</template>
           </td>
         </tr>
         <tr>
@@ -235,7 +235,7 @@
     <start-form ref="startForm" />
     <finish-form ref="finishForm" />
     <comment ref="comment" />
-  </el-card>
+  </normal-page>
 </template>
 
 <script>
@@ -259,6 +259,14 @@ export default {
       },
       app
     }
+  },
+  async mounted() {
+    const orderCode = this.orderInfo.orderno;
+    // TODO：合并请求为一个
+    this.orderInfo = await this.axios.get('/api/shop/order/detail', {params: { orderCode: this.$params.order.orderno }});
+    this.orderProducts = (await this.axios.get('/api/shop/order/orderDetailPage', {params: {orderno: orderCode}})).rows;
+    this.loadings.orderProducts = false;
+    this.orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo', {params: { orderCode }});
   },
   methods: {
     viewImage(url) {
@@ -299,7 +307,7 @@ export default {
       this.$confirm(`确认取消订单 ${order.orderno} ？`, {
         type: 'warning'
       }).then(async () => {
-         const ret = await axios.post('/api/shop/order/cancel', {
+         const ret = await this.axios.post('/api/shop/order/cancel', {
            orderno: order.orderno,
            creator: order.creator,
            operator: ''
@@ -334,7 +342,7 @@ export default {
         case 'remark':
           this.$prompt(null, '修改订单备注', {inputType: 'textarea', inputValue: order.remark, rows: 4}).then(async ({action, value}) => {
             if ('confirm' == action) {
-              const ret = await axios.post('/api/shop/order/update',
+              const ret = await this.axios.post('/api/shop/order/update',
                 {orderno: order.orderno, remark: value});
               if (ret.success) {
                 this.$message.success('修改成功');
@@ -347,11 +355,11 @@ export default {
     },
     /*
     onDeleteClick() {
-      const orderCode = this.$params.order.orderno;
+      const orderCode = this.orderInfo.orderno;
       this.$confirm(`确认删除订单 ${orderCode} ？`, {
         type: 'warning'
       }).then(async () => {
-         const ret = await axios.post('/api/shop/order/delete', {
+         const ret = await this.axios.post('/api/shop/order/delete', {
            orderno: orderCode
          });
          if (ret.success) {
@@ -363,16 +371,8 @@ export default {
     */
     async refreshOrderFlowInfo() {
       this.orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo',
-        {params: { orderCode: this.$params.order.orderno }});
+        {params: { orderCode: this.orderInfo.orderno }});
     }
-  },
-  async mounted() {
-    const orderCode = this.$params.order.orderno;
-    // TODO：合并请求为一个
-    this.orderProducts = (await this.axios.get('/api/shop/order/orderDetailPage', {params: {orderno: orderCode}})).rows;
-    this.loadings.orderProducts = false;
-    this.orderInfo = await this.axios.get('/api/shop/order/detail',  {params: { orderCode }});
-    this.orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo', {params: { orderCode }});
   }
 }
 </script>

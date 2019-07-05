@@ -17,7 +17,7 @@
     <table id="dgBerthCheckin" class="easyui-datagrid" toolbar="#tbrBerthCheckin"
         data-options="
             url: '${urlPath}community/berth/checkinRecord/page.do',
-            queryParams: {berthId: '${berthId}'}">
+            queryParams: {berthId: '${berthId}', resthomeId: '${resthome_id}'}">
         <thead>
             <tr>
                 <th data-options="field:'id',width:60,align:'center'">ID</th>

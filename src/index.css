@@ -54,7 +54,7 @@ input,textarea {
   font-size: 13px;
 }
 .el-tabs__header {
-  margin: 0px 0px 2px !important;
+  margin: 0px 0px 0px 0px !important;
 }
 .el-main > .el-tabs > .el-tabs__content {
   overflow: auto;

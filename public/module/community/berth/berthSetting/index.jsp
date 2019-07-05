@@ -30,6 +30,9 @@
 		</div>
 	</div>
 
-<script src="${modulePath}community/berth/berthSetting/berthSetting.js?v=1.2"></script>
+	<script>
+	var resthomeId = '${resthome_id}';
+	</script>
+<script src="${modulePath}community/berth/berthSetting/berthSetting.js?v=1.3"></script>
 </body>
 </html>

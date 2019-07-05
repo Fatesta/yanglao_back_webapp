@@ -17,7 +17,7 @@
     <table id="dgBerthCheckinPayRecord" class="easyui-datagrid" toolbar="#tbrBerthCheckinPayRecord"
         data-options="
             url: '${urlPath}community/berth/payrecord/page.do',
-            queryParams: {checkinId: '${checkinId}'}">
+            queryParams: {checkinId: '${checkinId}', resthomeId: '${resthome_id}'}">
         <thead>
             <tr>
 	            <th data-options="field:'type',width:130,align:'center', formatter: formatters.type">金额类别</th>

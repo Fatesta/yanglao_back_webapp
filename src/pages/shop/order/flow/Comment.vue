@@ -51,7 +51,7 @@ export default {
         }
         let postData = {...this.form};
         this.submitting = true;
-        const ret = await axios.post('/api/shop/order/comment', postData);
+        const ret = await this.axios.post('/api/shop/order/comment', postData);
         if (ret.success) {
           this.$message.success('订单评价成功');
           this.visible = false;

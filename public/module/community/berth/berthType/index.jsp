@@ -20,7 +20,8 @@
 	</div>
 	<table id="dgCommunityBerthType" class="easyui-datagrid" toolbar="#tbrCommunityBerthType"
 	   data-options="
-	       url: '${urlPath}community/berth/berthType/page.do'">
+				 url: '${urlPath}community/berth/berthType/page.do',
+				 queryParams: {resthomeId: '${resthome_id}'}">
 	    <thead>
 	        <tr>
 	            <th data-options="field:'name', width:'150', halign: 'center', align:'left'">名称</th>
@@ -29,6 +30,9 @@
 	        </tr>
 	    </thead>
 	</table>
-	<script src="${modulePath}community/berth/berthType/berthType.js?v=1"></script>
+	<script>
+	var resthomeId = '${resthome_id}';
+	</script>
+	<script src="${modulePath}community/berth/berthType/berthType.js?v=1.2"></script>
 </body>
 </html>

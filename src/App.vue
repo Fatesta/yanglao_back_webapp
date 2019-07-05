@@ -103,10 +103,11 @@
     </el-header>
     <el-container>
       <nav-menu ref="navMenu" :height="(contentMaxHeight - 60)" />
-      <el-main style="padding: 2px;">
+      <el-main :style="{padding: '2px 0px 0px 2px'}">
         <el-tabs
+          v-show="tabs.length"
           :value="activeTabKey"
-          type="card"
+          :type="theme == 'light' ? 'card' : 'border-card'"
           closable
           @tab-remove="onTabRemove"
         >
@@ -158,6 +159,7 @@ export default {
   async mounted() {
     // 实例方法
     Vue.prototype.pushPage = this.pushPage.bind(this);
+    Vue.prototype.$closeCurrentPage = this.closeCurrentPage.bind(this);
 
     // 暴漏给以前的（未使用webpack前）代码
     window.app = this;
@@ -167,15 +169,15 @@ export default {
       var node = Object.assign({}, findFunc(app.$refs.navMenu.menuTreeNodes, code));
       app.openTab(node, options);
       function findFunc(nodes, code) {
-          for (var i in nodes) {
-              var node = nodes[i];
-              if (node.attributes && node.attributes.code && node.attributes.code.toString() == code)
-                  return node;
-              node = findFunc(node.children, code);
-              if (node)
-                  return node;
-          }
-          return null;
+        for (var i in nodes) {
+          var node = nodes[i];
+          if (node.attributes && node.attributes.code && node.attributes.code.toString() == code)
+              return node;
+          node = findFunc(node.children, code);
+          if (node)
+              return node;
+        }
+        return null;
       }
     }
 
@@ -223,10 +225,10 @@ export default {
       const themeStyles = {
         dark: {
           header: {
-            backgroundColor: '#242f42',
-            color: '#eee',
-            color2: '#ddd',
-            hoverColor: '#1c273a'
+            backgroundColor: '#228dfb',
+            color: '#fff',
+            color2: '#eee',
+            hoverColor: '#53a8ff'
           }
         },
         light: {
@@ -316,31 +318,32 @@ export default {
 
       /* 异步加载vue组件，并设置为tab的content */
       function loadAsyncComponentSetTabContent(tab, page) {
-        if (typeof page === 'function') {
-          page().then(({default: component}) => {
+        page().then(({default: component}) => {
+          // 设置标题
+          let title = (options.title
+            || (component.pageProps && component.pageProps.title)
+            || '未定义标题');
+          if (options.subTitle) {
+            title = `${options.subTitle} - ${title}`;
+          }
+          tab.title = title;
 
-            // 设置标题
-            let title = (options.title
-              || (component.pageProps && component.pageProps.title)
-              || '未定义标题');
-            if (options.subTitle) {
-              title = `${options.subTitle} - ${title}`;
-            }
-            tab.title = title;
+          component.props = component.props || {};
+          // 给组件设置props
+          // TODO: FIX: 在热更新模式下，没有重复执行该代码，因此该属性无法设置
+          component.props['$params'] = {
+            type: Object,
+            default: () => (options.params || {})
+          };
+          
+          tab.content = component;
 
-            component.props = component.props || {};
-            // 给组件设置props
-            component.props['$params'] = {
-              type: Object,
-              default: () => (options.params || {})
-            };
-            
-            tab.content = component;
-
-            tab.loading = false;
-          });
-        }
+          tab.loading = false;
+        });
       }
+    },
+    closeCurrentPage() {
+      this.onTabRemove(this.activeTabKey);
     },
     /* 打开一个标签页承载一个页面，这个方法现在被NavMenu，以及原使用easyui代码的方法调用 */
     openTab(item, options) {
@@ -398,7 +401,7 @@ export default {
                       width:100%;
                       height:100%;
                       margin:0px;
-                      padding:0px;
+                      outline: none;
                       border-width:0px;`
                   }
                 );
@@ -433,5 +436,18 @@ export default {
 .icon-button {
   font-size: 16px;
   font-weight: bold;
+}
+
+.el-main > .el-tabs >>> .el-tabs__content {
+  padding: 0px;
+}
+.el-main > .el-tabs--border-card {
+  box-shadow: unset;
+  border-bottom: none;
+  border-right: none;
+  border-left: none;
+}
+.el-main > .el-tabs--border-card >>> .el-tabs__header {
+  border-left: 1px solid #DCDFE6;
 }
 </style>
