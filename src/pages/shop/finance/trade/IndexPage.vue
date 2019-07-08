@@ -6,14 +6,14 @@
           <type-select
             v-model="searchForm.tradeType"
             :items="DictMan.items('tradeType')"
-            style="width: 130px"
+            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="支付方式">
           <type-select
             v-model="searchForm.payType"
             :items="DictMan.items('payType')"
-            style="width: 110px"
+            style="width: 120px"
           />
         </el-form-item>
         <el-form-item label="优惠方式">
@@ -26,7 +26,7 @@
               {value:  1, text: '平台优惠劵抵扣'},
               {value: -2, text: '老年卡补贴'}
             ]"
-            style="width: 130px"
+            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="交易时间">
@@ -64,16 +64,16 @@
       lazy
     >
       <el-table-column prop="createTime" label="交易时间" width="170"></el-table-column>
-      <el-table-column prop="formattedTradeType" label="交易类型" width="120"></el-table-column>
-      <el-table-column prop="payType" label="支付方式" width="120" :formatter="formatters.payType"></el-table-column>
-      <el-table-column prop="totalFee" label="原价" width="70"></el-table-column>
-      <el-table-column prop="tradePrice" label="实收" width="70"></el-table-column>
-      <el-table-column prop="formattedCouponAmount" label="优惠" width="200"></el-table-column>
+      <el-table-column prop="formattedTradeType" label="交易类型" width="120" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="payType" label="支付方式" width="110" :formatter="formatters.payType"></el-table-column>
+      <el-table-column prop="totalFee" label="原价" width="80"></el-table-column>
+      <el-table-column prop="tradePrice" label="实收" width="80"></el-table-column>
+      <el-table-column prop="formattedCouponAmount" label="优惠" width="180" show-overflow-tooltip></el-table-column>
       <el-table-column prop="userAccountAliasName" label="买家" width="100"></el-table-column>
-      <el-table-column prop="userAccountDeviceCode" label="设备号" width="150" :formatter="formatters.userAccountDeviceCode"></el-table-column>
-      <el-table-column prop="providerName" label="店铺名称" width="240" show-overflow-tooltip v-if="!searchForm.providerId"></el-table-column>
+      <el-table-column prop="userAccountDeviceCode" label="设备号" width="160" :formatter="formatters.userAccountDeviceCode"></el-table-column>
+      <el-table-column prop="providerName" label="店铺名称" width="200" show-overflow-tooltip v-if="!searchForm.providerId"></el-table-column>
       <el-table-column prop="operationAccountUsername" label="操作商家工号" width="120"></el-table-column>
-      <el-table-column prop="operationPhoneLogo" label="操作商家手机标识" width="140" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="operationPhoneLogo" label="商家设备标识" width="120" show-overflow-tooltip></el-table-column>
       <el-table-column prop="orderno" label="订单号" width="190">
         <template slot-scope="scope">
           <el-button v-if="scope.row.orderno && !scope.row.orderno.startsWith('PPCW')" type="text" @click="onOrderDetailsClick(scope.row.orderno)">{{scope.row.orderno}}</el-button>
@@ -95,7 +95,8 @@ export default {
   data() {
     return {
       formatters: {
-        userAccountDeviceCode: (row, col, v) => [2,9].includes(+row.userAccount[0]) ? v : '-',
+        userAccountDeviceCode: (row, col, v) =>
+          (row.userAccount && [2,9].includes(+row.userAccount[0])) ? v : '-',
         payType: (row, col, val) => DictMan.itemMap('payType')[val]
       },
       searchForm: {

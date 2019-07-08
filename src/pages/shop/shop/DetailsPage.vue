@@ -1,5 +1,5 @@
 <template>
-  <normal-page>
+  <card-page>
     <el-row>
       <el-col :span="5">店铺图片</el-col>
       <el-col :span="18"><img :src="shopInfo.imgUrl" style="height: 50px;width: 80px;border-radius: 4px;"/></el-col>
@@ -58,7 +58,7 @@
       <el-col :span="5">创建时间</el-col>
       <el-col :span="18">{{shopInfo.createTime}}</el-col>
     </el-row>
-  </normal-page>
+  </card-page>
 </template>
 
 

@@ -1,82 +1,13 @@
 <template>
-  <normal-page>
-    <section style="margin-top: -20px">
-      <div class="order-operations" v-if="[1,2,4,9,14].includes(app.admin.roleId)">
-        <el-button
-          v-if="
-            ['housekeeping'].includes(orderInfo.industryId)
-            && (orderInfo.status >= 13
-            && orderInfo.status != 16
-            && !loadings.orderFlowInfo
-            && !orderFlowInfo.orderStartTime)"
-          type="primary"
-          round
-          @click="onFlowStartClick"
-        >
-          开始
-        </el-button>
-        <el-button
-          v-else-if="
-            ['housekeeping', 'catering'].includes(orderInfo.industryId)
-            && (orderInfo.status >= 13
-            && orderInfo.status != 16
-            && !loadings.orderFlowInfo
-            && !orderFlowInfo.orderEndTime)"
-          type="success"
-          round
-          @click="onFlowFinishClick"
-        >
-          完成
-        </el-button>
-        <el-button
-          v-else-if="
-            ['housekeeping', 'catering'].includes(orderInfo.industryId)
-            && (orderInfo.status == 15 && !loadings.orderFlowInfo && !orderFlowInfo.starLevel)"
-          type="primary"
-          plain
-          round
-          @click="onCommentClick"
-        >
-          评价
-        </el-button>
-        
-        <el-button
-          v-if="['housekeeping', 'catering'].includes(orderInfo.industryId)
-            && [10, 12, 13, 14].includes(orderInfo.status)"
-          type="warning"
-          plain
-          round
-          @click="onCancelClick"
-        >
-          取消
-        </el-button>
-        <el-tooltip content="修正订单信息">
-          <el-dropdown placement="bottom-start" trigger="click" @command="onOrderModifyCommand">
-            <el-button
-              type="danger"
-              plain
-              circle
-              icon="el-icon-edit"
-            />
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-if="orderFlowInfo.orderStartTime" command="flow-start">订单过程-开始</el-dropdown-item>
-                <el-dropdown-item v-if="orderFlowInfo.orderEndTime" command="flow-finish">订单过程-完成</el-dropdown-item>
-                <el-dropdown-item command="remark">订单备注</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-tooltip>
-        <el-tooltip content="删除订单">
-          <el-button
-            v-if="orderInfo.status == 16"
-            type="danger"
-            plain
-            circle
-            icon="el-icon-delete"
-            @click="onDeleteClick"
-          />
-        </el-tooltip>
-      </div>
-      <h1>
+  <plain-page>
+    <el-card shadow="never"
+        :style="{
+          'border-top': '2px solid',
+          'border-top-color': {10: '#409EFF', 12: '#E6A23C', 13: '#E6A23C', 14: '#E6A23C', 15: '#67C23A', 16: '#F56C6C'}[orderInfo.status]
+        }"
+        class="section"
+      >
+        <div>
         <span style="margin-right: 16px;">{{orderOutName}}&nbsp;{{orderInfo.orderno}}</span>
         <template v-if="$params.type != 'service'">
           <el-tag size="large" :type="{12: 'warning', 13: 'warning', 14: 'warning', 15: 'success', 16: 'danger'}[orderInfo.status]">
@@ -88,7 +19,86 @@
             {{$params.statusMap[orderInfo.status]}}
           </el-tag>
         </template>
-      </h1>
+
+        <div class="order-operations" v-if="[1,2,4,9,14].includes(app.admin.roleId)">
+          <el-button
+            v-if="
+              ['housekeeping'].includes(orderInfo.industryId)
+              && (orderInfo.status >= 13
+              && orderInfo.status != 16
+              && !loadings.orderFlowInfo
+              && !orderFlowInfo.orderStartTime)"
+            type="primary"
+            round
+            @click="onFlowStartClick"
+          >
+            开始
+          </el-button>
+          <el-button
+            v-else-if="
+              ['housekeeping', 'catering'].includes(orderInfo.industryId)
+              && (orderInfo.status >= 13
+              && orderInfo.status != 16
+              && !loadings.orderFlowInfo
+              && !orderFlowInfo.orderEndTime)"
+            type="success"
+            round
+            @click="onFlowFinishClick"
+          >
+            完成
+          </el-button>
+          <el-button
+            v-else-if="
+              ['housekeeping', 'catering'].includes(orderInfo.industryId)
+              && (orderInfo.status == 15 && !loadings.orderFlowInfo && !orderFlowInfo.starLevel)"
+            type="primary"
+            plain
+            round
+            @click="onCommentClick"
+          >
+            评价
+          </el-button>
+          
+          <el-button
+            v-if="['housekeeping', 'catering'].includes(orderInfo.industryId)
+              && [10, 12, 13, 14].includes(orderInfo.status)"
+            type="warning"
+            plain
+            round
+            @click="onCancelClick"
+          >
+            取消
+          </el-button>
+          <el-tooltip content="修正订单信息">
+            <el-dropdown placement="bottom-start" trigger="click" @command="onOrderModifyCommand">
+              <el-button
+                type="danger"
+                plain
+                circle
+                icon="el-icon-edit"
+              />
+              <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-if="orderFlowInfo.orderStartTime" command="flow-start">订单过程-开始</el-dropdown-item>
+                  <el-dropdown-item v-if="orderFlowInfo.orderEndTime" command="flow-finish">订单过程-完成</el-dropdown-item>
+                  <el-dropdown-item command="remark">订单备注</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-tooltip>
+          <el-tooltip content="删除订单">
+            <el-button
+              v-if="orderInfo.status == 16"
+              type="danger"
+              plain
+              circle
+              icon="el-icon-delete"
+              @click="onDeleteClick"
+            />
+          </el-tooltip>
+        </div>
+      </div>
+    </el-card>
+    <el-card shadow="never" body-style="padding: 0px 20px;" class="section">
+
       <table class="info-table">
         <tr>
           <th>支付状态：</th>
@@ -123,9 +133,8 @@
           <td>{{orderInfo.linkman}}，{{orderInfo.linkphone}}</td>
         </tr>
       </table>
-    </section>
-    <section>
-      <h1>{{orderOutName}}商品</h1>
+    </el-card>
+    <el-card shadow="never" class="section">
       <el-table
         :data="orderProducts"
         size="medium"
@@ -146,6 +155,7 @@
           position: relative;
           right: 8px;
           margin-top: 8px;
+          margin-bottom: 10px;
           font-size: 14px;
         ">
         <table>
@@ -155,17 +165,16 @@
           </tr>
         </table>
       </div>
-    </section>
-    <section>
-      <h1>{{orderOutName}}过程</h1>
-      <el-timeline>
+    </el-card>
+    <el-card shadow="never" class="section">
+      <el-timeline style="padding-inline-start: 0px;">
         <el-timeline-item
           v-if="orderFlowInfo.orderEndTime"
           :timestamp="orderFlowInfo.orderEndTime.substring(0, 19)"
           placement="top"
           color="#67C23A"
         >
-          <el-card shadow="hover">
+          <el-card shadow="never" body-style="padding:0px 20px">
             <h4>完成服务</h4>
             <p>【{{orderFlowInfo.orderEndOperator}}】完成服务<template v-if="orderFlowInfo.orderEndAddress">于位置【{{orderFlowInfo.orderEndAddress}}】</template></p>
             <template v-if="orderFlowInfo.orderEndImage">
@@ -188,7 +197,7 @@
           placement="top"
           color="#409EFF"
         >
-          <el-card shadow="hover">
+          <el-card shadow="never" body-style="padding:0px 20px">
             <h4>开始服务</h4>
             <p>【{{orderFlowInfo.orderStartOperator}}】开始服务<template v-if="orderFlowInfo.orderStartAddress">于位置【{{orderFlowInfo.orderStartAddress}}】</template></p>
             <template v-if="orderFlowInfo.orderStartImage">
@@ -208,15 +217,15 @@
           :timestamp="orderInfo.createTime"
           placement="top"
         >
-          <el-card shadow="hover">
+          <el-card shadow="never" body-style="padding:0px 20px">
             <h4>下单</h4>
             <p>【{{orderInfo.creatorName}}】提交了订单。</p>
           </el-card>
         </el-timeline-item>
       </el-timeline>
-    </section>
-    <section>
-      <h1>{{orderOutName}}评价</h1>
+    </el-card>
+    <el-card shadow="never" body-style="padding: 10px 20px;" class="section">
+      <template slot="header">{{orderOutName}}评价</template>
       <table class="info-table">
         <tr>
           <th>分数评价：</th>
@@ -230,12 +239,12 @@
           <td colspan="3" style="height: 40px;word-break: break-all;">{{orderFlowInfo.appraiseMessage}}</td>
         </tr>
       </table>
-    </section>
+    </el-card>
 
     <start-form ref="startForm" />
     <finish-form ref="finishForm" />
     <comment ref="comment" />
-  </normal-page>
+  </plain-page>
 </template>
 
 <script>
@@ -388,12 +397,12 @@ export default {
 </script>
 
 <style scoped>
-section {
+.section {
   position: relative;
-  width: 80%;
-  margin: 32px auto;
+  width: 90%;
+  margin: 4px auto;
 }
-section > h1 {
+.section >>> .el-card__header {
   margin-bottom: 8px;
 }
 
@@ -415,7 +424,8 @@ section > h1 {
   text-align: left;
   font-size: 14px;
   width: 70px;
-  padding: 4px;
+  padding-right: 20px;
+  font-weight: normal;
 }
 .info-table td {
   text-align: left;

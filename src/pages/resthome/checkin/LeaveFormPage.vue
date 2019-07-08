@@ -1,5 +1,5 @@
 <template>
-  <normal-page>
+  <card-page>
     <el-form
       ref="form"
       :model="form" 
@@ -81,7 +81,7 @@
         <el-button type="primary" @click="onSubmit" :loading="submitting" :disabled="disabled">确定</el-button>
       </el-form-item>
     </el-form>
-  </normal-page>
+  </card-page>
 </template>
 
 

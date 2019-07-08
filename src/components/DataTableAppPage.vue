@@ -1,9 +1,9 @@
 <template>
-  <normal-page style="min-height: unset;">
+  <card-page style="min-height: unset;">
     <data-table-app-view>
       <slot></slot>
     </data-table-app-view>
-  </normal-page>
+  </card-page>
 </template>
 
 <script>

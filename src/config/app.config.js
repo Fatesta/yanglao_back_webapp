@@ -9,8 +9,8 @@ const defaultConfigValues = {
 class Config {
   constructor() {
     //TODO:过一段时间之后删掉
-    if (this.get('version') == null) {
-      this.set('version', '20190704');
+    if (this.get('version') < 20190708) {
+      this.set('version', '20190708');
       this.set('theme', 'dark');
     }
 

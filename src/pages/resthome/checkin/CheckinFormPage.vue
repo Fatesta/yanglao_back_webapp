@@ -1,5 +1,5 @@
 <template>
-  <normal-page>
+  <card-page>
     <el-form
       ref="form"
       :model="form" 
@@ -46,7 +46,7 @@
       </el-form-item>
     </el-form>
     <user-query-selector ref="userQuerySelector" />
-  </normal-page>
+  </card-page>
 </template>
 
 

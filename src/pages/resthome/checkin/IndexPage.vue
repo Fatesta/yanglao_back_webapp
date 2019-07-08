@@ -1,8 +1,8 @@
 <template>
-  <normal-page
+  <card-page
     v-loading="loading"
-    :style="{
-      padding: '4px'
+    :body-style="{
+      padding: '8px'
     }"
   >
     <el-tabs
@@ -49,7 +49,7 @@
         </div>
       </el-tab-pane>
     </el-tabs>
-  </normal-page>
+  </card-page>
 </template>
 
 <script>

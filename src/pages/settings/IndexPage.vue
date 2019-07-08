@@ -1,6 +1,6 @@
 
 <template>
-  <normal-page>
+  <card-page>
     <el-form label-width="150px"
       style="width: 500px;margin: 0 auto;">
       <el-form-item label="外观主题">
@@ -28,7 +28,7 @@
         <span v-if="autoLoginEnabled">(在下次生效)</span>
       </el-form-item>
     </el-form>
-  </normal-page>
+  </card-page>
 </template>
 
 

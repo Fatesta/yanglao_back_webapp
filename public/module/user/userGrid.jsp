@@ -81,14 +81,10 @@
             <th data-options="field:'idcard',width:140,align:'center',halign:'center',formatter: userManage.formatters.unknownIfEmpty">身份证号码</th>
             <th data-options="field:'telphone',width:90,halign:'center',formatter: userManage.formatters.unknownIfEmpty">电话</th>
             <th data-options="field:'orgName',width:120,halign:'center',formatter: userManage.formatters.unknownIfEmpty">社区</th>
-            <th data-options="field:'applyTypesText',width:160,halign:'center', formatter: userManage.formatters.applyTypesText">评估对象类型</th>
-            <th data-options="field:'evalScore',width:60,align:'center', formatter: userManage.formatters.evalScore">评估分数</th>
-            <th data-options="field:'allowanceMoney',width:90,align:'center', formatter: userManage.formatters.allowanceMoney">拟享受市补贴</th>
             <th data-options="field:'userType',width:90,align:'center',halign:'center',formatter:UICommon.datagrid.formatter.generators.dict(DictMan.itemMap('user.type'))">用户类型</th>
             <th data-options="field:'cardCode',width:140,align:'center',halign:'center',formatter: userManage.formatters.deviceCode, hidden: true">会员卡号</th>
             <th data-options="field:'deviceCode',width:140,align:'center',halign:'center',formatter: userManage.formatters.deviceCode, hidden: true">设备号</th>
             <th data-options="field:'onLine',width:60,halign:'center',align:'center',formatter: userManage.formatters.onLine">在线状态</th>
-            <th data-options="field:'registerTime',width:130,halign:'center',align:'right', formatter: userManage.formatters.registerTime">注册时间</th>
             <c:if test="${viewType == 1 || viewType == 2}">
             <th data-options="field:'-',width:40,align:'center',halign:'center',formatter: userManage.formatters.op">操作</th>
             </c:if>

@@ -3,7 +3,7 @@
 -->
 
 <template>
-  <normal-page>
+  <card-page>
     <el-form
       ref="form"
       :model="form" 
@@ -180,7 +180,7 @@
     </el-form>
 
     <boss-query-selector ref="bossQuerySelector" />
-  </normal-page>
+  </card-page>
 </template>
 
 <script>
@@ -283,7 +283,7 @@ export default {
     this.isOrgLimited = shop.orgId != -1;
     this.isServiceScopeLimited = shop.serviceArea != 0;
 
-    this.form.orgId = shop.orgId;
+    this.form.orgId = shop.orgId.split(',');
     this.form.diqu = {prov: shop.province, city: shop.city, dist: shop.area};
   },
 }

@@ -19,7 +19,7 @@
     </form>
 </div>
 <table id="dg" class="easyui-datagrid" toolbar="#tbr"
-    data-options="url:'${urlPath}/callcenter/agentConfig/page.do',
+    data-options="url:'/callcenter/agentConfig/page.do',
 	    fit:true">
     <thead>
         <tr>

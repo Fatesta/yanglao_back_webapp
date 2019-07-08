@@ -44,7 +44,7 @@
                     <select id="categoryCode" name="categoryCode" class="easyui-combobox"
                         data-options="
                         required: true,
-                        url: '${urlPath}/cardConsume/serviceCategory/list.do',
+                        url: '/cardConsume/serviceCategory/list.do',
                         valueField: 'categoryCode',
                         textField: 'categoryName',
                         value: '${serviceDetail.categoryCode}'"

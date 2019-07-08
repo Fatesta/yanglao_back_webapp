@@ -2,7 +2,7 @@
 增加用户
 -->
 <template>
-  <normal-page>
+  <card-page>
     <el-form
       ref="form"
       :model="form" 
@@ -60,7 +60,7 @@
         <el-button type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
       </el-form-item>
     </el-form>
-  </normal-page>
+  </card-page>
 </template>
 
 <script>
@@ -113,8 +113,10 @@ export default {
     const boss = await this.axios.get('/api/shop/boss', {params: {id: this.$params.boss.id}});
     this.submitting = false;
     for (let key in this.form) {
-      this.form[key] = boss[key];
+      if (key != 'orgIds')
+        this.form[key] = boss[key];
     }
+    this.form.orgIds = boss.orgIds.split(',');
   }
 }
 </script>

@@ -16,7 +16,7 @@
         :style="{
           fontSize: '23px',
           color: styles.header.color,
-          letterSpacing: '1px',
+          letterSpacing: '1.5px',
           cursor: 'pointer'
         }"
         @click="onTitleClick"
@@ -86,7 +86,6 @@
             padding: '0px 12px 0px 12px',
             color: styles.header.color2
           }"
-          size="large"
           @mouseover.native="$refs.userDropdown.$el.style.backgroundColor = styles.header.hoverColor"
           @mouseout.native="$refs.userDropdown.$el.style.backgroundColor = 'unset'"
         >
@@ -95,7 +94,7 @@
             <i class="el-icon-arrow-down" />
           </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-key" command="modifyPassword">密码</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-key" command="modifyPassword">修改密码</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -106,7 +105,7 @@
         <el-tabs
           v-show="tabs.length"
           :value="activeTabKey"
-          :type="theme == 'light' ? 'card' : 'border-card'"
+          type="card"
           closable
           @tab-remove="onTabRemove"
         >
@@ -116,7 +115,8 @@
             :name="tab.key"
             :label="tab.title"
             :style='{
-              height: (contentMaxHeight - (theme == "dark" ? 103 : 104)) + "px"
+              height: (contentMaxHeight - 104) + "px",
+              overflow: "auto"
             }'
             v-loading="tab.loading"
           >
@@ -235,7 +235,7 @@ export default {
       const themeStyles = {
         dark: {
           header: {
-            backgroundColor: '#228dfb',
+            backgroundColor: '#409EFF',
             color: '#fff',
             color2: '#eee',
             hoverColor: '#53a8ff'
@@ -445,19 +445,12 @@ export default {
   font-weight: bold;
 }
 
-.el-main > .el-tabs--border-card {
-  box-shadow: unset;
-  border-bottom: none;
-  border-right: none;
-  border-left: none;
-}
 </style>
 
 <style>
 .el-main > .el-tabs > .el-tabs__content {
   padding: 0px;
+  background: #f5f7f9;
 }
-.el-main > .el-tabs--border-card > .el-tabs__header {
-  border-left: 1px solid #DCDFE6;
-}
+
 </style>

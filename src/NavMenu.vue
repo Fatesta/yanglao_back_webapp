@@ -1,3 +1,4 @@
+<script>
 import config from '@/config/app.config.js';
 
 /* 导航菜单 */
@@ -13,7 +14,7 @@ export default {
       'el-aside',
       {
         style: {
-          width: this.collapsed ? '65px' : '210px',
+          width: this.collapsed ? '65px' : '202px',
           height: this.height + 'px'
         }
       }, [
@@ -47,7 +48,7 @@ export default {
               level == 1 && h('i',
                 {
                   'class': `el-icon-${node.iconCls || 'menu'}`,
-                  style: {color: styles.iconColor}
+                  style: {color: styles.textColor}
                 }),
               h('span', node.text)
             ])
@@ -81,10 +82,9 @@ export default {
     styles() {
       const themeStyles = {
         dark: {
-          backgroundColor: "#0a2e57",
-          textColor: "#ccc",
-          activeTextColor: "#20a0ff",
-          iconColor: '#fff'
+          backgroundColor: '#021d6a',
+          textColor: "#ffffffb3",
+          activeTextColor: "#fff"
         },
         light: {
 
@@ -114,3 +114,11 @@ export default {
     }
   }
 };
+</script>
+
+<style>
+.el-menu-item.is-active {
+  background: hsla(0,0%,100%,.1) !important;
+  border-left: 3px solid #2d8cf0;
+}
+</style>

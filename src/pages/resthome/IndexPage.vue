@@ -1,8 +1,7 @@
 <template>
-  <normal-page
+  <card-page
     v-infinite-scroll="load"
     body-style="overflow:auto;"
-    style="background-color:#fafafa"
   >
     <el-card
       v-for="resthome in resthomePage.rows"
@@ -41,7 +40,7 @@
       center
       :closable="false"
     />
-  </normal-page>
+  </card-page>
 </template>
 
 <script>

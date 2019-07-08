@@ -33,7 +33,7 @@
 		</form>
 	</div>
 	<table id="dgBillList" class="easyui-datagrid" toolbar="#tbrDgBillList"
-		 data-options="url:'${urlPath}/platformData/page.do',
+		 data-options="url:'/platformData/page.do',
 					pagination : true,
 					pageNumber : 1,
 					pageSize : 20,

@@ -1,7 +1,9 @@
 <template>
-  <keep-alive include="place">
-    <component :is="current" />
-  </keep-alive>
+  <card-page>
+    <keep-alive include="place">
+      <component :is="current" />
+    </keep-alive>
+  </card-page>
 </template>
 
 

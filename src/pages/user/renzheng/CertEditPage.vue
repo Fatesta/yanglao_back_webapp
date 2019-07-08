@@ -1,5 +1,5 @@
 <template>
-  <normal-page
+  <card-page
     style="width: 820px; margin: 0 auto;"
   >
     <el-form ref="form" :model="form" label-width="100px">
@@ -55,7 +55,7 @@
 
       <el-button type="primary" @click="onSubmit" v-if="!readonly" :loading="submitting">提交</el-button>
     </div>
-  </normal-page>
+  </card-page>
 </template>
 
 <script>

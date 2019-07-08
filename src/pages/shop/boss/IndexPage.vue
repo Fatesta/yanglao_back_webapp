@@ -20,7 +20,6 @@
       </el-form>
       <el-button
         v-if="[1,4,9,14].includes(app.admin.roleId)"
-        type="primary"
         icon="el-icon-plus"
         @click="onAddClick"
       >
@@ -35,21 +34,10 @@
       <el-table-column prop="realName" label="姓名" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column prop="phone" label="手机号" width="120"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
-      <el-table-column prop="createTime" label="注册时间" width="170"></el-table-column>
       <el-table-column prop="balance" label="余额" width="100" :formatter="formatters.balance"></el-table-column>
       <el-table-column prop="oldCardBalance" label="老年卡余额" width="100"></el-table-column>
-      <el-table-column label="操作" width="290" fixed="right">
+      <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button
-            @click="onUpdateClick(scope.row)">
-            修改
-          </el-button>
-          <el-button
-            type="primary"
-            plain
-            @click="onWithdrawClick(scope.row)">
-            提现
-          </el-button>
           <el-button
             type="primary"
             plain
@@ -61,6 +49,16 @@
             plain
             @click="onTradeClick(scope.row)">
             交易流水
+          </el-button>
+          <el-button
+            type="primary"
+            plain
+            @click="onWithdrawClick(scope.row)">
+            提现
+          </el-button>
+          <el-button
+            @click="onUpdateClick(scope.row)">
+            修改
           </el-button>
         </template>
       </el-table-column>

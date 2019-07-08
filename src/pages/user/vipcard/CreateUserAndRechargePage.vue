@@ -1,14 +1,41 @@
 <!--
-增加用户
+创建会员卡用户，并充值
 -->
 <template>
   <card-page>
+
     <el-form
       ref="form"
       :model="form" 
       label-width="120px"
       style="width: 500px;margin: 0 auto"
     >
+      <el-form-item
+        prop="deviceCodeTail"
+        label="卡号"
+        :rules="[{required: true, message: ' '}]">
+        <el-input v-model="form.deviceCodeTail" placeholder="卡号剩余位" >
+          <template slot="prepend">7128020</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item
+        prop="rechargeAmount"
+        label="充值金额"
+        :rules="[{required: true, message: ' '}]"
+      >
+        <el-input-number v-model="form.rechargeAmount" :precision="2" :controls="false"></el-input-number>
+      </el-form-item>
+      <el-form-item
+        prop="bossId"
+        label="服务商家"
+        :rules="[{required: true, message: ' '}]"
+      >
+        <span>{{selectedBossName}}</span>
+        <el-button type="primary" plain icon="el-icon-user" @click="onSelectBossClick">选择</el-button>
+      </el-form-item>
+
+      <el-form-item style="margin-top: 8px">
+      </el-form-item>
       <el-form-item
         prop="realName"
         label="姓名"
@@ -79,30 +106,12 @@
       >
         <el-input type="textarea" :rows="1" v-model.trim="form.address"></el-input>
       </el-form-item>
-      <el-form-item
-        v-if="mode == 'add'"
-        prop="userType"
-        label="用户类型"
-        :rules="[{required: true, message: ' '}]"
-      >
-        <type-select
-          v-model="form.userType"
-          :items="DictMan.items('user.type').filter(item => [1, 2, 9].includes(+item.value))"
-          @change="onUserTypeChange"
-          style="width: 140px"
-        />
-      </el-form-item>
-      <el-form-item
-        v-if="mode == 'add' && [2,9].includes(+form.userType)"
-        prop="deviceCode"
-        :label="form.userType == 2 ? '卡号' : '设备号'"
-        :rules="[{required: true, message: ' '}]">
-        <el-input v-model.trim="form.deviceCode"></el-input>
-      </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit" :loading="submitting">确定</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="submitting">开通</el-button>
       </el-form-item>
     </el-form>
+
+    <boss-query-selector ref="bossQuerySelector" />
   </card-page>
 </template>
 
@@ -112,18 +121,19 @@ import moment from 'moment';
 
 export default {
   pageProps: {
-    title: '编辑用户'
+    title: '会员卡用户开通'
   },
   components: {
     OrgSelect: () => import('@/pages/org/OrgSelect'),
-    CitySelect: () => import('@/components/cityselect/CitySelect')
+    CitySelect: () => import('@/components/cityselect/CitySelect'),
+    BossQuerySelector: () => import('@/pages/shop/BossQuerySelector.vue')
   },
   data() {
     return {
       mode: this.$params.mode,
       form: {
         id: null,
-        userType: null,
+        userType: 2,
         aliasName: '',
         realName: '',
         sex: null,
@@ -137,78 +147,60 @@ export default {
         address: '',
         remark: '',
         imagePath: '',
-        deviceCode: ''
+        deviceCode: '',
+        bossId: null,
+        rechargeAmount: 200,
+        deviceCodeTail: '',
       },
+      selectedBossName: null,
       city: {prov: '湖北省', city: '武汉市'},
       moment,
       submitting: false
     }
   },
   methods: {
-    onSubmit() {
-      if (this.mode == 'add') {
-        this.onAddSubmit();
-      } else {
-        this.onUpdateSubmit();
-      }
+    onSelectBossClick() {
+      this.$refs.bossQuerySelector.show({
+        onOk: (boss) => {
+          this.form.bossId = boss.adminId;
+          this.selectedBossName = boss.realName;
+          return true;
+        }
+      });
     },
-    onAddSubmit() {
-      if (this.form.userType == 1) {
-        this.form.password = '123456';
-      } else {
-        this.form.password = '';
-      }
-      this.$refs.form.validate(async (valid) => {
+    onSubmit() {
+      debugger;
+      this.$refs.form.validate(async (valid, errs) => {
+        if (!valid && Object.keys(errs).length == 1 && errs.sex) {
+          this.$message.warning('请输入性别');
+          return;
+        }
         if (!valid) return;
-        this.submitting = true;
         let userData = {...this.form};
         userData.aliasName = userData.realName;
         userData.address = (this.city.prov || '')
           + (this.city.city || '')
           + (this.city.dist || '') + userData.address;
+        userData.deviceCode = '7128020' + this.form.deviceCodeTail;
+        delete userData.deviceCodeTail;
+        console.log(userData);
+        this.$refs.form.resetFields();
+        // 方便多次重复
+        this.form.orgId = userData.orgId;
+        this.form.bossId = userData.bossId;
+        return;
+        this.submitting = true;
         const ret = await this.axios.post('/api/user/registUser', userData);
         this.submitting = false;
         if (ret.success) {
-          this.$message.success('增加用户成功');
+          this.$message.success('开卡成功');
           this.$refs.form.resetFields();
           this.$params.onSuccess();
         } else {
           this.$message.error(ret.message);
         }
       });
-    },
-    onUpdateSubmit() {
-      this.$refs.form.validate(async (valid) => {
-        if (!valid) return;
-        this.submitting = true;
-        let data = _.pick({...this.form},
-          'aliasName,realName,sex,birthday,idcard,telephone,name,contactTel,orgId,address'.split(','));
-        data.address = (this.city.prov || '')
-          + (this.city.city || '')
-          + (this.city.dist || '') + data.address;
-        data.userId = this.form.id;
-        data.appUserId = data.userId;
-        data.userType = this.form.userType;
-        data.aliasName = this.form.realName;
-        const ret = await this.axios.post('/api/user/updateUser', data);
-        this.submitting = false;
-        if (ret.success) {
-          this.$message.success('修改用户成功');
-          this.$params.onSuccess();
-        } else {
-          this.$message.error(ret.message);
-        }
-      });
-    },
-  },
-  async mounted() {
-    if (this.mode == 'update') {
-      this.submitting = true;
-      const user = await this.axios.get('/api/user/getBasicInfo', {params: {userId: this.$params.user.id}});
-      this.submitting = false;
-      this.form = user;
-      this.form.telephone = user.telphone;
     }
-  }
+  },
 }
 </script>

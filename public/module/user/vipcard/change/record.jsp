@@ -30,7 +30,7 @@
       </div>
       <table id="dgRecord" class="easyui-datagrid" toolbar="#tbrRecord"
         data-options="
-            url: '${urlPath}/user/vipcard/change/record.do',
+            url: '/user/vipcard/change/record.do',
             queryParams: {cardCode: '${cardCode}'}">
 	    <thead>
 	        <tr>

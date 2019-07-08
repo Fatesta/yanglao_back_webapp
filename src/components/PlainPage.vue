@@ -1,8 +1,9 @@
 <template>
   <div
     style="
-      padding: 20px;
-      min-height: 99.5%
+      margin: 4px 6px 4px 4px;
+      padding: 20px,
+      min-height: calc(100vh - 114px);
     "
   >
     <slot></slot>
@@ -11,7 +12,6 @@
 
 <script>
 export default {
-  name: 'normal-page',
-  inheritAttrs: false
+  name: 'plain-page'
 }
 </script>

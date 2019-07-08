@@ -87,7 +87,7 @@
       <el-table-column prop="payTypeText" label="支付方式" width="120"></el-table-column>
       <el-table-column prop="linkman" label="下单人" width="120"></el-table-column>
       <el-table-column prop="createTime" label="下单时间" width="170"></el-table-column>
-      <el-table-column label="操作" fixed="right">
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
             type="primary"

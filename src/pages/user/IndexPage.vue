@@ -30,8 +30,7 @@
       </el-form>
       <el-dropdown
         split-button
-        type="primary"
-       
+        type="default"
         icon="el-icon-plus"
         trigger="click"
         @command="onCommandClick($event)"
@@ -95,7 +94,7 @@
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="wallet" icon="el-icon-wallet">钱包</el-dropdown-item>
-              <el-dropdown-item command="trade" icon="el-icon-tickets">消费记录</el-dropdown-item>
+              <el-dropdown-item command="trade" icon="el-icon-tickets">交易记录</el-dropdown-item>
               <el-dropdown-item command="points" icon="el-icon-tickets">积分记录</el-dropdown-item>
               <el-dropdown-item command="health-archive" icon="el-icon-document" divided>健康档案</el-dropdown-item>
               <el-dropdown-item command="returnvisit" icon="el-icon-document">回访记录</el-dropdown-item>
@@ -241,15 +240,22 @@ export default {
           });
           break;
         case 'wallet':
+          this.pushPage({
+            path: '/user/wallet/index',
+            params: { user },
+            subTitle: user.realName || user.aliasName,
+            key: user.id
+          });
+          /*
           openTab({
             url: "view/user/purse/index.do?userId=" + user.userId + '&deviceCode=' + user.deviceCode + '&userType=' + user.userType,
             title: "用户[" + user.aliasName + "] - 钱包"
-          });
+          });*/
           break;
         case 'trade':
           openTab({
             url: "view/user/userTradeRecord.do?accountId="+user.id,
-            title: "用户[" + user.aliasName + "] - 消费记录"
+            title: "用户[" + user.aliasName + "] - 交易记录"
           });
           break;
         case 'points':
