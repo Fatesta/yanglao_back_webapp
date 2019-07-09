@@ -1,20 +1,54 @@
 <template>
   <plain-page>
     <el-card shadow="never" body-style="padding: 10px 20px;">
-      <el-row :gutter="48">
-        <el-col :span="4"><span class="balance-title">余额</span></el-col>
-        <el-col :span="4"><span class="balance-title">积分</span></el-col>
-        <el-col v-if="balances.oldCardBalance" :span="4"><span class="balance-title">老年卡余额</span></el-col>
+      <el-row :gutter="56">
+        <el-col :span="4">
+          <span class="balance-title">
+            余额
+          </span>
+        </el-col>
+        <el-col v-if="balances.oldCardBalance" :span="4">
+          <span class="balance-title">
+            老年卡余额
+          </span>
+        </el-col>
+        <el-col :span="4">
+          <span class="balance-title">
+            积分
+          </span>
+        </el-col>
+        <el-col :span="4">
+          <span class="balance-title">
+            优惠券
+          </span>
+        </el-col>
+        <el-col :span="4">
+          <span class="balance-title">
+            服务卡
+          </span>
+        </el-col>
       </el-row>
-      <el-row :gutter="48">
-        <el-col :span="4"><span class="balance-num">{{balances.balance}}</span></el-col>
-        <el-col :span="4"><span class="balance-num">{{balances.points}}</span></el-col>
-        <el-col v-if="balances.oldCardBalance" :span="4"><span class="balance-num">{{balances.oldCardBalance}}</span></el-col>
+      <el-row :gutter="56">
+        <el-col :span="4">
+          <span class="balance-num" style="color:#F56C6C">{{balances.balance}}</span>
+        </el-col>
+        <el-col v-if="balances.oldCardBalance" :span="4">
+          <span class="balance-num" style="color:#E6A23C;">{{balances.oldCardBalance}}</span>
+        </el-col>
+        <el-col :span="4">
+          <span class="balance-num secondary">{{balances.points}}</span>
+        </el-col>
+        <el-col :span="4">
+          <span class="balance-num secondary">{{couponCount}}张</span>
+        </el-col>
+        <el-col :span="4">
+          <span class="balance-num secondary">{{serviceCardCount}}张</span>
+        </el-col>
       </el-row>
     </el-card>
     <el-card shadow="never" body-style="padding: 10px 20px;" style="margin-top: 4px;">
       <el-tabs v-model="tab" @tab-click="onTabClick">
-        <el-tab-pane :label="`优惠券（${couponCount}）`" name="coupon">
+        <el-tab-pane label="优惠券" name="coupon">
           <data-table
             ref="couponTable"
             url="/api/user/purse/coupon/page"
@@ -35,7 +69,7 @@
             </el-table-column>
           </data-table>
         </el-tab-pane>
-        <el-tab-pane :label="`服务卡（${serviceCardCount}）`" name="serviceCard">
+        <el-tab-pane label="服务卡" name="serviceCard">
           <data-table
             ref="serviceCardTable"
             data="serviceCards"
@@ -107,9 +141,15 @@ export default {
 
 <style scoped>
 .balance-title {
+  font-size: 14px;
   color: #909399;
 }
 .balance-num {
+  font-size: 18px;
   font-weight: bold;
+}
+.balance-num.secondary {
+  font-size:16px;
+  font-weight:normal;
 }
 </style>

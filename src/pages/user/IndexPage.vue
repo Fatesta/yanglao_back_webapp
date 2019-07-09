@@ -56,23 +56,17 @@
       url="/api/user/listUser"
     >
       <el-table-column prop="realName" label="姓名" width="80" :formatter="formatters.realName"></el-table-column>
-      <el-table-column prop="aliasName" label="昵称" width="100" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="sex" label="性别" :formatter="formatters.sex" width="60"></el-table-column>
-      <el-table-column prop="age" label="年龄" width="60"></el-table-column>
+      <el-table-column prop="sex" label="性别" :formatter="formatters.sex" width="50"></el-table-column>
+      <el-table-column prop="age" label="年龄" width="50"></el-table-column>
       <el-table-column prop="idcard" label="身份证号码" width="174" :formatter="formatters.idcard"></el-table-column>
       <el-table-column prop="telphone" label="手机号" width="120" :formatter="formatters.telphone"></el-table-column>
-      <el-table-column prop="orgName" label="社区" width="160" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="userType" label="用户类型" :formatter="formatters.userType" width="120"></el-table-column>
+      <el-table-column prop="orgName" label="社区" width="140" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="userType" label="用户类型" :formatter="formatters.userType" width="100"></el-table-column>
       <el-table-column prop="deviceCode" label="设备号/卡号" :formatter="formatters.deviceCode" width="160"></el-table-column>
-      <el-table-column prop="onLine" label="在线状态" width="80">
-        <template slot-scope="scope">
-          {{scope.row.onLine ? '在线' : '离线'}}
-        </template>
-      </el-table-column>
+      <el-table-column prop="registerTime" label="注册时间" width="170"></el-table-column>
       <el-table-column prop="applyTypesText" label="评估对象类型" width="120" :formatter="formatters.applyTypesText" show-overflow-tooltip></el-table-column>
       <el-table-column prop="evalScore" label="评估分数" width="80" :formatter="formatters.evalScore"></el-table-column>
       <el-table-column prop="allowanceMoney" label="拟享受市补贴" width="110" :formatter="formatters.allowanceMoney"></el-table-column>
-      <el-table-column prop="registerTime" label="注册时间" width="170"></el-table-column>
       <el-table-column label="操作" width="154" fixed="right">
         <template slot-scope="scope">
           <el-button

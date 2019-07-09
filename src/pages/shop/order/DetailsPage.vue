@@ -1,5 +1,7 @@
 <template>
-  <plain-page>
+  <plain-page
+    style="width: 90%;margin: 4px auto;"
+  >
     <el-card shadow="never"
         :style="{
           'border-top': '2px solid',
@@ -97,8 +99,7 @@
         </div>
       </div>
     </el-card>
-    <el-card shadow="never" body-style="padding: 0px 20px;" class="section">
-
+    <el-card shadow="never" body-style="padding: 10px 20px;" class="section">
       <table class="info-table">
         <tr>
           <th>支付状态：</th>
@@ -134,7 +135,7 @@
         </tr>
       </table>
     </el-card>
-    <el-card shadow="never" class="section">
+    <el-card shadow="never" body-style="padding: 10px 20px;" class="section">
       <el-table
         :data="orderProducts"
         size="medium"
@@ -167,7 +168,7 @@
       </div>
     </el-card>
     <el-card shadow="never" class="section">
-      <el-timeline style="padding-inline-start: 0px;">
+      <el-timeline style="padding-inline-start: 4px;">
         <el-timeline-item
           v-if="orderFlowInfo.orderEndTime"
           :timestamp="orderFlowInfo.orderEndTime.substring(0, 19)"
@@ -399,8 +400,7 @@ export default {
 <style scoped>
 .section {
   position: relative;
-  width: 90%;
-  margin: 4px auto;
+  margin-top: 4px;
 }
 .section >>> .el-card__header {
   margin-bottom: 8px;

@@ -70,7 +70,7 @@
       <el-table-column prop="tradePrice" label="实收" width="80"></el-table-column>
       <el-table-column prop="formattedCouponAmount" label="优惠" width="180" show-overflow-tooltip></el-table-column>
       <el-table-column prop="userAccountAliasName" label="买家" width="100"></el-table-column>
-      <el-table-column prop="userAccountDeviceCode" label="设备号" width="160" :formatter="formatters.userAccountDeviceCode"></el-table-column>
+      <el-table-column prop="userAccountDeviceCode" label="设备号/卡号" width="160" :formatter="formatters.userAccountDeviceCode"></el-table-column>
       <el-table-column prop="providerName" label="店铺名称" width="200" show-overflow-tooltip v-if="!searchForm.providerId"></el-table-column>
       <el-table-column prop="operationAccountUsername" label="操作商家工号" width="120"></el-table-column>
       <el-table-column prop="operationPhoneLogo" label="商家设备标识" width="120" show-overflow-tooltip></el-table-column>

@@ -6,12 +6,12 @@
     width="600px"
   >
     <el-row>
-      <el-col :span="5">昵称</el-col>
-      <el-col :span="18">{{userInfo.aliasName}}</el-col>
-    </el-row>
-    <el-row>
       <el-col :span="5">姓名</el-col>
       <el-col :span="18">{{userInfo.realName}}</el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="5">昵称</el-col>
+      <el-col :span="18">{{userInfo.aliasName}}</el-col>
     </el-row>
     <el-row>
       <el-col :span="5">性别</el-col>

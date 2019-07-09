@@ -191,6 +191,9 @@ export default {
     }
     this.admin = ret.admin;
 
+    // 提供给老代码用
+    window.admin = ret.admin;
+
     const nodes = await this.axios.get('/api/admin/listAdminMenu');/*
     nodes.unshift({
       text: '首页',
@@ -308,7 +311,7 @@ export default {
         });
       } else {
         const page = pages[path];
-        if (!page) {
+        if (!page) {``
           this.$message.error('未找到指定页面：' + path);
           return;
         }

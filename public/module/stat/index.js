@@ -15,8 +15,6 @@ $('#statMapContainer').mousemove(function(e) {
 //创建地图实例
 var map = new BMap.Map("statMapContainer");
 stat.map = map;
-// 设置中心点坐标和地图级别
-map.centerAndZoom(new BMap.Point(116.404, 39.915), 16);
 // 开启鼠标滚轮缩放
 map.enableScrollWheelZoom(true);
 
@@ -32,8 +30,6 @@ map.addControl(new BMap.CityListControl({
     offset: new BMap.Size(10, 20)
 }));
 stat.mapMarkerInfoWindowManager = new MapUtils.MapMarkerInfoWindowManager(map, {delay: 0});
-
-//定位到当前城市
 new BMap.LocalCity().get(function(result){
     var point = new BMap.Point(result.center.lng, result.center.lat);
     map.centerAndZoom(point, result.level);
@@ -124,7 +120,14 @@ $.get('/api/stat/mapPoints', function(csv) {
 
     //stat.allMapPoints = importantMapPoints.concat(otherMapPoints.slice(0, 3000));*/
     stat.drawMapPoints(function() {
-        //map.panTo(stat.allMapPoints[0].point, {noAnimation: true});
+        if (window.top.admin.roleId != 1) {
+            $.get('/api/community/get?id=' + window.top.admin.orgId, function(ret) {
+                if (ret.longitude && ret.latitude) {
+                    var point = new BMap.Point(ret.longitude, ret.latitude);
+                    map.panTo(point, {noAnimation: false});
+                }
+            });
+        }
     });
 });
 
