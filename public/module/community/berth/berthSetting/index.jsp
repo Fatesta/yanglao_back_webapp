@@ -33,6 +33,6 @@
 	<script>
 	var resthomeId = '${resthome_id}';
 	</script>
-<script src="${modulePath}community/berth/berthSetting/berthSetting.js?v=1.3"></script>
+<script src="${modulePath}community/berth/berthSetting/berthSetting.js?v=1.4"></script>
 </body>
 </html>

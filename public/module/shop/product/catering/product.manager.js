@@ -113,7 +113,7 @@ productManager.formatters = {
       return parseFloat(val) == parseFloat(row.price) ? '未打折' : productManager.formatters.price(val);  
     },
     description: UICommon.datagrid.formatter.generators.omit({
-        dgId: "dgProduct", field: "description"
+        dgId: "dgProduct", field: "description", min: 40
     }),
     isvalid: function(value,rowData,rowIndex) {
         return {0:"<span style='color:red'>否</span>", 1:"<span style='color:green'>是</span>"}[value];

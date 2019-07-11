@@ -43,13 +43,13 @@
 			<table id="dgProduct" class="easyui-datagrid" toolbar="#tbrDgProduct">
 			    <thead>
 			        <tr>
-			            <th data-options="field:'imageFile',width:'80px',halign:'center', formatter:productManager.formatters.imageFile">商品图片</th>
-			            <th data-options="field:'name',width:'20%',halign:'center'">名称</th>
-			            <th data-options="field:'price',width:'6%',halign:'center', formatter:productManager.formatters.price">单价(¥)</th>
-                        <th data-options="field:'discountedPrice',width:'6%',halign:'center', formatter:productManager.formatters.discountedPrice">折后价(¥)</th>
-				        <th data-options="field:'isvalid',width:'5%',align:'center', formatter:productManager.formatters.isvalid">是否上架</th>
-				        <th data-options="field:'description',width:'10%',halign:'center', formatter:productManager.formatters.description">描述</th>
-			            <th data-options="field:'productQuantity',width:'6%',align:'center'">库存</th>
+			            <th data-options="field:'imageFile',width:'80px', formatter:productManager.formatters.imageFile">商品图片</th>
+			            <th data-options="field:'name',width:'300px'">名称</th>
+			            <th data-options="field:'price',width:'60px', formatter:productManager.formatters.price">单价(¥)</th>
+                        <th data-options="field:'discountedPrice',width:'60px', formatter:productManager.formatters.discountedPrice">折后价(¥)</th>
+				        <th data-options="field:'isvalid',width:'60px', formatter:productManager.formatters.isvalid">是否上架</th>
+				        <th data-options="field:'description',width:'250px', formatter:productManager.formatters.description">描述</th>
+			            <th data-options="field:'productQuantity',width:'70px'">库存</th>
 			        </tr>
 			    </thead>
 			</table>

@@ -45,7 +45,7 @@
           <img :src="scope.row.imgUrl" style="height: 50px;width: 80px;border-radius: 4px;" />
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="店铺名称" width="240" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="name" label="店铺名称" width="280" show-overflow-tooltip></el-table-column>
       <el-table-column prop="industryText" label="所属行业" width="80"></el-table-column>
       <el-table-column prop="linkman" label="联系人" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column prop="telephone" label="联系电话" width="140"></el-table-column>

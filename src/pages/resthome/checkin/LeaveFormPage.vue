@@ -87,6 +87,7 @@
 
 <script>
 import { toDurationText } from '@/utils/time-ui';
+import moment from 'moment';
 
 export default {
   pageProps: {
@@ -110,7 +111,11 @@ export default {
   },
   computed: {
     duration() {
-      return toDurationText(new Date(this.form.endTime).getTime() - new Date(this.checkin.startTime).getTime());
+      if (this.form.endTime == null) return null;
+      return toDurationText(
+        new Date(this.form.endTime).getTime() - new Date(this.checkin.startTime).getTime(),
+        { precision: 'day'}
+      );
     },
     debt() {
       var value = (this.form.amount - this.form.paidMoney - this.checkin.deposit);
@@ -156,7 +161,7 @@ export default {
     this.berthType = ret.berthType;
     this.checkin = ret.checkin;
 
-    this.form.endTime = new Date();
+    this.form.endTime = moment().format('YYYY-MM-DD');
   },
   methods: {
     async onSubmit() {

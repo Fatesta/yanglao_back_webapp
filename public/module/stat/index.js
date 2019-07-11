@@ -61,19 +61,19 @@ stat.gotoPosition = function (index, row, idField) {
                 }
             }
             if (!found && (row.longitude && row.latitude)) {
-                stat.addMarkerByMapPoint({
+                var marker = stat.addMarkerByMapPoint({
                     id: row[idField],
                     type: row.role == -1 ? '2' : '1',
                     point: new BMap.Point(row.longitude, row.latitude)
                 });
-                panTo(new BMap.Point(row.longitude, row.latitude));
+                panTo(new BMap.Point(row.longitude, row.latitude), marker);
             }
         //});
     }, 10);
 
     function panTo(point, marker) {
         map.setZoom(17);
-        map.panTo(point, {noAnimation: true});
+        map.panTo(point);
         if (marker) {
             setTimeout(function () {
                 stat.mapMarkerInfoWindowManager.toBounceMarker(marker);
@@ -190,7 +190,9 @@ stat.addMarkerByMapPoint = (function() {
     };
 
     return function(mapPoint) {
-        map.addOverlay(makeMarker(mapPoint));
+        let marker = makeMarker(mapPoint);
+        map.addOverlay(marker);
+        return marker;
     };
 
     function makeMarker(mapPoint) {

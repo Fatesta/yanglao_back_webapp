@@ -51,7 +51,7 @@ export default {
         rows: [],
         total: 0
       },
-      loading: true,
+      loading: false,
       noMore: false,
       // 分页相关
       pageSize: 20,
@@ -97,7 +97,7 @@ export default {
       });
     },
     async load() {
-      if (this.noMore) {
+      if (this.noMore || this.loading) {
         return;
       }
       this.loading = true;

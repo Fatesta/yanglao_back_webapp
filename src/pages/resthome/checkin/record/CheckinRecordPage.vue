@@ -71,7 +71,7 @@ export default {
           }
           return text;
         },
-        days: (r, c, v) => toDurationText(v, 'day')
+        days: (r, c, v) => toDurationText(v, {unit: 'day', precision: 'day'})
       },
       searchForm: {
         berthId: this.$params.berthId,

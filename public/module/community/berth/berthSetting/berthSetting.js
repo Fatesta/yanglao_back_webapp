@@ -335,11 +335,11 @@
         }
         
         self.edit = function(isUpdate, parentInfo) {
-            var url = 'community/berth/berthSetting/berth/form.do';
+            var url = 'community/berth/berthSetting/berth/form.do?resthomeId=' + resthomeId;
             if (isUpdate) {
                 var row = datagrid.datagrid('getSelected')
                 if (!row) return;
-                url += '?id=' + row.id;
+                url += '&id=' + row.id;
             }
              
             var dlg = openEditDialog({

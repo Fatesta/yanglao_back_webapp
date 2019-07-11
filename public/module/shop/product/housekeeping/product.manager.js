@@ -62,7 +62,7 @@ var productManager = (function () {
         var dlg = openEditDialog({
             title: "编辑信息",
             width: 750,
-            height: 600,
+            height: 520,
             href: "shop/product/housekeeping/frmProduct.do?" + $.param(params),
             onSave: function(){
                 $('[name=discountedPrice]', dlg).val($('[textboxname=price]', dlg).textbox('getValue'));

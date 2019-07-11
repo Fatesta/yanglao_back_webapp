@@ -378,6 +378,6 @@
 <script src="${modulePath}video/VideoArrayWindow.js?v=1"></script>
 <script src="${modulePath}user/basicInfo.js?v=1"></script>
 <script src="${libPath}template.js"></script>
-<script src="${modulePath}stat/index.js?v=3.8"></script>
+<script src="${modulePath}stat/index.js?v=3.9"></script>
 </body>
 </html>

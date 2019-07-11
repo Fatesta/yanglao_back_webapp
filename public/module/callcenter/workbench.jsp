@@ -70,7 +70,7 @@
 	</script>
 	<script src="https://g.alicdn.com/crm/acc-phone/1.1.2/SIPml-api.js"></script>
 	<script src="https://g.alicdn.com/crm/acc-phone/1.1.2/index.js"></script>
-	<script src="${modulePath}callcenter/workbench.js?v=3.4"></script>
+	<script src="${modulePath}callcenter/workbench.js?v=3.5"></script>
 	<script src="${modulePath}callcenter/record.js?v=2.8"></script>
 	<script src="${modulePath}user/basicInfo.js?v=1"></script>
 </body>

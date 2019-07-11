@@ -42,7 +42,7 @@
         <tr>
             <td>主要描述</td>
             <td>
-                <textarea style="width: 600px;" rows="14" class="easyui-validatebox" name="description" data-options="validType:'length[0,500]'">${product.description}</textarea>
+                <textarea style="width: 600px;" rows="12" class="easyui-validatebox" name="description" data-options="validType:'length[0,500]'">${product.description}</textarea>
             </td>
         </tr>
     </table>

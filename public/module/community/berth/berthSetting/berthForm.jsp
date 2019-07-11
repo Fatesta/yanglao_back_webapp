@@ -23,7 +23,7 @@
                         data-options="
                             required: true,
                             value: '${berth.berthTypeId}',
-                            url: '${urlPath}community/berth/berthType/page.do?rows=10000&page=1',
+                            url: '${urlPath}community/berth/berthType/page.do?rows=10000&page=1&resthomeId=${resthomeId}',
                             valueField: 'id',
                             textField: 'name',
                             loadFilter: function(page) { return page.rows; }"  style="width: 150px;"/>

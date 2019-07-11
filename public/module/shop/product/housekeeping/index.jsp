@@ -69,6 +69,6 @@ PAGE_CONFIG["provider"] = {
 </script>
 <script src="${modulePath}shop/product/category.manager.js?v=1.2"></script>
 <script src="${modulePath}shop/product/image.manager.js"></script>
-<script src="${modulePath}shop/product/housekeeping/product.manager.js?v=1.1"></script>
+<script src="${modulePath}shop/product/housekeeping/product.manager.js?v=1.2"></script>
 </body>
 </html>

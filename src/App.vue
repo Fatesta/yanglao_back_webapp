@@ -362,6 +362,8 @@ export default {
         this.activeTabKey = '';
         setTimeout(() => {
           this.activeTabKey = item.id + '';
+
+          options && options.onLoad && options.onLoad();
         });
         return;
       }
@@ -420,7 +422,7 @@ export default {
                 this.$el.contentWindow.addEventListener('load', () => {
                   this.$el.style.visibility = 'visible';
                   tab.loading = false;
-                  options && options.onLoad();
+                  options && options.onLoad && options.onLoad();
                 });
               }
             },

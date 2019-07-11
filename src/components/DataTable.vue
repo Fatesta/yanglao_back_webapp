@@ -44,6 +44,9 @@ export default {
     queryParams: {
       type: Object
     },
+    loadFilter: {
+      type: Function
+    },
     lazy: {
       type: Boolean
     }
@@ -95,10 +98,13 @@ export default {
       if (!this.loading) {
         this.loading = true;
       }
-      const ret = await this.axios.get(this.url, {params});
+      let ret = await this.axios.get(this.url, {params});
       // 加载数据，并让用户感知到执行了查询，在小于MIN_TIME毫秒之内，有相同的时长感觉
       const MIN_TIME = 100;
       const renderData = () => {
+        if (this.loadFilter) {
+          ret = this.loadFilter(ret);
+        }
         this.tableData = ret.rows;
         this.total = ret.total;
         this.loading = false;

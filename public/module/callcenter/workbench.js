@@ -43,7 +43,7 @@ function init() {
                 
                 setTimeout(function() {
                     if (lastCallComingUser)
-                        top.stat.deviceQuery.gotoPositionByTelephone(callerNumber);                        
+                        getModuleContext('taishitu').stat.deviceQuery.gotoPositionByTelephone(callerNumber);                        
                 }, 500);
 
                 if(!(window.Notification && Notification.permission !== "denied")) {
@@ -176,7 +176,7 @@ function init() {
              '<button type="button" class="next-btn next-btn-normal next-btn-medium" style="display: block;color: #fff;background: rgb(0, 193, 222);">' +
              '定位用户</button></div>');
        btnBox.click(function() {
-           top.stat.deviceQuery.gotoPositionByTelephone(user.telphone);
+          getModuleContext('taishitu').deviceQuery.gotoPositionByTelephone(user.telphone);
        });
        parent.append(btnBox);
 
