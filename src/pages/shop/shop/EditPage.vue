@@ -1,7 +1,6 @@
 <!--
-增加用户
+增加/修改店铺
 -->
-
 <template>
   <card-page>
     <el-form

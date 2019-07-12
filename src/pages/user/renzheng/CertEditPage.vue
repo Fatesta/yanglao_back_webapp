@@ -1,6 +1,6 @@
 <template>
   <card-page
-    style="width: 820px; margin: 0 auto;"
+    style="width: 820px; margin: 4px auto;"
   >
     <el-form ref="form" :model="form" label-width="100px">
       <el-form-item
@@ -52,9 +52,16 @@
           <el-link target="_blank" :underline="false" :href="idcardImgUrls[index]" v-if="readonly" type="info">点击查看大图</el-link>
         </div>
       </div>
-
-      <el-button type="primary" @click="onSubmit" v-if="!readonly" :loading="submitting">提交</el-button>
     </div>
+    <el-button
+      v-if="!readonly" 
+      type="primary"
+      :loading="submitting"
+      style="margin-left: 100px;"
+      @click="onSubmit"
+    >
+      提交
+    </el-button>
   </card-page>
 </template>
 

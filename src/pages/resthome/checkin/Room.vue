@@ -36,6 +36,7 @@ export default {
 <style scoped>
 .room {
   position: relative;
+  float: left;
   width: 408px;
   margin-left: 8px;
   margin-top: 8px;

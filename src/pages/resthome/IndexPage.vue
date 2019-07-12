@@ -1,29 +1,34 @@
 <template>
-  <card-page
+  <plain-page
     v-infinite-scroll="load"
-    body-style="overflow:auto;"
   >
-    <el-card
-      v-for="resthome in resthomePage.rows"
-      :key="resthome.id"
-      class="resthome"
+    <div
+      style="
+        overflow:auto;display: flex;
+        flex-wrap: wrap;
+        justify-content: center;"
     >
-      <div slot="header" style="color:#303133;font-size: 16px;">
-        {{resthome.name}}
-      </div>
-      <div class="stat">
-        <div class="item">总床位数：<span class="number">{{resthome.berthCount}}</span></div>
-        <div class="item">已入住数：<span class="number" style="color:#F56C6C">{{resthome.usedBerthCount}}</span></div>
-        <div class="item">空床位数：<span class="number" style="color:#67C23A">{{resthome.emptyBerthCount}}</span></div>
-      </div>
-      <div class="operations">
-        <el-button type="primary" plain @click="onCheckinClick(resthome)">入住管理</el-button>
-        <el-button type="default" @click="onCheckinRecordClick(resthome)">入住记录</el-button>
-        <el-button type="default" @click="onBerthSettingClick(resthome)">床位设置</el-button>
-        <el-button type="default" @click="onBerthTypeSettingClick(resthome)">床位类型管理</el-button>
-      </div>
-    </el-card>
-
+      <el-card
+        v-for="resthome in resthomePage.rows"
+        :key="resthome.id"
+        class="resthome"
+      >
+        <div slot="header" style="color:#303133;font-size: 16px;">
+          {{resthome.name}}
+        </div>
+        <div class="stat">
+          <div class="item">总床位数：<span class="number">{{resthome.berthCount}}</span></div>
+          <div class="item">已入住数：<span class="number" style="color:#F56C6C">{{resthome.usedBerthCount}}</span></div>
+          <div class="item">空床位数：<span class="number" style="color:#67C23A">{{resthome.emptyBerthCount}}</span></div>
+        </div>
+        <div class="operations">
+          <el-button type="primary" plain @click="onCheckinClick(resthome)">入住管理</el-button>
+          <el-button type="default" @click="onCheckinRecordClick(resthome)">入住记录</el-button>
+          <el-button type="default" @click="onBerthSettingClick(resthome)">床位设置</el-button>
+          <el-button type="default" @click="onBerthTypeSettingClick(resthome)">床位类型管理</el-button>
+        </div>
+      </el-card>
+    </div>
     <el-alert
       v-if="loading"
       class="load-info"
@@ -40,7 +45,7 @@
       center
       :closable="false"
     />
-  </card-page>
+  </plain-page>
 </template>
 
 <script>

@@ -47,7 +47,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <data-table-query-button icon="el-icon-search" :query-params="searchForm" />
+        <data-table-query-button :query-params="searchForm" />
       </el-form-item>
     </el-form>
     <data-table

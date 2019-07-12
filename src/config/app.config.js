@@ -3,7 +3,8 @@ const defaultConfigValues = {
   rememberPasswordEnabled: false,
   theme: 'dark',//light
   size: 'small',
-  sideMenuCollapsed: false
+  sideMenuCollapsed: false,
+  autoOpenStatEnabled: true
 };
 
 class Config {

@@ -5,6 +5,11 @@
 <html>
 <head>
 	<%@ include file="/module/common.jsp" %>
+	<style>
+	#accountCanvasDiv > div {
+		margin: 0 auto !important;
+	}
+	</style>
 </head>
 <body>
 <div data-options="fit:true" class="easyui-layout">
@@ -27,6 +32,7 @@
 	<script src="${libPath}utils/require.js"></script>
 	<script>
 	$(function() {
+		top.app.$refs.navMenu.collapsed = true;
 	    var mods = [];
 		$('#tabs').tabs('tabs').forEach(function(tab) {
 	        mods.push(CONFIG.modulePath + 'shop/stat/' + $(tab).data('mod-id') + '.stat.js?v=1.9');

@@ -1,5 +1,12 @@
 <template>
-  <el-button type="primary" v-bind="$attrs" @click="onSearchClick">查询</el-button>
+  <el-button
+    type="primary"
+    icon="el-icon-search" 
+    v-bind="$attrs"
+    @click="onSearchClick"
+  >
+    查询
+  </el-button>
 </template>
 
 <script>

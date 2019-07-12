@@ -57,8 +57,8 @@
             :height="405"
           >
             <el-table-column prop="couponNumber" label="编号" width="100" />
-            <el-table-column prop="subject" label="主题" width="260" show-overflow-tooltip />
-            <el-table-column prop="expiryTime" label="有效期" width="230" :formatter="formatters.expiryTime" show-overflow-tooltip />
+            <el-table-column prop="subject" label="主题" width="160" show-overflow-tooltip />
+            <el-table-column prop="expiryTime" label="有效期" width="200" :formatter="formatters.expiryTime" show-overflow-tooltip />
             <el-table-column prop="providerName" label="店铺" width="260" show-overflow-tooltip />
             <el-table-column prop="status" label="状态" width="90">
               <template slot-scope="{row}">

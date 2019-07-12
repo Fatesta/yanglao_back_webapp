@@ -19,13 +19,17 @@
           />
         </el-form-item>
         <el-form-item>
-          <data-table-query-button icon="el-icon-search" :query-params="searchForm" />
+          <data-table-query-button :query-params="searchForm" />
         </el-form-item>
         <el-form-item>
           <el-button
             type="primary"
+            plain
             icon="el-icon-more"
-            @click="onQuerierShowClick">高级查询</el-button>
+            @click="onQuerierShowClick"
+          >
+            高级查询
+          </el-button>
         </el-form-item>
       </el-form>
       <el-dropdown

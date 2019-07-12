@@ -23,7 +23,8 @@
         >
         {{appName}}
       </span>
-      
+
+      <!-- 右侧工具信息 -->
       <div :style="{
         position: 'absolute',
         height: '60px',
@@ -32,6 +33,37 @@
         color: styles.header.color2,
         cursor: 'pointer'
       }">
+        <div
+          ref="timeTextContainer"
+          class="header-item-hover"
+          style="
+            float: left;
+            display: inline-block;
+            line-height: 60px;
+            font-size: 14px;
+            padding: 0px 17px;"
+        >
+        </div>
+        <el-dropdown
+          ref="userDropdown"
+          @command="onCommandClick"
+          :show-timeout="100"
+          class="header-item-hover"
+          :style="{
+            display: 'inline-block',
+            float: 'left',
+            padding: '0px 12px 0px 12px',
+            color: styles.header.color2
+          }"
+        >
+          <div>
+            {{admin ? admin.realName : '加载中'}}
+            <i class="el-icon-arrow-down" />
+          </div>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item icon="el-icon-key" command="modifyPassword">修改密码</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-popover
           ref="messagePopover"
           placement="bottom-end"
@@ -40,63 +72,39 @@
           content="暂无新消息。">
           <div
             slot="reference"
+            class="header-item-hover"
             style="
               display: inline-block;
               width: 48px;
               text-align: center;"
-            @mouseover="$refs.messagePopover.$el.querySelector('.el-popover__reference').style.backgroundColor = styles.header.hoverColor"
-            @mouseout="$refs.messagePopover.$el.querySelector('.el-popover__reference').style.backgroundColor = 'unset'"
             >
-            <i class="el-icon-bell icon-button" />
+            <i class="el-icon-alarm-clock icon-button" />
           </div>
         </el-popover>
         <div
           ref="logoutButton"
+          class="header-item-hover"
           style="
             display: inline-block;
             padding: 0px 17px;
             float: right;
           "
-          @mouseover="$refs.logoutButton.style.backgroundColor = styles.header.hoverColor"
-          @mouseout="$refs.logoutButton.style.backgroundColor = 'unset'"
           @click="logout"
         >
           <i class="el-icon-switch-button icon-button"></i>
         </div>
         <div
           ref="settingButton"
+          class="header-item-hover"
           style="
             display: inline-block;
             padding: 0px 17px;
             float: right;
           "
-          @mouseover="$refs.settingButton.style.backgroundColor = styles.header.hoverColor"
-          @mouseout="$refs.settingButton.style.backgroundColor = 'unset'"
           @click="onSettingClick"
         >
           <i class="el-icon-setting icon-button"></i>
         </div>
-        <el-dropdown
-          ref="userDropdown"
-          @command="onCommandClick"
-          :show-timeout="100"
-          :style="{
-            display: 'inline-block',
-            float: 'right',
-            padding: '0px 12px 0px 12px',
-            color: styles.header.color2
-          }"
-          @mouseover.native="$refs.userDropdown.$el.style.backgroundColor = styles.header.hoverColor"
-          @mouseout.native="$refs.userDropdown.$el.style.backgroundColor = 'unset'"
-        >
-          <div>
-            {{admin && admin.realName}}
-            <i class="el-icon-arrow-down" />
-          </div>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-key" command="modifyPassword">修改密码</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
       </div>
     </el-header>
     <el-container>
@@ -123,6 +131,18 @@
             <component :is="tab.content" />
           </el-tab-pane>
         </el-tabs>
+        <div
+          v-show="isInitialled && tabs.length == 0"
+          style="
+            text-align: center;
+            color: #909399;
+            height: 100%;
+            top: 48%;
+            position: relative;
+            margin: 0 auto;"
+        >
+          从导航菜单打开一个页面
+        </div>
       </el-main>
     </el-container>
     <password-update-dialog ref="passwordUpdateDialog" :visible="true" />
@@ -139,6 +159,7 @@ import PasswordUpdateDialog from '@/pages/admin/PasswordUpdateDialog';
 import config, { APP_NAME } from '@/config/app.config';
 import pages from '@/pages';
 import { stringify } from 'qs';
+import leftPad from 'left-pad';
 
 Vue.use(ElementUI, { size: config.get('size') });
 
@@ -154,10 +175,23 @@ export default {
       theme: config.get('theme'),
       admin: null,
       tabs: [],
-      activeTabKey: null
+      activeTabKey: null,
+      isInitialled: false
     };
   },
   async mounted() {
+    let timeTextContainer = this.$refs.timeTextContainer;
+    const updateTimeText = () => {
+      let now = new Date();
+      let timeText = `${now.getMonth() + 1}月${now.getDate()}日`;
+      timeText += ` 周${['日','一','二','三','四','五','六'][now.getDay()]}`;
+      timeText += ` ${leftPad(now.getHours(), 2, 0)}:${leftPad(now.getMinutes(), 2, 0)}`;
+      //timeText += `:${leftPad(now.getSeconds(), 2, 0)}`;
+      timeTextContainer.innerText = timeText;
+    };
+    updateTimeText();
+    setInterval(updateTimeText, 1000 * 60);
+    
     // 实例方法
     Vue.prototype.pushPage = this.pushPage.bind(this);
     Vue.prototype.$closeCurrentPage = this.closeCurrentPage.bind(this);
@@ -194,28 +228,24 @@ export default {
     // 提供给老代码用
     window.admin = ret.admin;
 
-    const nodes = await this.axios.get('/api/admin/listAdminMenu');/*
-    nodes.unshift({
-      text: '首页',
-      id: 94,//态势图
-      children: [],
-      attributes: {
-        code: "taishitu",
-        url: 'stat/showStatGrid.do'
-      }
-    });*/
+    const nodes = await this.axios.get('/api/admin/listAdminMenu');
+
     this.$refs.navMenu.menuTreeNodes = nodes.map((node, index) => {
       node.iconCls = ['user', 'goods', 'data-board', 'monitor', 'sunny', 'star-off', 'setting', 'help'][index];
       return node;
     });
-    this.$nextTick(() => {
-      if([1,6,9,11,13,14,15].indexOf(this.admin.roleId) > -1) {
-        openModuleByCode('taishitu');
-      }
-      if (this.admin.roleId == 10) {
-        openModuleByCode('ycyl.chat.doctorView');
-      }
-    });
+    if([1,6,9,11,13,14,15].indexOf(this.admin.roleId) > -1 && config.get('autoOpenStatEnabled')) {
+      openModuleByCode('taishitu', {
+        onLoad: () => {
+          this.isInitialled = true;
+        }
+      });
+    } else {
+      this.isInitialled = true;
+    }
+    if (this.admin.roleId == 10) {
+      openModuleByCode('ycyl.chat.doctorView');
+    }
 
     document.addEventListener('keydown', (e) => {
       if (27 == e.keyCode) {
@@ -240,16 +270,14 @@ export default {
           header: {
             backgroundColor: '#409EFF',
             color: '#fff',
-            color2: '#eee',
-            hoverColor: '#53a8ff'
+            color2: '#eee'
           }
         },
         light: {
           header: {
             backgroundColor: '#409EFF',
             color: '#fff',
-            color2: '#eee',
-            hoverColor: '#53a8ff'
+            color2: '#eee'
           }
         }
       };
@@ -457,5 +485,7 @@ export default {
   padding: 0px;
   background: #f5f7f9;
 }
-
+.header-item-hover:hover {
+  background-color: #53a8ff;
+}
 </style>

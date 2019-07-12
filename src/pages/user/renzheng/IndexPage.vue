@@ -133,7 +133,10 @@ export default {
           this.$refs.permissionSettings.open(user.userId);
           break;
         case 'asVolunteer':
-          this.$message.info('todo');
+          this.pushPage({
+            path: '/user/renzheng/volunteer-edit',
+            params: { user }
+          });
           break;
       }
     },

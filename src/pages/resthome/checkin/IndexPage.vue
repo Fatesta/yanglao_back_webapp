@@ -115,8 +115,6 @@ export default {
 
 <style scoped>
 .rooms {
-  display: flex;
-  flex-wrap: wrap;
   padding-bottom: 10px;
   min-height: 430px;
 }

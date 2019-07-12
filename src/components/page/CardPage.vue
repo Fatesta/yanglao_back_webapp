@@ -17,7 +17,7 @@ export default {
   name: 'card-page',
   inheritAttrs: false,
   props: {
-    bodyStyle: Object,
+    bodyStyle: [Object, String],
     default() {
       return {padding: '20px'}
     }
