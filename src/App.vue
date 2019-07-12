@@ -56,7 +56,7 @@
             color: styles.header.color2
           }"
         >
-          <div>
+          <div class="header-item-hover">
             {{admin ? admin.realName : '加载中'}}
             <i class="el-icon-arrow-down" />
           </div>
@@ -134,14 +134,22 @@
         <div
           v-show="isInitialled && tabs.length == 0"
           style="
-            text-align: center;
-            color: #909399;
-            height: 100%;
-            top: 48%;
             position: relative;
-            margin: 0 auto;"
+            top: 40%;
+            width: 500px;
+            height: 100%;
+            margin: 0 auto;
+            text-align: center;
+            color: #606266;"
         >
-          从导航菜单打开一个页面
+          <el-row class="op-tip-row">
+            <el-col :span="10" class="op-text-col">关闭标签页</el-col>
+            <el-col :span="14" class="op-keys-col"><span class="key">Esc</span></el-col>
+          </el-row>
+          <el-row class="op-tip-row">
+            <el-col :span="10" class="op-text-col">退出</el-col>
+            <el-col :span="14" class="op-keys-col"><span class="key">Esc</span></el-col>
+          </el-row>
         </div>
       </el-main>
     </el-container>
@@ -178,6 +186,27 @@ export default {
       activeTabKey: null,
       isInitialled: false
     };
+  },
+  computed: {
+    styles() {
+      const themeStyles = {
+        dark: {
+          header: {
+            backgroundColor: '#409EFF',
+            color: '#fff',
+            color2: '#eee'
+          }
+        },
+        light: {
+          header: {
+            backgroundColor: '#409EFF',
+            color: '#fff',
+            color2: '#eee'
+          }
+        }
+      };
+      return themeStyles[this.theme];
+    }
   },
   async mounted() {
     let timeTextContainer = this.$refs.timeTextContainer;
@@ -247,7 +276,14 @@ export default {
       openModuleByCode('ycyl.chat.doctorView');
     }
 
-    document.addEventListener('keydown', (e) => {
+    document.onkeydown = this.onKeyDown;
+    window.onresize = this.onResize;
+  },
+  methods: {
+    onTitleClick() {
+      this.$refs.navMenu.onCollapse();
+    },
+    onKeyDown(e) {
       if (27 == e.keyCode) {
         if (this.tabs.length > 0) {
           this.onTabRemove(this.tabs[this.tabs.length - 1].key);
@@ -257,36 +293,9 @@ export default {
           location.reload();
         }
       }
-    });
-
-    window.addEventListener('resize', () => {
+    },
+    onResize() {
       this.contentMaxHeight = document.body.offsetHeight;
-    });
-  },
-  computed: {
-    styles() {
-      const themeStyles = {
-        dark: {
-          header: {
-            backgroundColor: '#409EFF',
-            color: '#fff',
-            color2: '#eee'
-          }
-        },
-        light: {
-          header: {
-            backgroundColor: '#409EFF',
-            color: '#fff',
-            color2: '#eee'
-          }
-        }
-      };
-      return themeStyles[this.theme];
-    }
-  },
-  methods: {
-    onTitleClick() {
-      this.$refs.navMenu.onCollapse();
     },
     onCommandClick(cmd) {
       switch (cmd) {
@@ -487,5 +496,24 @@ export default {
 }
 .header-item-hover:hover {
   background-color: #53a8ff;
+  color: #fff;
+}
+
+.op-tip-row {
+  line-height: 32px;
+}
+.op-text-col {
+  text-align: right;
+  padding-right: 20px;
+}
+.op-keys-col {
+  text-align: left;
+}
+.key {
+  padding: 2px 4px;
+  background: #606266;
+  color: #fff;
+  border-radius: 2px;
+  font-size: 14px;
 }
 </style>
