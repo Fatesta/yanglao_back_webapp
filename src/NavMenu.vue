@@ -14,7 +14,8 @@ export default {
       'el-aside',
       {
         style: {
-          width: this.collapsed ? '65px' : '202px',
+          position: 'relative',
+          width: 'unset',
           height: this.height + 'px'
         }
       }, [
@@ -27,12 +28,29 @@ export default {
               ...styles
             },
             style: 'height: 100%',
+            class: 'main-menu',
             on: {
               select: this.onSelect
             }
           },
           children
-        )
+        ),
+        // 展开收缩按钮
+        h('i', {
+          style: {
+            position: 'absolute',
+            bottom: '8px',
+            width: '100%',
+            fontSize: '18px',
+            textAlign: 'center',
+            cursor: 'pointer',
+            color: '#909399'
+          },
+          class: `el-icon-${this.collapsed ? 's-unfold' : 's-fold'}`,
+          on: {
+            click: this.onCollapse
+          }
+        })
       ]);
 
     function buildSubmenu(node, level) {
@@ -47,8 +65,8 @@ export default {
             h('template', {slot: 'title'}, [
               level == 1 && h('i',
                 {
-                  'class': `el-icon-${node.iconCls || 'menu'}`,
-                  style: {color: styles.textColor}
+                  class: `el-icon-${node.iconCls || 'menu'}`,
+                  style: {color: styles.iconColor}
                 }),
               h('span', node.text)
             ])
@@ -62,7 +80,7 @@ export default {
           [h('template', {slot: 'title'}, [
             level == 1 && h('i',
               {
-                'class': `el-icon-${node.iconCls || 'menu'}`,
+                class: `el-icon-${node.iconCls || 'menu'}`,
                 style: {color: styles.iconColor}
               }),
             h('span', node.text)
@@ -86,8 +104,9 @@ export default {
           textColor: "#ffffffb3",
           activeTextColor: "#fff"
         },
-        light: {
-
+        light:  {
+          textColor: '#303133',
+          iconColor: '#909399'
         }
       };
       return themeStyles[this.theme];
@@ -118,7 +137,12 @@ export default {
 
 <style>
 .el-menu-item.is-active {
-  background: hsla(0,0%,100%,.1) !important;
+  /*background: hsla(0,0%,100%,.1) !important;*/
+  background-color: #ecf5ff;
   border-left: 3px solid #2d8cf0;
+}
+
+.main-menu:not(.el-menu--collapse) {
+  width: 202px;
 }
 </style>

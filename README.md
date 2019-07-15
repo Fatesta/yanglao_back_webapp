@@ -58,16 +58,16 @@ this.pushPage({
 ```
 页面组件实例方法中，通过`this.$params`得到参数。
 
-#### pushPage的实现原理（ [源码](https://github.com/hulang1024/yanglao_back_webapp/blob/master/src/App.vue#L273) ）
+#### pushPage的实现原理
 1. 将path + 可选的key 作为tab的key，判断是否已经打开标签页，如果打开了则选中，结束，否则下一步。
 2. 按照路径与页面vue/js的映射表（src/pages.js，下文将提到），查询出页面对象，  
 该页面对象实际上是一个请求页面组件js并返回Promise的函数，执行请求页面的函数，得到真正的页面组件，组件实际上是一个对象。  
 因此可以得到它的`pageProps属性`，以及增加`$params` props。
 
-#### 与pushPage类似的另一个方法: app.openTab（ [源码](https://github.com/hulang1024/yanglao_back_webapp/blob/master/src/App.vue#L336) ）
+#### 与pushPage类似的另一个方法: app.openTab
 `app.openTab`是为了兼容旧有代码而存在的，在以前，window.openModuleByCode、window.openTab将打开一个新的content为iframe的easyui tab。  
 现在，这些方法的实现将变为对`app.openTab`的调用，而`app.openTab`根据url判断:
-- 后缀如果是`.do`，则识别为老页面，用一个渲染iframe的vue组件包装起来，并且[解决easyui模板闪现的问题](https://github.com/hulang1024/yanglao_back_webapp/blob/master/src/App.vue#L396)。
+- 后缀如果是`.do`，则识别为老页面，用一个渲染iframe的vue组件包装起来，并且解决了easyui模板闪现的问题。
 - 后缀如果是`.js`，这是新开发模式页面的url表示方式，转换为对`this.pushPage`的调用。
 
 

@@ -5,7 +5,7 @@
 <link rel="shortcut icon" href="./favicon.ico">
 <link rel="stylesheet" type="text/css" href="${libPath}easyui/themes/material/easyui.css">
 <link rel="stylesheet" type="text/css" href="${libPath}easyui/themes/icon.css?v=8.1">
-<link rel="stylesheet" type="text/css" href="${cssPath }index.css?v=11.2">
+<link rel="stylesheet" type="text/css" href="${cssPath }index.css?v=11.3">
 <link rel="stylesheet" type="text/css" href="${cssPath }easyui-prettify.css?v=6.2">
 <%@ include file="index-style.jsp" %>
 <script src="${libPath}easyui/jquery.min.js"></script>

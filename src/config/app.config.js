@@ -1,7 +1,7 @@
 const defaultConfigValues = {
   autoLoginEnabled: false,
   rememberPasswordEnabled: false,
-  theme: 'dark',//light
+  theme: 'light',//dark
   size: 'small',
   sideMenuCollapsed: false,
   autoOpenStatEnabled: true
@@ -10,9 +10,9 @@ const defaultConfigValues = {
 class Config {
   constructor() {
     //TODO:过一段时间之后删掉
-    if (this.get('version') < 20190708) {
-      this.set('version', '20190708');
-      this.set('theme', 'dark');
+    if (this.get('version') < 20190715) {
+      this.set('version', '20190715');
+      this.set('theme', 'light');
     }
 
     for (let key in defaultConfigValues) {

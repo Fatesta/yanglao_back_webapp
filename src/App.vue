@@ -6,7 +6,7 @@
         height: '60px',
         lineHeight: '60px',
         padding: '0px 0px 0px 20px',
-        backgroundColor: styles.header.backgroundColor,
+        backgroundColor: '#409EFF',
         position: 'relative',
         userSelect: 'none'
       }"
@@ -15,7 +15,7 @@
       <span
         :style="{
           fontSize: '23px',
-          color: styles.header.color,
+          color: '#fff',
           letterSpacing: '1.5px',
           cursor: 'pointer'
         }"
@@ -30,7 +30,7 @@
         height: '60px',
         display: 'inline-block',
         right: 0,
-        color: styles.header.color2,
+        color: 'rgba(255, 255, 255, 0.9)',
         cursor: 'pointer'
       }">
         <div
@@ -53,7 +53,7 @@
             display: 'inline-block',
             float: 'left',
             padding: '0px 12px 0px 12px',
-            color: styles.header.color2
+            color: 'inherit'
           }"
         >
           <div class="header-item-hover">
@@ -109,7 +109,11 @@
     </el-header>
     <el-container>
       <nav-menu ref="navMenu" :height="(contentMaxHeight - 60)" />
-      <el-main :style="{padding: '2px 0px 0px 2px'}">
+      <el-main
+        :style="{
+          padding: '2px 0px 0px 0px'
+        }"
+      >
         <el-tabs
           v-show="tabs.length"
           :value="activeTabKey"
@@ -131,26 +135,7 @@
             <component :is="tab.content" />
           </el-tab-pane>
         </el-tabs>
-        <div
-          v-show="isInitialled && tabs.length == 0"
-          style="
-            position: relative;
-            top: 40%;
-            width: 500px;
-            height: 100%;
-            margin: 0 auto;
-            text-align: center;
-            color: #606266;"
-        >
-          <el-row class="op-tip-row">
-            <el-col :span="10" class="op-text-col">关闭标签页</el-col>
-            <el-col :span="14" class="op-keys-col"><span class="key">Esc</span></el-col>
-          </el-row>
-          <el-row class="op-tip-row">
-            <el-col :span="10" class="op-text-col">退出</el-col>
-            <el-col :span="14" class="op-keys-col"><span class="key">Esc</span></el-col>
-          </el-row>
-        </div>
+
       </el-main>
     </el-container>
     <password-update-dialog ref="passwordUpdateDialog" :visible="true" />
@@ -160,7 +145,7 @@
 
 <script>
 import Vue from 'vue';
-import ElementUI from 'element-ui';
+import ElementUI, { Message } from 'element-ui';
 import '@/components/index'; // 公共vue组件，应全部打包到本入口文件只有一份
 import NavMenu from './NavMenu';
 import PasswordUpdateDialog from '@/pages/admin/PasswordUpdateDialog';
@@ -168,6 +153,7 @@ import config, { APP_NAME } from '@/config/app.config';
 import pages from '@/pages';
 import { stringify } from 'qs';
 import leftPad from 'left-pad';
+import { setTimeout } from 'timers';
 
 Vue.use(ElementUI, { size: config.get('size') });
 
@@ -187,39 +173,17 @@ export default {
       isInitialled: false
     };
   },
-  computed: {
-    styles() {
-      const themeStyles = {
-        dark: {
-          header: {
-            backgroundColor: '#409EFF',
-            color: '#fff',
-            color2: '#eee'
-          }
-        },
-        light: {
-          header: {
-            backgroundColor: '#409EFF',
-            color: '#fff',
-            color2: '#eee'
-          }
-        }
-      };
-      return themeStyles[this.theme];
-    }
-  },
   async mounted() {
-    let timeTextContainer = this.$refs.timeTextContainer;
-    const updateTimeText = () => {
+    const minuteTick = () => {
       let now = new Date();
       let timeText = `${now.getMonth() + 1}月${now.getDate()}日`;
       timeText += ` 周${['日','一','二','三','四','五','六'][now.getDay()]}`;
       timeText += ` ${leftPad(now.getHours(), 2, 0)}:${leftPad(now.getMinutes(), 2, 0)}`;
-      //timeText += `:${leftPad(now.getSeconds(), 2, 0)}`;
-      timeTextContainer.innerText = timeText;
+      this.$refs.timeTextContainer.innerText = timeText;
+
+      setTimeout(minuteTick, (60 - now.getSeconds()) * 1000);
     };
-    updateTimeText();
-    setInterval(updateTimeText, 1000 * 60);
+    minuteTick();
     
     // 实例方法
     Vue.prototype.pushPage = this.pushPage.bind(this);
@@ -271,7 +235,11 @@ export default {
       });
     } else {
       this.isInitialled = true;
+      this.pushPage({
+        path: '/home'
+      });
     }
+
     if (this.admin.roleId == 10) {
       openModuleByCode('ycyl.chat.doctorView');
     }
@@ -292,6 +260,9 @@ export default {
         } else {
           location.reload();
         }
+      }
+      else if (83 == e.keyCode && e.ctrlKey) {
+        this.onSettingClick();
       }
     },
     onResize() {
@@ -469,6 +440,14 @@ export default {
           this.activeTabKey = tab.key;
       }
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next();
+    if (from.path == '/login') {
+      setTimeout(() => {
+        Message.info({message: '登陆成功，欢迎使用', duration: 1000});
+      }, 100);
+    }
   }
 }
 
@@ -485,11 +464,14 @@ export default {
 .icon-button {
   font-size: 16px;
   font-weight: bold;
+  text-shadow: 0 1px 0px rgba(0,0,0,.25)
 }
-
 </style>
 
 <style>
+.el-main > .el-tabs > .el-tabs__header {
+  left: 2px;
+}
 .el-main > .el-tabs > .el-tabs__content {
   padding: 0px;
   background: #f5f7f9;
@@ -503,17 +485,21 @@ export default {
   line-height: 32px;
 }
 .op-text-col {
-  text-align: right;
-  padding-right: 20px;
+  text-align: left;
 }
 .op-keys-col {
   text-align: left;
 }
 .key {
+  display: inline-block;
   padding: 2px 4px;
+  min-width: 32px;
   background: #606266;
   color: #fff;
   border-radius: 2px;
   font-size: 14px;
+  text-align: center;
+  line-height: 20px;
+  vertical-align: middle;
 }
 </style>

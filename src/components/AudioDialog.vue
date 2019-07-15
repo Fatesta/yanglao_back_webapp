@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="音频"
+    :title="title"
     :visible.sync="visible"
     width="400px"
     center
@@ -15,6 +15,10 @@
 
 <script>
 export default {
+  props: {
+    title: String,
+    default: "音频"
+  },
   data() {
     return {
       visible: false,

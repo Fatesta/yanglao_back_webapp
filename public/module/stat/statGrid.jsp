@@ -17,31 +17,59 @@
 		.summary-table-container {
 			position: absolute;
 			left: 0.5%;
-			top: 2px;
+			top:4px;
 			width: 99%;
 			height: 40px;
 			padding-bottom: 10px;
 			background-color: rgba(255,255,255,0.5);
-			border-radius: 2px;
-			border: 1px solid #ccc;
+    	border-radius: 2px;
+			box-shadow: 0px 1px 3px 1px rgba(0,0,0,0.1);
 			user-select: none;
+			color: #555;
+			font-weight: bold;
 		}
 		.summary-table-container:hover {
 			background-color: rgba(255,255,255,0.9);
 		}
-		.summary-table {
-			color: #555;
-			font-weight: bold;
+
+		.summary-table-container > .items {
+			display: flex;
+    	flex-wrap: wrap;
+			justify-content: space-evenly;
+			margin: 4px 0px;
 		}
-		.summary-table th {
-			padding: 4px 60px 4px 60px;
+		.summary-table-container > .items .item-title {
 			font-size: 14px;
 			color: rgb(64, 158, 255);
+			line-height: 22px;
 		}
-		.summary-table td {
-			padding: 0px 60px 0px 60px;
+		.summary-table-container > .items [name] {
 			font-variant: tabular-nums;
 			font-size: 16px;
+			line-height: 22px;
+		}
+
+		.tools_panel {
+			position: absolute;
+			top: 20px;
+			left: 50%;
+			margin-left: -130px;
+			width: 260px;
+			height: 35px;
+			background-color: white;
+		}
+		.tools_panel_bottom {
+				position: absolute;
+				bottom: 6px;
+				right: 6px;
+				width: 200px;
+				padding-bottom: 10px;
+				background-color: rgba(255,255,255,0.5);
+				border-radius: 2px;
+				box-shadow: 0px 1px 3px 1px rgba(0,0,0,0.1);
+		}
+		.tools_panel_bottom:hover {
+			background-color: rgba(255,255,255,1);
 		}
 	</style>
 </head>
@@ -81,35 +109,42 @@
 			</table>
 		</div>
 		<div class="summary-table-container" style="display: block">
-			<table id="stat-numbers-table" class="form summary-table" style=" margin: 0 auto;">
-				<tr>
-					<th>用户</th>
-					<th style="display: none;">特殊老人</th>
-					<th>街道</th>
-					<th>社区</th>
-					<th>养老院</th>
-					<th>志愿者</th>
-					<th>服务机构</th>
-				</tr>
-				<tr>
-					<td name="user"></td>
-					<td name="specialOldman" style="display: none;"></td>
-					<td name="street"></td>
-					<td name="org"></td>
-					<td name="yanglaoyuan"></td>
-					<td name="volunteer"></td>
-					<td name="provider"></td>
-				</tr>
-			</table>
+			<div class="items">
+				<div>
+					<div class="item-title">用户</div>
+					<div name="user"></div>
+				</div>
+				<div>
+					<div class="item-title">街道</div>
+					<div name="street"></div>
+				</div>
+				<div>
+					<div class="item-title">社区</div>
+					<div name="org"></div>
+				</div>
+				<div>
+					<div class="item-title">养老院</div>
+					<div name="yanglaoyuan"></div>
+				</div>
+				<div>
+					<div class="item-title">志愿者</div>
+					<div name="volunteer"></div>
+				</div>
+				<div>
+					<div class="item-title">服务机构</div>
+					<div name="provider"></div>
+				</div>
+			</div>
+
 			<div style="
     			position: absolute;
     			bottom: 2px;
     			right: 8px;
 				cursor: pointer;
-				color: #888;
+				color: #aaa;
 				font-size: 14px;
 				font-weight: bold;
-			}" onclick="stat.onCollapseClick()" title="隐藏，稍后请将光标移到地图顶部即可再次显示">︿</div>
+			" onclick="stat.onCollapseClick()" title="隐藏，稍后请将光标移到地图顶部即可再次显示">︿</div>
 		</div>
 	</div>
 	
@@ -378,6 +413,6 @@
 <script src="${modulePath}video/VideoArrayWindow.js?v=1"></script>
 <script src="${modulePath}user/basicInfo.js?v=1"></script>
 <script src="${libPath}template.js"></script>
-<script src="${modulePath}stat/index.js?v=3.9"></script>
+<script src="${modulePath}stat/index.js?v=4"></script>
 </body>
 </html>

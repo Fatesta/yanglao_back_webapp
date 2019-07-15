@@ -92,7 +92,7 @@
       </el-table-column>
     </data-table>
     
-    <audio-dialog ref="audioDialog" />
+    <audio-dialog ref="audioDialog" title="录音" />
   </div>
 </template>
 
@@ -161,7 +161,7 @@ export default {
       if (!data.callDetailRecords)
         return [];
       data.callDetailRecords.list.forEach(function(row) {
-          Object.assign(row, row.user);
+        Object.assign(row, row.user);
       });
       return {total: data.callDetailRecords.totalCount, rows: data.callDetailRecords.list};
     },

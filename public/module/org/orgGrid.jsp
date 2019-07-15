@@ -74,7 +74,7 @@ var lastSelectedOrgNode;
 function reloadOrgTree(isFromDelete) {
     if (isFromDelete)
         lastSelectedOrgNode = {id:lastSelectedOrgNode.parentId};
-    $.get('${urlPath }org/listOrg.do', function(data) {
+    $.get('${urlPath }admin/listOrg.do', function(data) {
         $('#orgGrid').treegrid({
             data: data,
             idField:'id',

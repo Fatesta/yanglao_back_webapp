@@ -7,7 +7,7 @@ stat.onCollapseClick = function() {
 $('#statMapContainer').mousemove(function(e) {
     if (e.offsetY < 10) {
         $('.summary-table-container').animate({
-            top: '2px'
+            top: '4px'
         }, 500);
     }
 });
@@ -83,7 +83,7 @@ stat.gotoPosition = function (index, row, idField) {
 };
 
 $.get('/api/datastat/numberInMap', function(ret) {
-    $('#stat-numbers-table td').each(function() {
+    $('.summary-table-container>.items [name]').each(function() {
         $(this).text(ret[$(this).attr('name')]);
     });
 });
