@@ -62,17 +62,12 @@
       <el-table-column prop="aliasName" label="姓名" width="80"></el-table-column>
       <el-table-column prop="sex" label="性别" width="50" :formatter="formatters.sex"></el-table-column>
       <el-table-column prop="age" label="年龄" width="50"></el-table-column>
-      <el-table-column prop="contactType" label="呼叫类型" width="100" :formatter="formatters.contactType"></el-table-column>
+      <el-table-column prop="contactType" label="呼叫类型" width="80" :formatter="formatters.contactType"></el-table-column>
       <el-table-column prop="duration" label="时长" width="70" :formatter="formatters.duration"></el-table-column>
       <el-table-column prop="contactDisposition" label="挂断原因" width="120" :formatter="formatters.contactDisposition"></el-table-column>
-      <el-table-column prop="agentNames" label="客服" width="100" show-overflow-tooltip></el-table-column>
-      <el-table-column label="操作" width="160">
+      <el-table-column prop="agentNames" label="客服" width="80" show-overflow-tooltip></el-table-column>
+      <el-table-column label="操作">
         <template slot-scope="{row}">
-          <el-button
-            @click="onLocationClick(row)"
-          >
-            定位
-          </el-button>
           <el-dropdown
             v-if="row.recordings.length"
             @command="onRecodingCommandClick($event, row)"
@@ -157,6 +152,9 @@ export default {
     this.$refs.table.query(this.searchForm);
   },
   methods: {
+    query() {
+      this.$refs.table.reloadCurrentPage();
+    },
     loadFilter(data) {
       if (!data.callDetailRecords)
         return [];
@@ -193,14 +191,6 @@ export default {
     onTimeRangeChange(values) {
       this.startTime = values[0];
       this.stopTIme = vlaues[1];
-    },
-    onLocationClick(row) {
-      let taishitu = getModuleContext('taishitu');
-      if (taishitu) {
-        taishitu.stat.deviceQuery.gotoPositionByTelephone(row.telphone);
-      } else {
-        this.$message.warning('请先打开 态势图');
-      }
     },
     onRecodingCommandClick(cmd, row) {
       switch (cmd) {

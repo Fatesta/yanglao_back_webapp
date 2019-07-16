@@ -4,7 +4,7 @@
     class="vue-drawer"
     :class="[
       {
-        'vue-drawer--open': visible,
+        'vue-drawer--open': mask && visible,
         'vue-drawer--header-footer-fixed': headerFooterFixed
       },
       `vue-drawer--${placement}`
@@ -220,7 +220,7 @@ export default {
     left: 0;
     width: 100%;
     height: 0;
-    background-color: rgba(0, 0, 0, 0.65);
+    background-color: rgba(0, 0, 0, 0.85);
     opacity: 0;
     filter: alpha(opacity=50);
     transition: opacity .3s linear,height 0s ease .3s;
@@ -330,7 +330,7 @@ export default {
 ----------------------*/
 .vue-drawer__header {
     position: relative;
-    color: rgba(0,0,0,0.65);
+    color: rgba(0,0,0,0.85);
     background: #fff;
     border-bottom: 1px solid #e8e8e8;
     border-radius: 4px 4px 0 0;

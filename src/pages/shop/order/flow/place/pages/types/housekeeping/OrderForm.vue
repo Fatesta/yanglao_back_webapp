@@ -131,6 +131,15 @@ export default {
       selections: this.$params.selections
     }
   },
+  mounted() {
+    if (window.lastCallComingUserInfo) {
+      let user = this.user = window.lastCallComingUserInfo;
+      this.form.linkman = user.aliasName;
+      this.form.linkphone = user.telphone;
+      this.form.address = user.address;
+      window.lastCallComingUserInfo = null;
+    }
+  },
   methods: {
     onSelectUserClick() {
       this.$refs.userQuerySelector.show({

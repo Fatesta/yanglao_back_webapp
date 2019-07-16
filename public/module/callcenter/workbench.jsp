@@ -67,10 +67,12 @@
 	<script>
 	var cccInstanceId = '${instanceId}';
 	var isDevMode = '${isDevMode}' == 'true';
+	define = undefined;
 	</script>
-	<script src="https://g.alicdn.com/crm/acc-phone/1.1.2/SIPml-api.js"></script>
-	<script src="https://g.alicdn.com/crm/acc-phone/1.1.2/index.js"></script>
-	<script src="${modulePath}callcenter/workbench.js?v=3.5"></script>
+	<script src="https://g.alicdn.com/cloudcallcenter/SIPml/0.0.5/SIPml-api.js"></script>
+	<script src="https://g.alicdn.com/cloudcallcenter-voip/agentbar-sdk/2.6.4/index.js"></script>
+	<script src="https://g.alicdn.com/acca/workbench-sdk/0.7.4/workbenchSdk.min.js"></script>
+	<script src="${modulePath}callcenter/workbench.js?v=3.6"></script>
 	<script src="${modulePath}callcenter/record.js?v=2.8"></script>
 	<script src="${modulePath}user/basicInfo.js?v=1"></script>
 </body>

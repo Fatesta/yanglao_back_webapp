@@ -12,9 +12,6 @@ function init() {
     
     var lastCallComingUser = null;
 
-    require([
-        'https://g.alicdn.com/acca/workbench-sdk/0.4.3/'
-            + (isDevMode ? 'workbenchSdk.js' : 'workbenchSdk.min.js')], function(){
         //var calleeNumberNotifs = {};
         var workbench = new WorkbenchSdk({
             width: '280px',
@@ -150,7 +147,6 @@ function init() {
                     + ':' + String.leftPad0(dhms.seconds));
             }, 1000);
         })();
-    });
     
     
    function showOpButtons(user) {
