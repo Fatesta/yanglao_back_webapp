@@ -1,6 +1,13 @@
 <template>
   <el-container>
-    <el-main>
+    <el-main
+      style="
+        flex-wrap: wrap;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        position: relative;"
+    >
       <div class="login-container">
         <div
           style="

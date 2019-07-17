@@ -59,7 +59,7 @@
     >
       <el-table-column prop="startTime" label="时间" width="170" :formatter="formatters.startTime"></el-table-column>
       <el-table-column prop="customerNumber" label="客户电话" width="120"></el-table-column>
-      <el-table-column prop="aliasName" label="姓名" width="80"></el-table-column>
+      <el-table-column prop="aliasName" label="姓名" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column prop="sex" label="性别" width="50" :formatter="formatters.sex"></el-table-column>
       <el-table-column prop="age" label="年龄" width="50"></el-table-column>
       <el-table-column prop="contactType" label="呼叫类型" width="80" :formatter="formatters.contactType"></el-table-column>

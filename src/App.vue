@@ -233,6 +233,8 @@ export default {
           this.isInitialled = true;
         }
       });
+    } else if (this.admin.roleId == 13) {
+      this.pushPage({ path: '/callcenter/workbench/index' });
     } else {
       this.isInitialled = true;
       this.pushPage({

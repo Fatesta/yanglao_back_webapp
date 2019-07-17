@@ -111,10 +111,9 @@ export default {
           console.warn(error)
         },
         onCallComing: (connid, callerNumber, calleeNumber, contacId) => {
+          console.info('onCallComing');
+          this.pushPage({ path: '/callcenter/workbench/index' });
           this.activeTab = 'cc';//select workbench
-          
-          let taishitu = getModuleContext('taishitu');
-          taishitu && taishitu.stat.deviceQuery.gotoPositionByTelephone(callerNumber);
           this.callComingPaneShow = true;
           this.rightActiveTab = 'callcoming';
           this.$nextTick(() => {
