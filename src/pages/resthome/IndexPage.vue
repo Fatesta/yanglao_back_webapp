@@ -64,7 +64,7 @@ export default {
     };
   },
   mounted() {
-    app.$refs.navMenu.collapsed = true;
+    app.$refs.navMenu.collapse();
     this.load();
   },
   methods: {

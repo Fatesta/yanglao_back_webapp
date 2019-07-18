@@ -59,7 +59,7 @@
             <img :src="scope.row.product.imageFile" style="height: 50px;width: 80px;border-radius: 4px;" />
           </template>
         </el-table-column>
-        <el-table-column prop="product.name" width="300"></el-table-column>
+        <el-table-column prop="product.name" width="240" show-overflow-tooltip=""></el-table-column>
         <el-table-column prop="num" label="商品数量" width="100"></el-table-column>
         <el-table-column prop="product.price" label="单价">
           <template slot-scope="scope">

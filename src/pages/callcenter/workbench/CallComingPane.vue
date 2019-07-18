@@ -39,8 +39,12 @@
         关闭
       </el-button>
     </template>
-    <div v-else>未查询到用户信息，可能为非平台用户</div>
-
+    <template v-else>
+      <div>未查询到用户信息，可能为非平台用户</div>
+      <el-button type="primary" icon="el-icon-user" plain @click="onAddUserClick">
+        注册用户
+      </el-button>
+    </template>
     <user-basic-details ref="userBasicDetails" />
   </div>
 </template>
@@ -76,6 +80,9 @@ export default {
       this.pushPage({
         path: '/shop/shop/index'
       });
+    },
+    onAddUserClick() {
+      this.pushPage({ path: '/user/edit', title: '增加用户' });
     },
     onCloseClick() {
       this.$emit('close');

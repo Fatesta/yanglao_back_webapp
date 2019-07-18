@@ -1,4 +1,4 @@
-define([CONFIG.modulePath + 'shop/stat/statquerier.js?v=1.3', '/lib/echarts/echarts.min.js'], function(StatQuerier, echarts) {
+define([CONFIG.modulePath + 'shop/stat/statquerier.js?v=1.4', '/lib/echarts/echarts.min.js'], function(StatQuerier, echarts) {
     return function() {
         return new StatQuerier({
             elem: "#account",

@@ -5,7 +5,7 @@
 <c:if test="${adminRole.id == 1 or adminRole.id == 14 or adminRole.id == 15}">
 	<td>社区</td>
 	<td>
-		<input id="orgId" name="orgId" class="easyui-combobox"/>
+		<input id="orgId" name="orgId" class="easyui-combobox" data-options="editable: true" />
 	</td>
 </c:if>
 <c:if test="${adminRole.id == 1 or adminRole.id == 9 or adminRole.id == 14 or adminRole.id == 15}">

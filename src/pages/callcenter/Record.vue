@@ -134,7 +134,7 @@ export default {
       timeRange: [],
       formatters: {
         startTime: (row, col, t) => moment(t).format('YYYY-MM-DD HH:mm:ss'),
-        sex: (row, col, v) => v == 0 ? '男' : '女',
+        sex: (row, col, v) => v && (v == 0 ? '男' : '女'),
         contactType: (row, col, t) => this.maps.contactType[t],
         duration: (row, col, t) => toDurationText(t * 1000),
         contactDisposition: (row, col, t) => this.maps.contactDisposition[t]

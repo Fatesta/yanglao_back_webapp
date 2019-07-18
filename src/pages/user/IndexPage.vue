@@ -59,7 +59,7 @@
       ref="table"
       url="/api/user/listUser"
     >
-      <el-table-column prop="realName" label="姓名" width="80" :formatter="formatters.realName"></el-table-column>
+      <el-table-column prop="realName" label="姓名" width="80" :formatter="formatters.realName" show-overflow-tooltip></el-table-column>
       <el-table-column prop="sex" label="性别" :formatter="formatters.sex" width="50"></el-table-column>
       <el-table-column prop="age" label="年龄" width="50"></el-table-column>
       <el-table-column prop="idcard" label="身份证号码" width="174" :formatter="formatters.idcard"></el-table-column>

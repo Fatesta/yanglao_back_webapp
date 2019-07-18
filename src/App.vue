@@ -119,6 +119,7 @@
           :value="activeTabKey"
           type="card"
           closable
+          @tab-click="onTabClick"
           @tab-remove="onTabRemove"
         >
           <el-tab-pane
@@ -174,13 +175,13 @@ export default {
     };
   },
   async mounted() {
+    const {timeTextContainer} = this.$refs;
     const minuteTick = () => {
       let now = new Date();
       let timeText = `${now.getMonth() + 1}月${now.getDate()}日`;
       timeText += ` 周${['日','一','二','三','四','五','六'][now.getDay()]}`;
       timeText += ` ${leftPad(now.getHours(), 2, 0)}:${leftPad(now.getMinutes(), 2, 0)}`;
-      this.$refs.timeTextContainer.innerText = timeText;
-
+      timeTextContainer.innerText = timeText;
       setTimeout(minuteTick, (60 - now.getSeconds()) * 1000);
     };
     minuteTick();
@@ -282,6 +283,10 @@ export default {
     },
     logout() {
       this.$router.replace('/logout');
+    },
+    onTabClick(tab) {
+      let pageInstance = tab.$children[0];
+      pageInstance.onPageResume && pageInstance.onPageResume();
     },
     onTabRemove(key) {
       let tabs = this.tabs;

@@ -14,18 +14,13 @@
 <body>
 <div data-options="fit:true" class="easyui-layout">
 	<div id="tabs" class="easyui-tabs" data-options="fit:true">
-        <c:forEach var="fn" items="${ROLE_FUNCS}">
-            <c:if test="${fn.code == 'shop.stat.order'}">
 			    <div id="order" title="订单统计" data-mod-id="order">
 			    	<%@ include file="orderStat.jsp" %>
 				</div>
-			</c:if>
-			<c:if test="${fn.code == 'shop.stat.providersAccount'}">
 			    <div id="account" title="交易统计" data-mod-id="account">
 					<%@ include file="providersAccountStat.jsp" %>
 				</div>
-			</c:if>
-		</c:forEach>
+
 	</div>
 	
 	<script src="${libPath}ichart.1.2.1.min.js"></script>
@@ -35,7 +30,7 @@
 		top.app.$refs.navMenu.collapsed = true;
 	    var mods = [];
 		$('#tabs').tabs('tabs').forEach(function(tab) {
-	        mods.push(CONFIG.modulePath + 'shop/stat/' + $(tab).data('mod-id') + '.stat.js?v=1.9');
+	        mods.push(CONFIG.modulePath + 'shop/stat/' + $(tab).data('mod-id') + '.stat.js?v=2');
 	    });
 	    if (!mods.length)
 	        return;

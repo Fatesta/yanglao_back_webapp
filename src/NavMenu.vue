@@ -123,7 +123,35 @@ export default {
       return map;
     }
   },
+  watch: {
+    collapsed(value) {
+      this.timer && clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        if (value) {
+          if (this.$el.children[0].offsetWidth == 65) {
+            clearInterval(this.timer);
+            this.timer = null;
+            this.$emit('collapsed');
+          }
+        } else {
+          if (this.$el.children[0].offsetWidth == 203) {
+            clearInterval(this.timer);
+            this.timer = null;
+            this.$emit('expanded');
+          }
+        }
+      }, 60);
+    }
+  },
   methods: {
+    collapse() {
+      // 已折叠时立即发送事件
+      if (this.collapsed) {
+        this.$emit('collapsed');
+        return;
+      }
+      this.collapsed = true;
+    },
     onCollapse() {
       this.collapsed = !this.collapsed;
     },

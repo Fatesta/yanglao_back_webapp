@@ -92,7 +92,7 @@ export default {
   methods: {
     initWorkbench(WorkbenchSdk) {
       this.loading = false;
-      app.$refs.navMenu.collapsed = true;
+      app.$refs.navMenu.collapse();
 
       let workbench = new WorkbenchSdk({
         width: '280px',
@@ -125,7 +125,7 @@ export default {
         },
         onCallEstablish(connid, caller, calee, contactId) {
         },
-        onHangUp() {
+        onHangUp: () => {
           this.$refs.record.query();
         }
       });
