@@ -32,25 +32,24 @@ export default {
     }
   },
   mounted() {
-    const { chartContainer } = this.$refs;
-
-    this.chart = echarts.init(chartContainer);
-
-    const resize = () => {
-      chartContainer.style.height =
-        chartContainer.parentElement.parentElement.offsetHeight + 'px';
-      this.chart.resize();
-    };
+    this.isActive = true;
+    this.chart = echarts.init(this.$refs.chartContainer);
+    const resize = this.resize.bind(this);
     app.$refs.navMenu.$on('collapsed', resize).$on('expanded', resize).collapse();
     window.addEventListener('resize', resize);
   },
   methods: {
     async onQueryClick(params) {
+      this.chart.clear();
       this.loading = true;
       const data = await this.axios.get('/api/shop/stat/queryOrdersStats', {params});
       this.loading = false;
 
-      this.chart.resize();
+      if (!data.length) {
+        this.$message.warning('无数据');
+        return;
+      }
+
       this.chart.setOption({
         tooltip: {
           trigger: 'axis'
@@ -122,8 +121,20 @@ export default {
         }]
       });
     },
+    resize() {
+      if (this.isActive) {
+        const { chartContainer } = this.$refs;
+        chartContainer.style.height = chartContainer.parentElement.parentElement.offsetHeight + 'px';
+        this.chart.resize();
+      }
+    },
     onPageResume() {
-    }
+      this.isActive = true;
+      this.$nextTick(() => {
+        this.resize();
+      });
+    },
+    onPagePause() { this.isActive = false; }
   },
 }
 </script>

@@ -228,13 +228,13 @@ export default {
         case 'returnvisit':
           openTab({
             url: 'view/community/returnvisit/index.do?userId=' + user.id,
-            title: '用户[' + user.aliasName  + '] - 回访记录'
+            title: (user.realName || user.aliasName)  + ' - 回访记录'
           });
           break;
         case 'address':
           openTab({
             url: "view/user/address/index.do?userId=" + user.userId + '&_func_code=user-address',
-            title: "用户[" + user.aliasName + "] - 收货地址"
+            title: (user.realName || user.aliasName) + " - 收货地址"
           });
           break;
         case 'wallet':
@@ -244,22 +244,17 @@ export default {
             subTitle: user.realName || user.aliasName,
             key: user.id
           });
-          /*
-          openTab({
-            url: "view/user/purse/index.do?userId=" + user.userId + '&deviceCode=' + user.deviceCode + '&userType=' + user.userType,
-            title: "用户[" + user.aliasName + "] - 钱包"
-          });*/
           break;
         case 'trade':
           openTab({
             url: "view/user/userTradeRecord.do?accountId="+user.id,
-            title: "用户[" + user.aliasName + "] - 交易记录"
+            title: (user.realName || user.aliasName) + " - 交易记录"
           });
           break;
         case 'points':
           openTab({
             url: "view/user/userIntegral/userIntegralDetailFom.do?accountId="+user.id,
-            title: "用户[" + user.aliasName + "] - 积分记录"
+            title: (user.realName || user.aliasName) + " - 积分记录"
           });
           break;
         case 'set-validity':
@@ -277,7 +272,7 @@ export default {
           });
           break;
         case 'user-cancel':
-          this.$confirm(`确认注销用户 ${user.aliasName}？`, `确认`, {
+          this.$confirm(`确认注销用户 ${user.realName || user.aliasName}？`, `确认`, {
             type: 'warning'
           }).then(async () => {
             const ret = await this.axios.post('/api/user/cancelUser',
@@ -285,11 +280,13 @@ export default {
             if (ret.success) {
               this.$message.success('注销用户成功');
               this.$refs.table.reloadCurrentPage();
+            } else {
+              this.$message.error(ret.message || '操作失败');
             }
           });
           break;
         case 'user-reset-password':
-          this.$confirm(`确认重置用户 ${user.aliasName} 的密码 ？`, `确认`, {
+          this.$confirm(`确认重置用户 ${user.realName || user.aliasName} 的密码 ？`, `确认`, {
             type: 'warning'
           }).then(async () => {
             const ret = await this.axios.post('/api/user/resetPassword', {userId: user.id});
@@ -319,7 +316,7 @@ export default {
           });
           break;
         case 'hubei-change-device-code':
-          this.$prompt(`更换设备号 - 用户${user.aliasName}`, {
+          this.$prompt(`${user.realName || user.aliasName} - 更换设备号`, {
             inputPlaceholder: '请输入新的设备号',
             inputPattern: /^\d+$/
           }).then(async ({action, value}) => {

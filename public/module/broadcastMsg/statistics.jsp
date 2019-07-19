@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-	<form id="frmQuery">
+	<form id="frmQuery" style="margin-left: 14px;">
 		<input type="hidden" name="broadcastType" value="${broadcastMsg.broadcastType}">
 		<table class="form">
 			<tr>

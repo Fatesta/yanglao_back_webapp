@@ -13,7 +13,7 @@
               <el-button type="primary" icon="el-icon-user" plain @click="onSelectUserClick">选择用户</el-button>
               <template v-if="user">
                 <el-row>
-                  <el-col :span="8">平台用户：{{user.aliasName}}</el-col>
+                  <el-col :span="8">平台用户：{{user.realName || user.aliasName}}</el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="8">身份证号：{{user.idcard}}</el-col>
@@ -133,7 +133,7 @@ export default {
   mounted() {
     if (window.lastCallComingUserInfo) {
       let user = this.user = window.lastCallComingUserInfo;
-      this.form.linkman = user.aliasName;
+      this.form.linkman = user.realName || user.aliasName;
       this.form.linkphone = user.telphone;
       this.form.address = user.address;
       window.lastCallComingUserInfo = null;
@@ -150,7 +150,7 @@ export default {
           this.user = user;
           // 设置默认填写信息为选择用户的基本信息
           this.$refs.userInfoForm.resetFields();
-          this.form.linkman = user.aliasName;
+          this.form.linkman = user.realName || user.aliasName;
           this.form.linkphone = user.telphone;
           this.form.address = user.address;
           return true;

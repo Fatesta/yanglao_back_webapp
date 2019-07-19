@@ -38,7 +38,11 @@ export default {
     event: 'change'
   },
   props: {
-    value: [String, Number]
+    value: [String, Number],
+    isAdmin: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -101,7 +105,7 @@ export default {
     this.attrs = Object.assign({}, defaults, this.$attrs);
   },
   async mounted() {
-    const orgs = await this.axios.get('/api/org/listOrg');
+    const orgs = await this.axios.get(this.isAdmin ? '/api/admin/listOrg' : '/api/org/listOrg');
     this.orgs = orgs;
     this.loading = false;
 

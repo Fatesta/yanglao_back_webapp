@@ -115,6 +115,7 @@
         }"
       >
         <el-tabs
+          ref="tabs"
           v-show="tabs.length"
           :value="activeTabKey"
           type="card"
@@ -284,9 +285,14 @@ export default {
     logout() {
       this.$router.replace('/logout');
     },
-    onTabClick(tab) {
-      let pageInstance = tab.$children[0];
-      pageInstance.onPageResume && pageInstance.onPageResume();
+    onTabClick(clickTab) {
+      this.setOtherPagePause(clickTab.name);
+
+      let pageInstance = clickTab.$children[0];
+      if (pageInstance.onPageResume) {
+        pageInstance.onPageResume();
+        pageInstance._pageState = 'resume';
+      }
     },
     onTabRemove(key) {
       let tabs = this.tabs;
@@ -319,6 +325,7 @@ export default {
       // 根据key检查该tab是否已经打开
       const addedTab = this.tabs.find(tab => tab.key == tabKey);
       if (addedTab) {
+        this.setOtherPagePause(tabKey);
         // 如果之前已经打开了，则现在选中该tab
         this.activeTabKey = '';
         setTimeout(() => {
@@ -336,6 +343,7 @@ export default {
           content: null, // vue组件
           loading: true // vue组件加载状态
         };
+        this.setOtherPagePause(tabKey);
         this.tabs.push(tab);
         this.activeTabKey = tabKey;
         loadAsyncComponentSetTabContent(tab, page);
@@ -446,6 +454,18 @@ export default {
           this.tabs.push(tab);
           this.activeTabKey = tab.key;
       }
+    },
+    setOtherPagePause(notPageName) {
+      // 遍历除当前点击tab外的其它tab中的内容组件实例
+      this.$refs.tabs.$children.slice(1).forEach((tabPane) => {
+        if (tabPane.name != notPageName) {
+          let pageInstance = tabPane.$children[0];
+          if (pageInstance && pageInstance.onPagePause && pageInstance._pageState != 'pause') {
+            pageInstance.onPagePause();
+            pageInstance._pageState = 'pause';
+          }
+        }
+      });
     }
   },
   beforeRouteEnter(to, from, next) {

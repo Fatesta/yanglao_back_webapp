@@ -29,8 +29,8 @@
       :height="288"
       highlight-current-row
     >
-      <el-table-column prop="aliasName" label="昵称" width="100" show-overflow-tooltip></el-table-column>
       <el-table-column prop="realName" label="姓名" width="80" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="aliasName" label="昵称" width="100" show-overflow-tooltip></el-table-column>
       <el-table-column prop="sex" label="性别" :formatter="formatters.sex" width="60"></el-table-column>
       <el-table-column prop="age" label="年龄" width="60"></el-table-column>
       <el-table-column prop="idcard" label="身份证号码" width="180"></el-table-column>

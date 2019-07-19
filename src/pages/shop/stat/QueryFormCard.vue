@@ -5,7 +5,7 @@
         v-if="[1,14,15].includes(app.admin.roleId)"
         label="社区"
       >
-        <org-select v-model="queryForm.orgId" style="width:230px" @change="onOrgChange" />
+        <org-select v-model="queryForm.orgId" is-admin style="width:230px" @change="onOrgChange" />
       </el-form-item>
       <el-form-item
         v-if="[1,9,14,15].includes(app.admin.roleId)"
@@ -14,14 +14,14 @@
         <el-select v-model="queryForm.bossId" clearable filterable style="width:100px" @change="onBossChange">
           <el-option
             v-for="boss in bossPage.rows"
-            :key="boss.id"
-            :value="boss.id"
+            :key="boss.adminId"
+            :value="boss.adminId"
             :label="boss.realName"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="店铺">
-        <el-select v-model="queryForm.providerId" filterable style="width:200px">
+        <el-select v-model="queryForm.providerId" clearable filterable style="width:200px">
           <el-option
             v-for="shop in shopPage.rows"
             :key="shop.id"
@@ -39,7 +39,7 @@
           style="width: 112px"
         />
       </el-form-item>
-      <el-form-item label="时间按">
+      <el-form-item label="时间">
         <type-select
           placeholder=""
           :clearable="false"
@@ -109,9 +109,9 @@ export default {
   mounted() {
     this.queryForm.timeUnit = 'day';
 
-    this.$nextTick(() => {
+    setTimeout(() => {
       this.onQueryClick();
-    });
+    }, 100);
   },
   methods: {
     onQueryClick() {

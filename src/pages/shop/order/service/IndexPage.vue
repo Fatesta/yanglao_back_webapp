@@ -139,7 +139,7 @@ export default {
       this.$refs.userQuerySelector.show({
         onOk: (user) => {
           this.searchForm.creator = user.id;
-          this.creatorName = user.aliasName;
+          this.creatorName = user.realName || user.aliasName;
           return true;
         }
       });

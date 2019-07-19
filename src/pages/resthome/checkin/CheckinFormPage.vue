@@ -16,7 +16,7 @@
         <el-button type="primary" plain icon="el-icon-user" @click="onSelectUser">选择用户</el-button>
         <template v-if="user">
           <el-row>
-            <el-col :span="8">平台用户：{{user.aliasName}}</el-col>
+            <el-col :span="8">平台用户：{{user.realName || user.aliasName}}</el-col>
           </el-row>
           <el-row>
             <el-col :span="8">身份证号：{{user.idcard}}</el-col>
