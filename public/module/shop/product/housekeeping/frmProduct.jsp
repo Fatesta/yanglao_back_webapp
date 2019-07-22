@@ -34,9 +34,9 @@
     		</td>
     	</tr>
     	<tr>
-    		<td>简要描述</td>
+    		<td>标签</td>
     		<td>
-    			<textarea style="width: 600px;" rows="4" class="easyui-validatebox" name="simpleDescription" data-options="validType:'length[0,500]'">${product.simpleDescription}</textarea>
+    			<textarea style="width: 600px;" rows="4" placeholder="多个英文逗号分割" class="easyui-validatebox" name="simpleDescription" data-options="validType:'length[0,500]'">${product.simpleDescription}</textarea>
     		</td>
     	</tr>
         <tr>

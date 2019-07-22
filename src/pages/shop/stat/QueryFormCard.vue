@@ -45,7 +45,7 @@
           :clearable="false"
           v-model="queryForm.timeUnit"
           :items="[{value: 'day', text: '日'}, {value: 'month', text: '月'}, {value: 'year', text: '年'}]"
-          style="width: 62px"
+          style="width: 64px"
         />
         <el-date-picker
           v-model="queryForm.dateRange"
@@ -57,7 +57,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-query" @click="onQueryClick">查询</el-button>
+        <el-button type="primary" @click="onQueryClick">查询</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -67,7 +67,6 @@
 <script>
 import { Select } from 'element-ui';
 import moment from 'moment';
-import { setTimeout } from 'timers';
 
 export default {
   components: {
@@ -108,7 +107,9 @@ export default {
   },
   mounted() {
     this.queryForm.timeUnit = 'day';
-
+    if (app.admin.roleId == 2 || app.admin.roleId == 4) {
+      this.onBossChange();
+    }
     setTimeout(() => {
       this.onQueryClick();
     }, 100);
@@ -138,6 +139,10 @@ export default {
         params.endTime = moment(endDate).format(format);
         
         delete params.dateRange;
+      }
+
+      if (!params.tradeType) {
+        delete params.tradeType;
       }
 
       this.$emit('query', params);

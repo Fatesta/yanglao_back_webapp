@@ -59,14 +59,22 @@ export default {
           bottom: 0,
           left: '60px',
           right: '60px',
-          height: '38%',
+          height: '39%',
         }, {
-          top: '50%',
+          top: '52%',
           bottom: 0,
           left: '60px',
           right: '60px',
-          height: '38%',
+          height: '39%',
         }],
+        legend: {
+          show: true,
+          top: 10,
+          itemGap: 20,
+          textStyle: {
+            fontSize: 14
+          }
+        },
         tooltip: {
           trigger: 'axis',
           formatter(params){
@@ -89,27 +97,35 @@ export default {
           gridIndex: 0,
           boundaryGap: true,
           axisLabel: {
+            show: false,
             interval: 0
           },
           axisLine: {
+            show: false,
             lineStyle: {
-              color: "#999"
+              color: "#fff"
             }
           },
           data: dates
         }, {
           type: 'category',
           gridIndex: 1,
-          position: 'top',
+          position: 'bottom',
           boundaryGap: true,
           axisLabel: {
-            show: false,
+            show: true,
             interval: 0
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#999"
+            }
           },
           data: dates
         }],
         yAxis: [{
-          name: '交易金额',
+          //name: '交易金额',
           type: 'value',
           nameTextStyle: {
             fontSize: 14
@@ -124,17 +140,17 @@ export default {
           axisLine: {
             show: false,
             lineStyle: {
-              color: "#333"
+              color: "#999"
             },
           }
         }, {
-          name: '交易次数',
+          //name: '交易次数',
           type: 'value',
           nameTextStyle: {
             fontSize: 14
           },
           gridIndex: 1,
-          inverse: true,
+          //inverse: true,
           splitLine: {
             lineStyle: {
               type: 'dashed',
@@ -144,7 +160,7 @@ export default {
           axisLine: {
             show: false,
             lineStyle: {
-              color: "#333"
+              color: "#999"
             },
           }
         }],

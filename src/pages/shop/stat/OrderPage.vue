@@ -107,15 +107,13 @@ export default {
               shadowOffsetY: 7,
             }
           },
+          symbolSize: 6,
           itemStyle: {
             normal: {
               label: {
                 show: true,
                 fontSize: 14
-              },
-              color: '#F58080',
-              borderWidth: 4,
-              borderColor: "#F58080"
+              }
             }
           },
         }]
