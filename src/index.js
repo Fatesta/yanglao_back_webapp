@@ -51,7 +51,7 @@ const router = new VueRouter({
 
 var app = new Vue({
   render(h) {
-    return h('router-view', {class: 'view'});
+    return h('router-view');
   },
   router,
 });

@@ -136,7 +136,7 @@ export default {
     (() => {
       var userAgent = navigator.userAgent;
       if (!(userAgent.indexOf("Firefox") > -1 || userAgent.indexOf("Chrome") > -1)) {
-        Message.info({
+        Message.warning({
           message: `
             检测到您正在使用的不是
             <a href="https://www.baidu.com/s?wd=Chrome"

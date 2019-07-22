@@ -35,6 +35,7 @@ export default {
     this.isActive = true;
     this.chart = echarts.init(this.$refs.chartContainer);
     const resize = this.resize.bind(this);
+    this.resize();
     app.$refs.navMenu.$on('collapsed', resize).$on('expanded', resize).collapse();
     window.addEventListener('resize', resize);
   },
@@ -54,83 +55,50 @@ export default {
        statDate.split('-').map(s => s[0] == '0' ? s.substring(1) : s).join('-'));
 
       this.chart.setOption({
-        grid: [{
-          top: '7%',
-          bottom: 0,
+        grid: {
+          top: '60px',
+          bottom: '40px',
           left: '60px',
           right: '60px',
-          height: '39%',
-        }, {
-          top: '52%',
-          bottom: 0,
-          left: '60px',
-          right: '60px',
-          height: '39%',
-        }],
+        },
         legend: {
-          show: true,
           top: 10,
-          itemGap: 20,
+          right: 20,
           textStyle: {
-            fontSize: 14
+            fontSize: 13
           }
         },
         tooltip: {
           trigger: 'axis',
-          formatter(params){
-            var time = params[0].axisValueLabel;
-            var html = '<div><time>' + time + '</time><br />';
-            params.forEach((item) => {
-              html += '<p style="margin: 0;padding: 0;">' + item.marker + item.seriesName + ': ' + item.data + '</p>'
-            });
-            html += '</div>';
-            return html;
-          }
-        },
-        axisPointer: {
-          link: {
-            xAxisIndex: 'all'
+          axisPointer: {
+            type: 'cross'
           }
         },
         xAxis: [{
           type: 'category',
-          gridIndex: 0,
           boundaryGap: true,
+          show: true,
+          axisTick: {
+            show: false
+          },
           axisLabel: {
-            show: false,
+            color: '#999',
             interval: 0
           },
           axisLine: {
-            show: false,
             lineStyle: {
-              color: "#fff"
-            }
-          },
-          data: dates
-        }, {
-          type: 'category',
-          gridIndex: 1,
-          position: 'bottom',
-          boundaryGap: true,
-          axisLabel: {
-            show: true,
-            interval: 0
-          },
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: "#999"
+              type: 'solid',
+              color: '#4e608b',
+              width: 1
             }
           },
           data: dates
         }],
         yAxis: [{
-          //name: '交易金额',
           type: 'value',
           nameTextStyle: {
             fontSize: 14
           },
-          gridIndex: 0,
           splitLine: {
             lineStyle: {
               type: 'dashed',
@@ -144,13 +112,10 @@ export default {
             },
           }
         }, {
-          //name: '交易次数',
           type: 'value',
           nameTextStyle: {
             fontSize: 14
           },
-          gridIndex: 1,
-          //inverse: true,
           splitLine: {
             lineStyle: {
               type: 'dashed',
@@ -169,7 +134,7 @@ export default {
           color: '#F58080',
           type:'line',
           symbolSize: 7,
-          hoverAnimation: false,
+          yAxisIndex: 0,
           lineStyle: {
             normal: {
               width: 3,
@@ -190,27 +155,23 @@ export default {
           data: data.map(item => params.tradeType == 3 ? item.income : item.tradePrice).map(x => x.toFixed(2))
         }, {
           name:'交易次数',
-          color: '#0d8ecf',
-          type:'line',
-          xAxisIndex: 1,
+          type: 'bar',
+          barWidth: '40%',
           yAxisIndex: 1,
           symbolSize: 7,
-          hoverAnimation: false,
-          lineStyle: {
-            normal: {
-              width: 3,
-              color: '#0d8ecf',
-              shadowColor: 'rgba(0,0,0, 0.1)',
-              shadowBlur: 10,
-              shadowOffsetY: 7,
-            }
-          },
           itemStyle: {
             normal: {
               label: {
                 show: true,
-                fontSize: 14
-              }
+                fontSize: 13
+              },
+              color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                offset: 0,
+                color: "#4889fb" // 0% 处的颜色
+              }, {
+                offset: 1,
+                color: "#15b3ff" // 100% 处的颜色
+              }], false)
             }
           },
           data: data.map(item => item.tradeAmount)

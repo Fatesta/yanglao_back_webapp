@@ -333,7 +333,7 @@ export default {
         });
       } else {
         const page = pages[path];
-        if (!page) {``
+        if (!page) {
           this.$message.error('未找到指定页面：' + path);
           return;
         }
@@ -472,7 +472,7 @@ export default {
     next();
     if (from.path == '/login') {
       setTimeout(() => {
-        Message.info({message: '登陆成功，欢迎使用', duration: 1000});
+        Message.success({message: '登陆成功，欢迎使用', duration: 1000});
       }, 100);
     }
   }
