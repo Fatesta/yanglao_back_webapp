@@ -346,12 +346,17 @@ export default {
         this.insertNewTab(tab);
         this.activeTabKey = tabKey;
 
-        /* 异步加载vue组件，并设置为tab的content */
+        /* 异步加载组件，并设置为tab的content */
         page().then(({default: component}) => {
-          component = {...component}; // 避免状态
+          /*
+           组件类将实例化多次，使用不同的参数。
+           所以下面的修改（包括mixins）必须基于原组件类对象，这里保证修改的是拷贝对象，下次使用的原对象是没有经过修改的
+          */
+          component = {...component};
+
+          // 混入一些数据和方法
           (component.mixins = component.mixins || []).push({
             props: {
-              // TODO: FIX: 在热更新模式下，没有重复执行该代码，因此该属性无法设置
               // 父页面传递的参数
               $params: {
                 type: Object,
