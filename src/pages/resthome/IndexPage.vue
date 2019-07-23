@@ -90,13 +90,13 @@ export default {
       });
     },
     onBerthSettingClick(resthome) {
-      openTab({
+      this.openTab({
         url: 'view/community/berth/berthSetting/index.do?_func_id=397&resthome_id=' + resthome.id,
         title: resthome.name + ' - 床位设置'
       });
     },
     onBerthTypeSettingClick(resthome) {
-      openTab({
+      this.openTab({
         url: 'view/community/berth/berthType/index.do?_func_id=400&resthome_id=' + resthome.id,
         title: resthome.name + ' - 床位类型设置'
       });

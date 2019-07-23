@@ -186,10 +186,6 @@ export default {
       setTimeout(minuteTick, (60 - now.getSeconds()) * 1000);
     };
     minuteTick();
-    
-    // 实例方法
-    Vue.prototype.pushPage = this.pushPage.bind(this);
-    Vue.prototype.$closeCurrentPage = this.closeCurrentPage.bind(this);
 
     // 暴漏给以前的（未使用webpack前）代码
     window.app = this;
@@ -295,12 +291,13 @@ export default {
       }
     },
     onTabRemove(key) {
+      //TODO: 关闭时激活tab选择的优化
       let tabs = this.tabs;
       let activeTabKey = this.activeTabKey;
       if (activeTabKey == key) {
         tabs.forEach((tab, index) => {
           if (tab.key == key) {
-            let nextTab = tabs[index + 1] || tabs[index - 1];
+            let nextTab = tabs[index - 1] || tabs[index + 1];
             if (nextTab) {
               activeTabKey = nextTab.key;
             }
@@ -341,16 +338,15 @@ export default {
           title: options.title || '...',
           key: tabKey + '',
           content: null, // vue组件
-          loading: true // vue组件加载状态
+          loading: true, // vue组件加载状态
+          parentTab: options.parentTab
         };
         this.setOtherPagePause(tabKey);
-        this.tabs.push(tab);
+        
+        this.insertNewTab(tab);
         this.activeTabKey = tabKey;
-        loadAsyncComponentSetTabContent(tab, page);
-      }
 
       /* 异步加载vue组件，并设置为tab的content */
-      function loadAsyncComponentSetTabContent(tab, page) {
         page().then(({default: component}) => {
           // 设置标题
           let title = (options.title
@@ -361,14 +357,35 @@ export default {
           }
           tab.title = title;
 
-          component.props = component.props || {};
-          // 给组件设置props
-          // TODO: FIX: 在热更新模式下，没有重复执行该代码，因此该属性无法设置
-          component.props['$params'] = {
-            type: Object,
-            default: () => (options.params || {})
-          };
-          
+          component.mixins = component.mixins || [];
+          component.mixins.push({
+            props: {
+              // TODO: FIX: 在热更新模式下，没有重复执行该代码，因此该属性无法设置
+              // 父页面传递的参数
+              $params: {
+                type: Object,
+                default: () => (options.params || {})
+              }
+            },
+            methods: {
+              pushPage: (options) => {
+                if (typeof options == 'string') {
+                  options = { path: options };
+                }
+                // 记录父tab
+                options.parentTab = tab;
+                this.pushPage(options);
+              },
+              openTab: (options) => {
+                this.openTab(
+                  {attributes: {url: options.url}, text: options.title, id: new Date().getTime(), isNoNode: true},
+                  {parentTab: tab}
+                );
+              },
+              $closeCurrentPage: this.closeCurrentPage.bind(this)
+            }
+          });
+
           tab.content = component;
 
           tab.loading = false;
@@ -377,6 +394,28 @@ export default {
     },
     closeCurrentPage() {
       this.onTabRemove(this.activeTabKey);
+    },
+    /* 将新打开tab插入到tabs */
+    insertNewTab(newTab) {
+      let tabs = this.tabs;
+      if (newTab.parentTab) {
+        // 将新tab插入到parentTab的后面（右边）
+        // S1.找到parentTab的索引
+        const parentTabIndex = tabs.findIndex(tab => tab.key == newTab.parentTab.key);
+        // S2.找到该parentTab之后的最后一个“子“tab的索引
+        let index = parentTabIndex + 1;
+        for (let i = index; i < tabs.length; i++) {
+          if (tabs[i].parentTab && (tabs[i].parentTab.key == newTab.parentTab.key)) {
+            index = i + 1;
+          } else {
+            break;
+          }
+        }
+        tabs.splice(index, 0, newTab);
+      } else {
+        // 插入到最后
+        tabs.push(newTab);
+      }
     },
     /* 打开一个标签页承载一个页面，这个方法现在被NavMenu，以及原使用easyui代码的方法调用 */
     openTab(item, options) {
@@ -395,9 +434,9 @@ export default {
       if (!url) {
         return;
       }
-      var paramIdx = url.indexOf("?");
-      var path = url.substring(0, paramIdx == -1 ? undefined : paramIdx);
-      var params = paramIdx == -1 ? "" : url.substr(paramIdx);
+      var searchIndex = url.indexOf("?");
+      var path = url.substring(0, searchIndex == -1 ? undefined : searchIndex);
+      var params = searchIndex == -1 ? "" : url.substr(searchIndex);
       if (path.endWiths('.js')) {
         this.pushPage({
           path: path.substring(0, path.length - 3),
@@ -449,9 +488,10 @@ export default {
                 });
               }
             },
-            loading: true
+            loading: true,
+            parentTab: options && options.parentTab
           };
-          this.tabs.push(tab);
+          this.insertNewTab(tab);
           this.activeTabKey = tab.key;
       }
     },

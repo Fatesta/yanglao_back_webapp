@@ -117,7 +117,7 @@ export default {
         this.$alert('该余额类型无法提现');
         return;
       }
-      openTab({
+      this.openTab({
         url: "shop/finance/withdraw/index.do?operator=" + boss.adminId,
         title: boss.realName + " - 提现管理"
       });

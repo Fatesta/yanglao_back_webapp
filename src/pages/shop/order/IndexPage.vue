@@ -144,7 +144,7 @@ export default {
           subTitle: shop.name
         });
       } else {
-        openTab({
+        this.openTab({
           url: "/shop/order/orderAdd.do?providerId=" + shop.providerId,
           title: shop.name + " - 下单"
         });

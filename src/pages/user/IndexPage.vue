@@ -220,19 +220,19 @@ export default {
           this.onEditClick(user);
           break;
         case 'health-archive':
-          openTab({
+          this.openTab({
             url: 'view/health/archive/index.do?userId=' + user.id,
             title: '健康档案'
           });
           break;
         case 'returnvisit':
-          openTab({
+          this.openTab({
             url: 'view/community/returnvisit/index.do?userId=' + user.id,
             title: (user.realName || user.aliasName)  + ' - 回访记录'
           });
           break;
         case 'address':
-          openTab({
+          this.openTab({
             url: "view/user/address/index.do?userId=" + user.userId + '&_func_code=user-address',
             title: (user.realName || user.aliasName) + " - 收货地址"
           });
@@ -246,13 +246,13 @@ export default {
           });
           break;
         case 'trade':
-          openTab({
+          this.openTab({
             url: "view/user/userTradeRecord.do?accountId="+user.id,
             title: (user.realName || user.aliasName) + " - 交易记录"
           });
           break;
         case 'points':
-          openTab({
+          this.openTab({
             url: "view/user/userIntegral/userIntegralDetailFom.do?accountId="+user.id,
             title: (user.realName || user.aliasName) + " - 积分记录"
           });
@@ -304,13 +304,13 @@ export default {
           });
           break;
         case 'vipcard-change-record':
-          openTab({
+          this.openTab({
             url: 'view/user/vipcard/change/record.do?cardCode=' + user.deviceCode,
             title: '会员卡更换记录'
           });
           break;
         case 'hubei-settings':
-          openTab({
+          this.openTab({
             url: 'device/showDeviceDetail.do?_func_code=device-detail&deviceId=' + user.id,
             title: '设备设置'
           });

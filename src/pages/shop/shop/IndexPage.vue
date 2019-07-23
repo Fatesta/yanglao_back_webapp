@@ -154,7 +154,7 @@ export default {
     },
     onOrderClick(shop) {
       if (shop.industryId == 'integral_mall') {
-        openTab({
+        this.openTab({
           url: '/shop/order/index.do?providerId=' + shop.providerId + '&industryId=' + shop.industryId,
           title: shop.name + " - " + "订单管理"
         });
@@ -179,32 +179,32 @@ export default {
       switch (cmd) {
         case 'product':
           if(shop.industryId == "activity") {
-            openTab({
+            this.openTab({
               url: "/activity/index.do?providerId=" + shop.providerId + '&_func_code=activityManager',
               title: shop.name + " - 活动管理"
             });
           } else {
-            openTab({
+            this.openTab({
               url: "shop/product/index.do?providerId=" + shop.providerId,
               title: shop.name + " - 商品管理"
             });
           }
           break;
         case 'service':
-          openTab({
+          this.openTab({
             url: 'view/shop/proService/index.do?_func_code=shop&providerId=' + shop.providerId,
             title: shop.name + ' - 服务管理'
           });
           break;
         case 'employee':
-          openTab({
+          this.openTab({
             url: 'view/shop/employee/index.do?_func_code=shop&providerId=' + shop.providerId,
             title: shop.name + ' - 员工管理'
           });
           break;
         /*
         case 'coupon':
-          openTab({
+          this.openTab({
             url: 'view/coupon/batch/index.do',
             title: '优惠券'
           });

@@ -38,8 +38,7 @@ export default {
   inheritAttrs: false,
   props: {
     url: {
-      type: String,
-      required: true
+      type: String
     },
     queryParams: {
       type: Object
