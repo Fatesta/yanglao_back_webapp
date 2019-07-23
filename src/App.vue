@@ -346,19 +346,10 @@ export default {
         this.insertNewTab(tab);
         this.activeTabKey = tabKey;
 
-      /* 异步加载vue组件，并设置为tab的content */
+        /* 异步加载vue组件，并设置为tab的content */
         page().then(({default: component}) => {
-          // 设置标题
-          let title = (options.title
-            || (component.pageProps && component.pageProps.title)
-            || '未定义标题');
-          if (options.subTitle) {
-            title = `${options.subTitle} - ${title}`;
-          }
-          tab.title = title;
-
-          component.mixins = component.mixins || [];
-          component.mixins.push({
+          component = {...component}; // 避免状态
+          (component.mixins = component.mixins || []).push({
             props: {
               // TODO: FIX: 在热更新模式下，没有重复执行该代码，因此该属性无法设置
               // 父页面传递的参数
@@ -387,6 +378,14 @@ export default {
           });
 
           tab.content = component;
+          // 设置标题
+          let title = (options.title
+            || (component.pageProps && component.pageProps.title)
+            || '未定义标题');
+          if (options.subTitle) {
+            title = `${options.subTitle} - ${title}`;
+          }
+          tab.title = title;
 
           tab.loading = false;
         });
