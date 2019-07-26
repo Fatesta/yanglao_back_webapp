@@ -36,7 +36,7 @@ export default {
     this.chart = echarts.init(this.$refs.chartContainer);
     const resize = this.resize.bind(this);
     this.resize();
-    app.$refs.navMenu.$on('collapsed', resize).$on('expanded', resize).collapse();
+    app.$refs.navMenu.$on('collapsed', resize).$on('expanded', resize);
     window.addEventListener('resize', resize);
   },
   methods: {

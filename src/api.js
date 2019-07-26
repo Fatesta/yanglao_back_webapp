@@ -1,3 +1,4 @@
+import { Message, MessageBox } from 'element-ui';
 import { stringify } from 'qs';
 import axios from 'axios';
  
@@ -6,19 +7,19 @@ axios.defaults.baseURL = '/';
 /* 实现默认使用表单数据格式 */
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.interceptors.request.use(function(config) {
-    if (!config.data) {
-        return config;
-    }
-    //这里不能用instanceof，由于使用了iframe，parentOrOtherIframe.Object != thisIframe.Object
-    else if (typeof config.data == 'object') {
-        config.data = stringify(config.data);
-        return config;
-    }
-    else if (config.data.toString() == '[object FormData]') {
-        return config;
-    }
-
+  if (!config.data) {
     return config;
+  }
+  //这里不能用instanceof，由于使用了iframe，parentOrOtherIframe.Object != thisIframe.Object
+  else if (typeof config.data == 'object') {
+    config.data = stringify(config.data);
+    return config;
+  }
+  else if (config.data.toString() == '[object FormData]') {
+    return config;
+  }
+
+  return config;
 });
 
 /*
@@ -28,7 +29,21 @@ axios默认把data作为其属性的response对象作为参数传递给then回�
 如果你需要原response细节，请配置response:true，对于网络异常情况的处理，请使用catch
 */
 axios.interceptors.response.use(function(response) {
-    return response.config.response ? response : response.data;
+  return response.config.response ? response : response.data;
+}, (error) => {
+  let { status } = error.response;
+  if (status == 440) {
+    MessageBox.confirm('会话超时，请刷新页面或点击退出以重新登陆。', '会话超时', {
+      confirmButtonText: '重新登陆',
+      cancelButtonText: '好的',
+      type: 'warning'
+    }).then(() => {
+      app.logout();
+    });
+  }
+  else if (status == 504) {
+    Message.error('服务器超时，请稍后再试');
+  }
 });
 
 export { axios };

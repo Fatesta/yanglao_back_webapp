@@ -65,7 +65,6 @@
           </el-dropdown-menu>
         </el-dropdown>
         <el-popover
-          ref="messagePopover"
           placement="bottom-end"
           width="200"
           trigger="hover"
@@ -82,28 +81,22 @@
           </div>
         </el-popover>
         <div
-          ref="logoutButton"
-          class="header-item-hover"
-          style="
-            display: inline-block;
-            padding: 0px 17px;
-            float: right;
-          "
+          class="header-icon-item header-item-hover"
           @click="logout"
         >
           <i class="el-icon-switch-button icon-button"></i>
         </div>
         <div
-          ref="settingButton"
-          class="header-item-hover"
-          style="
-            display: inline-block;
-            padding: 0px 17px;
-            float: right;
-          "
+          class="header-icon-item header-item-hover"
           @click="onSettingClick"
         >
           <i class="el-icon-setting icon-button"></i>
+        </div>
+        <div
+          class="header-icon-item header-item-hover"
+          @click="onFullScreenClick"
+        >
+          <i class="el-icon-full-screen icon-button"></i>
         </div>
       </div>
     </el-header>
@@ -150,19 +143,19 @@ import Vue from 'vue';
 import ElementUI, { Message } from 'element-ui';
 import '@/components/index'; // 公共vue组件，应全部打包到本入口文件只有一份
 import NavMenu from './NavMenu';
-import PasswordUpdateDialog from '@/pages/admin/PasswordUpdateDialog';
 import config, { APP_NAME } from '@/config/app.config';
 import pages from '@/pages';
 import { stringify } from 'qs';
 import leftPad from 'left-pad';
-import { setTimeout } from 'timers';
+import fullScreen from '@/utils/fullscreen';
+import voiceAssistant from '@/voiceassistant/voice-assistant';
 
 Vue.use(ElementUI, { size: config.get('size') });
 
 export default {
   components: {
     NavMenu,
-    PasswordUpdateDialog
+    PasswordUpdateDialog: () => import('@/pages/admin/PasswordUpdateDialog')
   },
   data() {
     return {
@@ -186,6 +179,9 @@ export default {
       setTimeout(minuteTick, (60 - now.getSeconds()) * 1000);
     };
     minuteTick();
+
+    // 对于非页面组件，仍要使用pushPage
+    Vue.prototype.pushPage = this.pushPage;
 
     // 暴漏给以前的（未使用webpack前）代码
     window.app = this;
@@ -264,8 +260,13 @@ export default {
       else if (83 == e.keyCode && e.ctrlKey) {
         this.onSettingClick();
       }
+      else if (75 == e.keyCode && e.ctrlKey) {
+        this.$message.info('已运行语音助手，正在聆听');
+        voiceAssistant.start();
+      }
     },
     onResize() {
+      console.log('onResize')
       this.contentMaxHeight = document.body.offsetHeight;
     },
     onCommandClick(cmd) {
@@ -274,6 +275,9 @@ export default {
           this.$refs.passwordUpdateDialog.visible = true;
           break;
       }
+    },
+    onFullScreenClick() {
+      fullScreen.switch();
     },
     onSettingClick() {
       this.pushPage('/settings/index');
@@ -316,6 +320,11 @@ export default {
         options = { path: options };
       }
       const { path } = options;
+
+      // 统计
+      RUN_ENV == 'production' && setTimeout(() => {
+        this.axios.post('/api/open-count/inc', {path});
+      }, 10);
 
       // path + 可选的key 作为tab的key
       const tabKey = path + (options.key ? '__' + options.key : '');
@@ -396,6 +405,9 @@ export default {
         });
       }
     },
+    closePage(key) {
+      this.onTabRemove(key);
+    },
     closeCurrentPage() {
       this.onTabRemove(this.activeTabKey);
     },
@@ -450,7 +462,7 @@ export default {
       } else if (!path.endWiths(".do") && path.startsWith('http')) {
           window.open(path);
       } else if (!path.endWiths(".do")) {
-        url = path + ".do" + params;//此处在path结尾加上.do，以变成控制器url
+        url = path + ".do" + params;
         var win = window.open(url, new Date().getTime());
       } else {
           url = path + (!params ? "?" : params + "&");
@@ -497,6 +509,9 @@ export default {
           };
           this.insertNewTab(tab);
           this.activeTabKey = tab.key;
+          RUN_ENV == 'production' && setTimeout(() => {
+            this.axios.post('/api/open-count/inc', {path});
+          }, 10);
       }
     },
     setOtherPagePause(notPageName) {
@@ -518,6 +533,10 @@ export default {
       setTimeout(() => {
         Message.success({message: '登陆成功，欢迎使用', duration: 1000});
       }, 100);
+    } else {
+      setTimeout(() => {
+        Message.success({message: '温馨提示-操作技巧：刷新数据或功能页面无需刷新整个网页，请点击查询按钮或从导航菜单重新打开', duration: 8000});
+      }, 100);
     }
   }
 }
@@ -527,7 +546,6 @@ export default {
 <style scoped>
 .el-container {
   width: 100%;
-  height: 100%;
   background-image: none;
   background-color: #fff;
 }
@@ -546,6 +564,11 @@ export default {
 .el-main > .el-tabs > .el-tabs__content {
   padding: 0px;
   background: #f5f7f9;
+}
+.header-icon-item {
+  display: block;
+  padding: 0px 17px;
+  float: right;
 }
 .header-item-hover:hover {
   background-color: #53a8ff;

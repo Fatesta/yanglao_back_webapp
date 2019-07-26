@@ -152,6 +152,14 @@ export default {
       }
       this.collapsed = true;
     },
+    expand() {
+      // 已展开时立即发送事件
+      if (!this.collapsed) {
+        this.$emit('expanded');
+        return;
+      }
+      this.collapsed = false;
+    },
     onCollapse() {
       this.collapsed = !this.collapsed;
     },

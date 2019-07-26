@@ -3,7 +3,7 @@
     style="
       margin: 4px 6px 4px 4px;
       padding: 20px,
-      min-height: calc(100vh - 114px);
+      min-height: calc(100vh - 115px);
     "
   >
     <slot></slot>

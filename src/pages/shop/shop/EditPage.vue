@@ -7,7 +7,7 @@
       ref="form"
       :model="form" 
       label-width="120px"
-      style="width: 500px;margin: 0 auto"
+      style="width: 600px;margin: 0 auto"
     >
       <el-form-item
         prop="imgUrl"

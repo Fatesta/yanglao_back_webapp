@@ -101,7 +101,8 @@ export default {
       },
       searchForm: {
         providerId: this.$params.shop && this.$params.shop.providerId,
-        providerAccount: this.$params.boss && this.$params.boss.adminId
+        providerAccount: this.$params.boss && this.$params.boss.adminId,
+        userAccount: this.$params.userAccount
       },
       pickerOptions: {
         shortcuts: [

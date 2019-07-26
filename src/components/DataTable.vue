@@ -56,7 +56,7 @@ export default {
       pagination: {
         pageSizes: [5, 8, 10, 20, 30, 50],
         pageSize: 10,
-        layout: 'total, prev, pager, next, jumper, sizes',
+        layout: 'total, prev, pager, next, sizes',
         ...this.$attrs.pagination
       },
       height: 0,

@@ -62,6 +62,7 @@ document.title = APP_NAME;
 
 const runEnv = location.hostname.startsWith('service') ?
   'production' : ['localhost', '127.0.0.1'].includes(location.hostname) ? 'development' : 'testing';
+window.RUN_ENV = runEnv;
 if (runEnv !== 'production') {
   document.title = (runEnv === 'development' ? '开发版' : '测试版') + '-' + document.title;
 }

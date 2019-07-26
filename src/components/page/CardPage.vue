@@ -2,7 +2,7 @@
   <el-card
     style="
       margin: 4px 6px 4px 4px;
-      min-height: calc(100vh - 114px);
+      min-height: calc(100vh - 115px);
     "
     :body-style="bodyStyle"
     v-bind="$attrs"

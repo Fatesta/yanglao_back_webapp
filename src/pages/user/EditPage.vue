@@ -68,6 +68,7 @@
         <org-select v-model="form.orgId" />
       </el-form-item>
       <el-form-item
+        v-if="mode == 'add'"
         prop="diqu"
         label="家庭地址-地区"
       >

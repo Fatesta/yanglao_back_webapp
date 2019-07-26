@@ -58,12 +58,6 @@
           <el-form-item>
             <el-button type="primary" size="large" @click="onSubmit" style="width: 100%;" :loading="submitting">登 录</el-button>
           </el-form-item>
-          <el-alert
-            v-show="errorText"
-            :title="errorText"
-            type="error"
-            :closable="false"
-          />
         </el-form>
       </div>
     </el-main>
@@ -88,12 +82,12 @@
 
 <script>
 import Vue from 'vue';
-import { Container, Main, Footer, Link, Alert, Form, FormItem, Input, Checkbox, Button, Message } from 'element-ui';
+import { Container, Main, Footer, Link, Form, FormItem, Alert, Input, Checkbox, Button, Message } from 'element-ui';
 
 import config from '@/config/app.config';
 import auth from '@/auth';
 import moment from 'moment';
-[Container, Main, Footer, Link, Alert, Form, FormItem, Input, Checkbox, Button].forEach(c => {
+[Container, Main, Footer, Link, Form, FormItem, Alert, Input, Checkbox, Button].forEach(c => {
   Vue.use(c);
 });
 
@@ -107,7 +101,6 @@ export default {
         password: config.get('password')
       },
       submitting: false,
-      errorText: '',
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
@@ -180,7 +173,6 @@ export default {
     async submit() {
       const { username, password } = this.form;
       this.submitting = true;
-      this.errorText = '';
       const ret = await this.axios({
         url: 'api/admin/login',
         method: 'post',
@@ -196,7 +188,7 @@ export default {
         this.$router.replace('/');
       } else {
         config.set('password', '');
-        this.errorText = ret.message;
+        Message.error(ret.message);
         this.submitting = false;
       }
     }

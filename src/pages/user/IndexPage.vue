@@ -92,7 +92,7 @@
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="wallet" icon="el-icon-wallet">钱包</el-dropdown-item>
-              <el-dropdown-item command="trade" icon="el-icon-tickets">交易记录</el-dropdown-item>
+              <el-dropdown-item command="trade" icon="el-icon-tickets">交易流水</el-dropdown-item>
               <el-dropdown-item command="points" icon="el-icon-tickets">积分记录</el-dropdown-item>
               <el-dropdown-item command="health-archive" icon="el-icon-document" divided>健康档案</el-dropdown-item>
               <el-dropdown-item command="returnvisit" icon="el-icon-document">回访记录</el-dropdown-item>
@@ -246,9 +246,11 @@ export default {
           });
           break;
         case 'trade':
-          this.openTab({
-            url: "view/user/userTradeRecord.do?accountId="+user.id,
-            title: (user.realName || user.aliasName) + " - 交易记录"
+          this.pushPage({
+            path: '/shop/finance/trade/index',
+            params: { userAccount: user.id },
+            subTitle: user.realName || user.aliasName,
+            key: user.id
           });
           break;
         case 'points':
