@@ -72,15 +72,15 @@
       <el-table-column prop="evalScore" label="评估分数" width="80" :formatter="formatters.evalScore"></el-table-column>
       <el-table-column prop="allowanceMoney" label="拟享受市补贴" width="110" :formatter="formatters.allowanceMoney"></el-table-column>
       <el-table-column label="操作" width="154" fixed="right">
-        <template slot-scope="scope">
+        <template slot-scope="{row}">
           <el-button
             style="margin-left: 0px"
-            @click="onDetailsClick(scope.row)"
+            @click="onDetailsClick(row)"
           >
             详情
           </el-button>
           <el-dropdown
-            @command="onCommandClick($event, scope.row)"
+            @command="onCommandClick($event, row)"
             :show-timeout="100"
           >
             <el-button
@@ -97,7 +97,7 @@
               <el-dropdown-item command="health-archive" icon="el-icon-document" divided>健康档案</el-dropdown-item>
               <el-dropdown-item command="returnvisit" icon="el-icon-document">回访记录</el-dropdown-item>
               <el-dropdown-item command="address" icon="el-icon-goods">收货地址</el-dropdown-item>
-              <template v-if="scope.row.userType == 2">
+              <template v-if="row.userType == 2">
                 <el-dropdown-item
                   command="vipcard-change"
                   icon="el-icon-bank-card"
@@ -108,7 +108,7 @@
                   icon="el-icon-bank-card"
                 >卡更换记录</el-dropdown-item>
               </template>
-              <template v-if="scope.row.userType == 9">
+              <template v-if="row.userType == 9">
                 <el-dropdown-item
                   command="hubei-settings"
                   icon="el-icon-setting"
@@ -124,7 +124,7 @@
                 icon="el-icon-refresh"
                 divided>启用/禁用</el-dropdown-item>
               <el-dropdown-item
-                v-if="scope.row.userType <= 1"
+                v-if="row.userType <= 1"
                 command="user-reset-password"
                 icon="el-icon-key"
                 divided

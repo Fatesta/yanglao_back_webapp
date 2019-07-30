@@ -22,6 +22,7 @@ export default {
         h(
           'el-menu',
           {
+            ref: 'menu',
             props: {
               collapse: this.collapsed,
               uniqueOpened: true,

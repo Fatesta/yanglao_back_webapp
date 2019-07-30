@@ -266,7 +266,6 @@ export default {
       }
     },
     onResize() {
-      console.log('onResize')
       this.contentMaxHeight = document.body.offsetHeight;
     },
     onCommandClick(cmd) {

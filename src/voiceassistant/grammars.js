@@ -20,7 +20,7 @@ function makeGrammars() {
     public <cmd> = <pageCmd> | <other>;
     <pageCmd> = (打开 | 关闭) <page>;
     <page> = ${pages.join(' | ')};
-    <other> = ((展开 | 收缩) 导航菜单) | 进入 * 全屏 | 退出全屏 | 退出;
+    <other> = ((展开 | 收缩) 导航菜单) | 退出全屏 | 退出;
   `);
 
   return grammars;

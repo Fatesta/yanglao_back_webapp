@@ -1,8 +1,8 @@
 <template>
-  <drawer
+  <el-drawer
     :visible.sync="visible"
-    placement="right"
-    width="720px"
+    direction="rtl"
+    size="720px"
   >
     <div slot="header" style="padding-left:8px">
       {{title || '选择地址'}}
@@ -51,16 +51,14 @@
           style="color: #606266">未查询到 {{searchText}}</li>
       </ul>
     </div>
-  </drawer>
+  </el-drawer>
 </template>
 
 <script>
-import Drawer from './Drawer';
 import MapView from './MapView';
 
 export default {
   components: {
-    Drawer,
     MapView
   },
   props: {

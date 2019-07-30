@@ -75,8 +75,8 @@
       <el-table-column prop="operationAccountUsername" label="操作商家工号" width="120"></el-table-column>
       <el-table-column prop="operationPhoneLogo" label="商家设备标识" width="120" show-overflow-tooltip></el-table-column>
       <el-table-column prop="orderno" label="订单号" width="190">
-        <template slot-scope="scope">
-          <el-button v-if="scope.row.orderno && !scope.row.orderno.startsWith('PPCW')" type="text" @click="onOrderDetailsClick(scope.row.orderno)">{{scope.row.orderno}}</el-button>
+        <template slot-scope="{row}">
+          <el-button v-if="row.orderno && !row.orderno.startsWith('PPCW')" type="text" @click="onOrderDetailsClick(row.orderno)">{{row.orderno}}</el-button>
         </template>
       </el-table-column>
     </data-table>

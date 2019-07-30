@@ -2,11 +2,12 @@
 用户高级查询器
 -->
 <template>
-  <el-dialog
+  <el-drawer
     title="用户高级查询"
     :visible.sync="visible"
+    direction="rtl"
     :modal="false"
-    width="580px"
+    size="540px"
   >
     <el-tabs tab-position="left" style="height: 440px">
       <el-tab-pane label="基本信息">
@@ -89,12 +90,18 @@
         </el-form>
       </el-tab-pane>
     </el-tabs>
-    <div slot="footer" style="margin-top: 8px;">
-      <el-button type="default" @click="visible = false">取消</el-button>
+    <div
+      style="
+        float: right;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        padding: 20px;"
+    >
       <el-button type="default" @click="onReset">重置</el-button>
       <el-button type="primary" @click="onSubmit">查询</el-button>
     </div>
-  </el-dialog>
+  </el-drawer>
 </template>
 
 <script>
@@ -145,3 +152,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+>>> .el-drawer__body {
+  padding: 0px 10px;
+}
+</style>
+

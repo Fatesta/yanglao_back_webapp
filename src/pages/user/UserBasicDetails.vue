@@ -1,9 +1,10 @@
 <template>
-  <el-dialog
+  <el-drawer
     title="用户基本信息详情"
     :visible.sync="visible"
-    top="5vh"
-    width="600px"
+    direction="rtl"
+    :modal="false"
+    size="560px"
   >
     <el-row>
       <el-col :span="5">姓名</el-col>
@@ -73,7 +74,7 @@
       <el-col :span="5">备注</el-col>
       <el-col :span="18">{{userInfo.remark}}</el-col>
     </el-row>
-  </el-dialog>
+  </el-drawer>
 </template>
 
 <script>
@@ -106,6 +107,6 @@ export default {
 .el-col-5 {
   padding-right: 16px;
   text-align: right;
-  font-weight: 500;
+  color: #606266;
 } 
 </style>

@@ -37,27 +37,27 @@
       <el-table-column prop="balance" label="余额" width="100" :formatter="formatters.balance" show-overflow-tooltip></el-table-column>
       <el-table-column prop="oldCardBalance" label="老年卡余额" width="100"></el-table-column>
       <el-table-column label="操作">
-        <template slot-scope="scope">
+        <template slot-scope="{row: shop}">
           <el-button
             type="primary"
             plain
-            @click="onShopClick(scope.row)">
+            @click="onShopClick(shop)">
             店铺
           </el-button>
           <el-button
             type="primary"
             plain
-            @click="onTradeClick(scope.row)">
+            @click="onTradeClick(shop)">
             交易流水
           </el-button>
           <el-button
             type="primary"
             plain
-            @click="onWithdrawClick(scope.row)">
+            @click="onWithdrawClick(shop)">
             提现
           </el-button>
           <el-button
-            @click="onUpdateClick(scope.row)">
+            @click="onUpdateClick(shop)">
             修改
           </el-button>
         </template>
