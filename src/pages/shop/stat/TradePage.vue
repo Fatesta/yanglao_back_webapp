@@ -160,6 +160,7 @@ export default {
           name:'交易次数',
           type: 'bar',
           barWidth: '40%',
+          barMaxWidth: '100',
           yAxisIndex: 1,
           symbolSize: 7,
           itemStyle: {

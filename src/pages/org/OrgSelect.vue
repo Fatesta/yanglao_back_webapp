@@ -4,8 +4,9 @@
     v-model="selectedOrgName"
     v-bind="attrs"
     clearable
-    @clear="onClear"
     style="width:100%"
+    @clear="onClear"
+    @visible-change="onVisibleChange"
     >
     <template slot="empty">
       <el-input
@@ -42,6 +43,10 @@ export default {
     isAdmin: {
       type: Boolean,
       default: false
+    },
+    level: {
+      type: Number,
+      default: 6
     }
   },
   data() {
@@ -60,9 +65,38 @@ export default {
       this.setValue(val);
     }
   },
+  beforeCreate() {
+    const defaults = {
+      placeholder: "请选择"
+    };
+    this.attrs = Object.assign({}, defaults, this.$attrs);
+  },
+  async mounted() {
+    let orgs = await this.axios.get(this.isAdmin ? '/api/admin/listOrg' : '/api/org/listOrg');
+    if (this.level < 6) {
+      deleteChildrenByLevel(orgs, this.level, 0);
+      function deleteChildrenByLevel(nodes, level, curLevel) {
+        if (curLevel == level) {
+          nodes.forEach(node => {
+            node.children = [];
+          });
+        } else {
+          nodes.forEach(node => {
+             deleteChildrenByLevel(node.children, level, curLevel + 1);
+          });
+        }
+      }
+    }
+    this.orgs = orgs;
+    this.loading = false;
+
+    if (this.value) {
+      this.setValue(this.value);
+    }
+  },
   methods: {
     onOrgClick(org) {
-      if (org.isCommunity) {
+      if (org.children.length == 0) {
         this.selectedOrgName = org.name;
         this.$refs.select.blur();
         this.$emit('change', org.id);
@@ -71,6 +105,11 @@ export default {
     filterOrg(value, orgs) {
       if (!value) return true;
       return orgs.name.indexOf(value) !== -1;
+    },
+    onVisibleChange(visible) {
+      if (visible) {
+        this.filterText = '';
+      }
     },
     setValue(value) {
       this.value = value;
@@ -96,21 +135,6 @@ export default {
     clear() {
       this.value = null;
       this.selectedOrgName = '';
-    }
-  },
-  beforeCreate() {
-    const defaults = {
-      placeholder: "请选择"
-    };
-    this.attrs = Object.assign({}, defaults, this.$attrs);
-  },
-  async mounted() {
-    const orgs = await this.axios.get(this.isAdmin ? '/api/admin/listOrg' : '/api/org/listOrg');
-    this.orgs = orgs;
-    this.loading = false;
-
-    if (this.value) {
-      this.setValue(this.value);
     }
   }
 }

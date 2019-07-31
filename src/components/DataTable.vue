@@ -7,8 +7,8 @@
       v-bind="attrs"
       :data="tableData"
       size="medium"
-      @current-change="onCurrentRowChange"
       element-loading-text="查询数据中"
+      @current-change="onCurrentRowChange"
     >
       <slot></slot>
     </el-table>
@@ -56,7 +56,7 @@ export default {
       pagination: {
         pageSizes: [5, 8, 10, 20, 30, 50],
         pageSize: 10,
-        layout: 'total, prev, pager, next, sizes',
+        layout: 'total, prev, next, jumper, sizes',
         ...this.$attrs.pagination
       },
       height: 0,
@@ -135,3 +135,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.el-pagination__jump {
+  margin: 0px 5px;
+}
+</style>

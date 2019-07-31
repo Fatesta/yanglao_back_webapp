@@ -21,7 +21,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="店铺">
-        <el-select v-model="queryForm.providerId" clearable filterable style="width:200px">
+        <el-select
+          v-model="queryForm.providerId"
+          clearable
+          filterable
+          style="width:200px"
+          @change="onShopChange"
+        >
           <el-option
             v-for="shop in shopPage.rows"
             :key="shop.id"
@@ -54,10 +60,8 @@
           start-placeholder="开始时间"
           end-placeholder="结束时间"
           style="width:240px"
+          @change="onDateRangeChange"
         />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onQueryClick">查询</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -103,19 +107,32 @@ export default {
           this.queryForm.dateRange = moment();
           break;
       }
+      this.onQuery();
+    },
+    'queryForm.tradeType'(value) {
+      this.onQuery();
+    },
+    'queryForm.dateRange'(value) {
+      this.onQuery();
     }
   },
   mounted() {
     this.queryForm.timeUnit = 'day';
-    if (app.admin.roleId == 2 || app.admin.roleId == 4) {
-      this.onBossChange();
+    switch (app.admin.roleId) {
+      case 2:
+      case 4:
+        this.onBossChange();
+        break;
+      case 9:
+        this.onOrgChange(app.admin.orgId);
+        break;
     }
     setTimeout(() => {
-      this.onQueryClick();
+      this.onQuery();
     }, 100);
   },
   methods: {
-    onQueryClick() {
+    onQuery() {
       let params = {...this.queryForm};
       if (params.dateRange) {
         const { timeUnit } = params;
@@ -148,12 +165,37 @@ export default {
       this.$emit('query', params);
     },
     async onOrgChange(orgId) {
-      this.bossPage = await this.axios.get(
-        '/api/shop/boss/bossPage', {params: {orgId, page: 1, rows: 10000}});
+      this.queryForm.bossId = null;
+      this.bossPage = {};
+      this.queryForm.providerId = null;
+      this.shopPage = {};
+      if (orgId) {
+        this.bossPage = await this.axios.get(
+          '/api/shop/boss/bossPage', {params: {orgId, page: 1, rows: 10000}});
+        if (this.bossPage.total == 1) {
+          this.queryForm.bossId = this.bossPage.rows[0].adminId;
+          this.onBossChange(this.queryForm.bossId);
+        } else {
+          this.onQuery();
+        }
+      } else {
+        this.onQuery();
+      }
     },
     async onBossChange(bossId) {
-      this.shopPage = await this.axios.get(
-        '/api/shop/pro/proPage', {params: {bossId, page: 1, rows: 10000}});
+      this.queryForm.providerId = null;
+      this.shopPage = {};
+      if (bossId) {
+        this.shopPage = await this.axios.get(
+          '/api/shop/pro/proPage', {params: {bossId, page: 1, rows: 10000}});
+        if (this.shopPage.total == 1) {
+          this.queryForm.providerId = this.shopPage.rows[0].id;
+        }
+      }
+      this.onQuery();
+    },
+    onShopChange() {
+      this.onQuery();
     }
   }
 }

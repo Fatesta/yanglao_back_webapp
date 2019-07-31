@@ -141,7 +141,7 @@ export default {
             this.$emit('expanded');
           }
         }
-      }, 60);
+      }, 16);
     }
   },
   methods: {

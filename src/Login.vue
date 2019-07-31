@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container :style="{cursor: submitting && 'wait'}">
     <el-main
       style="
         flex-wrap: wrap;

@@ -57,6 +57,7 @@
           }"
         >
           <div class="header-item-hover">
+            <i class="el-icon-user-solid" />
             {{admin ? admin.realName : '加载中'}}
             <i class="el-icon-arrow-down" />
           </div>
@@ -64,6 +65,7 @@
             <el-dropdown-item icon="el-icon-key" command="modifyPassword">修改密码</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <!--
         <el-popover
           placement="bottom-end"
           width="200"
@@ -80,6 +82,7 @@
             <i class="el-icon-alarm-clock icon-button" />
           </div>
         </el-popover>
+        -->
         <div
           class="header-icon-item header-item-hover"
           @click="logout"
