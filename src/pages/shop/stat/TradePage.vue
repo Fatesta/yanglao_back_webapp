@@ -2,15 +2,14 @@
   <plain-page
     style="height: calc(100% - 1vh)"
   >
-    <query-form-card is-trade-query-form @query="onQueryClick" />
+    <query-form-card is-trade-query-form @query="onQuery" />
 
     <el-card
       shadow="hover" 
-      v-loading="loading"
       body-style="padding:0px"
       style="height: calc(100% - 56px)"
     >
-      <div ref="chartContainer"></div>
+      <div ref="chartContainer" v-loading="loading"></div>
     </el-card>
   </plain-page>
 </template>
@@ -43,10 +42,10 @@ export default {
     window.addEventListener('resize', resize);
   },
   methods: {
-    async onQueryClick(params) {
-      this.chart.clear();
+    async onQuery(params) {
       this.loading = true;
       const data = await this.axios.get('/api/shop/stat/queryProvidersAccountStats', {params});
+      this.chart.clear();
       this.loading = false;
 
       if (!data.length) {

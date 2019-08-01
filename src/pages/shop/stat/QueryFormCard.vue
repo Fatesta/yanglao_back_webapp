@@ -5,13 +5,13 @@
         v-if="[1,14,15].includes(app.admin.roleId)"
         label="社区"
       >
-        <org-select v-model="queryForm.orgId" is-admin style="width:230px" @change="onOrgChange" />
+        <org-select v-model="queryForm.orgId" is-admin style="width:230px" />
       </el-form-item>
       <el-form-item
         v-if="[1,9,14,15].includes(app.admin.roleId)"
         label="商家"
       >
-        <el-select v-model="queryForm.bossId" clearable filterable style="width:100px" @change="onBossChange">
+        <el-select v-model="queryForm.bossId" clearable filterable style="width:100px">
           <el-option
             v-for="boss in bossPage.rows"
             :key="boss.adminId"
@@ -26,7 +26,6 @@
           clearable
           filterable
           style="width:200px"
-          @change="onShopChange"
         >
           <el-option
             v-for="shop in shopPage.rows"
@@ -38,18 +37,18 @@
       </el-form-item>
       <el-form-item v-if="isTradeQueryForm" label="类型">
         <type-select
+          v-model="queryForm.tradeType"
           placeholder=""
           :clearable="false"
-          v-model="queryForm.tradeType"
           :items="[{value: 4, text: '给用户充值'}, {value: 3, text: '销售额'}]"
           style="width: 112px"
         />
       </el-form-item>
       <el-form-item label="时间">
         <type-select
+          v-model="queryForm.timeUnit"
           placeholder=""
           :clearable="false"
-          v-model="queryForm.timeUnit"
           :items="[{value: 'day', text: '日'}, {value: 'month', text: '月'}, {value: 'year', text: '年'}]"
           style="width: 64px"
         />
@@ -60,7 +59,6 @@
           start-placeholder="开始时间"
           end-placeholder="结束时间"
           style="width:240px"
-          @change="onDateRangeChange"
         />
       </el-form-item>
     </el-form>
@@ -83,9 +81,7 @@ export default {
         orgId: null,
         bossId: null,
         providerId: null,
-        timeUnit: null,
-        startTime: '',
-        endTime: '',
+        timeUnit: 'day',
         dateRange: null,
         tradeType: this.isTradeQueryForm && 3
       },
@@ -95,19 +91,49 @@ export default {
     };
   },
   watch: {
-    'queryForm.timeUnit'(value) {
-      switch(this.queryForm.timeUnit) {
-        case 'day':
-          this.queryForm.dateRange = [moment().subtract(29, 'days'), moment()];
-          break;
-        case 'month':
-          this.queryForm.dateRange = [moment().subtract(11, 'month'), moment()];
-          break;
-        case 'year':
-          this.queryForm.dateRange = moment();
-          break;
+    async 'queryForm.orgId'(orgId) {
+      this.bossPage = {};
+
+      if (orgId) {
+        this.bossPage = await this.axios.get(
+          '/api/shop/boss/bossPage', {params: {orgId, page: 1, rows: 10000}});
+        if (this.bossPage.total == 1) {
+          this.queryForm.bossId = this.bossPage.rows[0].adminId;
+        } else {
+          this.queryForm.bossId = null;
+          this.onQuery();
+        }
+      } else {
+        this.queryForm.bossId = null;
+        this.onQuery();
       }
+    },
+    'queryForm.bossId'(bossId) {
+      this.shopPage = {};
+      if (bossId) {
+        this.queryShopByBossId(bossId);
+      } else {
+        this.queryForm.providerId = null;
+      }
+    },
+    'queryForm.providerId'(value) {
       this.onQuery();
+    },
+    'queryForm.timeUnit': {
+      handler(value) {
+        switch(value) {
+          case 'day':
+            this.queryForm.dateRange = [moment().subtract(29, 'days'), moment()];
+            break;
+          case 'month':
+            this.queryForm.dateRange = [moment().subtract(11, 'month'), moment()];
+            break;
+          case 'year':
+            this.queryForm.dateRange = moment();
+            break;
+        }
+      },
+      immediate: true
     },
     'queryForm.tradeType'(value) {
       this.onQuery();
@@ -117,19 +143,18 @@ export default {
     }
   },
   mounted() {
-    this.queryForm.timeUnit = 'day';
     switch (app.admin.roleId) {
+      case 1:
+        this.onQuery();
+        break;
       case 2:
       case 4:
-        this.onBossChange();
+        this.queryShopByBossId();
         break;
       case 9:
         this.onOrgChange(app.admin.orgId);
         break;
     }
-    setTimeout(() => {
-      this.onQuery();
-    }, 100);
   },
   methods: {
     onQuery() {
@@ -164,38 +189,14 @@ export default {
 
       this.$emit('query', params);
     },
-    async onOrgChange(orgId) {
-      this.queryForm.bossId = null;
-      this.bossPage = {};
-      this.queryForm.providerId = null;
-      this.shopPage = {};
-      if (orgId) {
-        this.bossPage = await this.axios.get(
-          '/api/shop/boss/bossPage', {params: {orgId, page: 1, rows: 10000}});
-        if (this.bossPage.total == 1) {
-          this.queryForm.bossId = this.bossPage.rows[0].adminId;
-          this.onBossChange(this.queryForm.bossId);
-        } else {
-          this.onQuery();
-        }
+    async queryShopByBossId(bossId) {
+      this.shopPage = await this.axios.get(
+        '/api/shop/pro/proPage', {params: {bossId, page: 1, rows: 10000}});
+      if (this.shopPage.total == 1) {
+        this.queryForm.providerId = this.shopPage.rows[0].id;
       } else {
-        this.onQuery();
+        this.queryForm.providerId = null;
       }
-    },
-    async onBossChange(bossId) {
-      this.queryForm.providerId = null;
-      this.shopPage = {};
-      if (bossId) {
-        this.shopPage = await this.axios.get(
-          '/api/shop/pro/proPage', {params: {bossId, page: 1, rows: 10000}});
-        if (this.shopPage.total == 1) {
-          this.queryForm.providerId = this.shopPage.rows[0].id;
-        }
-      }
-      this.onQuery();
-    },
-    onShopChange() {
-      this.onQuery();
     }
   }
 }
