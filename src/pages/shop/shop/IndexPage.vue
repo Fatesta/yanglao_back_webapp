@@ -47,7 +47,7 @@
       </el-table-column>
       <el-table-column prop="name" label="店铺名称" width="270" show-overflow-tooltip></el-table-column>
       <el-table-column prop="industryText" label="所属行业" width="80"></el-table-column>
-      <el-table-column prop="linkman" label="联系人" width="80" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="linkman" label="联系人" width="100" show-overflow-tooltip></el-table-column>
       <el-table-column prop="telephone" label="联系电话" width="120"></el-table-column>
       <el-table-column prop="adminUsername" label="商家工号" width="100"></el-table-column>
       <el-table-column label="操作">
@@ -238,5 +238,4 @@ export default {
 .cell > .el-button--small {
   margin-left: 0px;
 }
-
 </style>

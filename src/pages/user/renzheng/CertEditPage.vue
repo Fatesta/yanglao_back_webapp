@@ -30,6 +30,7 @@
         <el-image
           fit="cover"
           :src="idcardImgUrls[index]"
+          :preview-src-list="[idcardImgUrls[index]]"
           style="width: 100%;height:140px;">
           <div
             v-for="soltType in ['error', 'placeholder']"
@@ -49,7 +50,6 @@
             :on-success="function(response, file){ onUploadSuccess(response, file, index); }">
             <el-button v-if="!readonly">点击上传</el-button>
           </el-upload>
-          <el-link target="_blank" :underline="false" :href="idcardImgUrls[index]" v-if="readonly" type="info">点击查看大图</el-link>
         </div>
       </div>
     </div>

@@ -55,6 +55,17 @@ var productManager = (function () {
             });
         });
     });
+
+    $('#tbrDgProduct [name=manageProductImage]').click(function(){
+        var product = $("#dgProduct").datagrid("getSelected");
+        if(!product) return;
+        top.app.pushPage({
+            path: '/shop/product/product-image-manage',
+            params: {product: product},
+            subTitle: product.name,
+            key: product.productId
+        });
+    });
     
 
     

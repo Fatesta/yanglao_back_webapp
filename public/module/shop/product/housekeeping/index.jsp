@@ -31,7 +31,7 @@
 							            onclick="productManager.query()">查询</a>
 							</td>
 							<c:forEach var="fn" items="${session_role_leaf_fn_list}">
-								<c:if test="${fn.parentId == 152 && fn.id != 156}">
+								<c:if test="${fn.parentId == 152}">
 									<td>
 										<a href="#" class="easyui-linkbutton" data-options="iconCls:'${fn.icon}'" name="${fn.code}">${fn.funcName}</a>
 									</td>
@@ -69,6 +69,6 @@ PAGE_CONFIG["provider"] = {
 </script>
 <script src="${modulePath}shop/product/category.manager.js?v=1.2"></script>
 <script src="${modulePath}shop/product/image.manager.js"></script>
-<script src="${modulePath}shop/product/housekeeping/product.manager.js?v=1.2"></script>
+<script src="${modulePath}shop/product/housekeeping/product.manager.js?v=1.3"></script>
 </body>
 </html>

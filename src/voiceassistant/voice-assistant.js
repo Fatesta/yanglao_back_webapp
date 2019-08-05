@@ -24,6 +24,7 @@ const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
 //const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
 
+let running = false;
 let recognition = null;
 let recognzing = true;
 var speechSynthesisUtterance = new window.SpeechSynthesisUtterance();
@@ -68,13 +69,8 @@ function init() {
 
     let matches = null;
 
-    if (text == '如何说') {
-      speak(`你可以说以下几类短语：
-        1 打开或关闭菜单功能，例如说 打开设置，关闭设置；
-        2 展开导航菜单；
-        3 收缩导航菜单；
-        4 退出全屏；
-        5 退出，即退出系统；`);
+    if (text == '打开使用手册') {
+      app.pushPage('/voice-assistant-manual');
       return;
     }
     matches = text.match(/^旋转(\d+)度$/);
@@ -138,17 +134,19 @@ function init() {
   };
 
   recognition.onerror = function(event) {
-    setTimeout(() => {
-      start();
-    }, 2000);
     if (event.error == 'network') {
-      app.$message.error('语音识别服务器连接失败，语音助手无法工作');
+      app.$notify.error('智能语音助手无法工作：不能连接到google.com服务器');
+    } else {
+      setTimeout(() => {
+        start();
+      }, 2000);
     }
     console.error('Error occurred in recognition: ', event .error);
   };  
 }
 
 function start() {
+  if (!running) return;
   if (recognition == null) {
     init();
   }
@@ -159,5 +157,16 @@ function start() {
 }
 
 export default {
-  start
+  turn() {
+    if (running) {
+      running = false;
+      recognition.abort();
+      app.$message.info('已退出语音助手');
+    } else {
+      running = true;
+      start();
+      app.$message.info('已运行语音助手，正在聆听');
+    }
+  },
+  isRunning() { return running; }
 }

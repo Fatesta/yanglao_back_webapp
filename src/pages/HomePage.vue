@@ -40,3 +40,28 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.op-tip-row {
+  line-height: 32px;
+}
+.op-text-col {
+  text-align: left;
+}
+.op-keys-col {
+  text-align: left;
+}
+.key {
+  display: inline-block;
+  padding: 1px 4px;
+  min-width: 32px;
+  background: #f4f4f5;
+  color: #909399;
+  border: 1px solid #e9e9eb;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  line-height: 20px;
+  vertical-align: middle;
+}
+</style>

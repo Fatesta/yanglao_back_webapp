@@ -184,8 +184,8 @@
                 :key="index"
                 :src="url"
                 fit="cover"
+                :preview-src-list="previewSrcs(orderFlowInfo.orderEndImage, index)"
                 class="order-flow-image"
-                @click="viewImage(url)"
               />
             </template>
             <p>备注：{{orderFlowInfo.orderEndRemark}}</p>
@@ -207,8 +207,8 @@
                 :key="index"
                 :src="url"
                 fit="cover"
+                :preview-src-list="previewSrcs(orderFlowInfo.orderStartImage, index)"
                 class="order-flow-image"
-                @click="viewImage(url)"
               />
             </template>
             <p>备注：{{orderFlowInfo.orderStartRemark}}</p>
@@ -291,9 +291,6 @@ export default {
       });
   },
   methods: {
-    viewImage(url) {
-      window.open(url);
-    },
     onFlowStartClick() {
       const { order } = this.$params;
       this.$refs.startForm.show({
@@ -392,6 +389,10 @@ export default {
     async refreshOrderFlowInfo() {
       this.orderFlowInfo = await this.axios.get('/api/shop/order/orderFlowInfo',
         {params: { orderCode: this.orderInfo.orderno }});
+    },
+    previewSrcs(srcCsv, index) {
+      const srcs = srcCsv.split(',');
+      return srcs.slice(index).concat(srcs.slice(0, index));
     }
   }
 }

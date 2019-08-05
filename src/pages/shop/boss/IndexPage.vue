@@ -31,7 +31,7 @@
       url="/api/shop/boss/bossPage"
     >
       <el-table-column prop="username" label="工号" width="100" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="realName" label="姓名" width="80" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="realName" label="姓名" width="140" show-overflow-tooltip></el-table-column>
       <el-table-column prop="phone" label="手机号" width="120"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
       <el-table-column prop="balance" label="余额" width="100" :formatter="formatters.balance" show-overflow-tooltip></el-table-column>

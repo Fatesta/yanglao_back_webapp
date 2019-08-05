@@ -33,19 +33,20 @@
         color: 'rgba(255, 255, 255, 0.9)',
         cursor: 'pointer'
       }">
-        <div
-          ref="timeTextContainer"
-          class="header-item-hover"
-          style="
-            float: left;
-            display: inline-block;
-            line-height: 60px;
-            font-size: 14px;
-            padding: 0px 17px;"
-        >
-        </div>
+        <el-tooltip content="当前时间">
+          <div
+            ref="timeTextContainer"
+            class="header-item-hover"
+            style="
+              float: left;
+              display: inline-block;
+              line-height: 60px;
+              font-size: 14px;
+              padding: 0px 17px;"
+          >
+          </div>
+        </el-tooltip>
         <el-dropdown
-          ref="userDropdown"
           @command="onCommandClick"
           :show-timeout="100"
           class="header-item-hover"
@@ -83,24 +84,30 @@
           </div>
         </el-popover>
         -->
-        <div
-          class="header-icon-item header-item-hover"
-          @click="logout"
-        >
-          <i class="el-icon-switch-button icon-button"></i>
-        </div>
-        <div
-          class="header-icon-item header-item-hover"
-          @click="onSettingClick"
-        >
-          <i class="el-icon-setting icon-button"></i>
-        </div>
-        <div
-          class="header-icon-item header-item-hover"
-          @click="onFullScreenClick"
-        >
-          <i class="el-icon-full-screen icon-button"></i>
-        </div>
+        <el-tooltip content="退出登陆">
+          <div
+            class="header-icon-item header-item-hover"
+            @click="logout"
+          >
+            <i class="el-icon-switch-button icon-button"></i>
+          </div>
+        </el-tooltip>
+        <el-tooltip content="打开设置">
+          <div
+            class="header-icon-item header-item-hover"
+            @click="onSettingClick"
+          >
+            <i class="el-icon-setting icon-button"></i>
+          </div>
+        </el-tooltip>
+        <el-tooltip content="进入/退出全屏">
+          <div
+            class="header-icon-item header-item-hover"
+            @click="onFullScreenClick"
+          >
+            <i class="el-icon-full-screen icon-button"></i>
+          </div>
+        </el-tooltip>
       </div>
     </el-header>
     <el-container>
@@ -151,7 +158,6 @@ import pages from '@/pages';
 import { stringify } from 'qs';
 import leftPad from 'left-pad';
 import fullScreen from '@/utils/fullscreen';
-import voiceAssistant from '@/voiceassistant/voice-assistant';
 
 Vue.use(ElementUI, { size: config.get('size') });
 
@@ -262,10 +268,6 @@ export default {
       }
       else if (83 == e.keyCode && e.ctrlKey) {
         this.onSettingClick();
-      }
-      else if (75 == e.keyCode && e.ctrlKey) {
-        this.$message.info('已运行语音助手，正在聆听');
-        voiceAssistant.start();
       }
     },
     onResize() {
@@ -535,10 +537,6 @@ export default {
       setTimeout(() => {
         Message.success({message: '登陆成功，欢迎使用', duration: 1000});
       }, 100);
-    } else {
-      setTimeout(() => {
-        Message.success({message: '温馨提示-操作技巧：刷新数据或功能页面无需刷新整个网页，请点击查询按钮或从导航菜单重新打开', duration: 8000});
-      }, 100);
     }
   }
 }
@@ -575,27 +573,5 @@ export default {
 .header-item-hover:hover {
   background-color: #53a8ff;
   color: #fff;
-}
-
-.op-tip-row {
-  line-height: 32px;
-}
-.op-text-col {
-  text-align: left;
-}
-.op-keys-col {
-  text-align: left;
-}
-.key {
-  display: inline-block;
-  padding: 2px 4px;
-  min-width: 32px;
-  background: #606266;
-  color: #fff;
-  border-radius: 2px;
-  font-size: 14px;
-  text-align: center;
-  line-height: 20px;
-  vertical-align: middle;
 }
 </style>

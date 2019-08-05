@@ -19,7 +19,7 @@
       <el-form-item label="年龄">
         <el-input-number v-model="searchForm.gteqAge" :controls="false" placeholder=">=" style="width: 60px" />
       </el-form-item>
-      <el-form-item label="所属区域">
+      <el-form-item v-if="app.admin.roleId != 15" label="所属区域">
         <org-select v-model="searchForm.areaId" :level="3" />
       </el-form-item>
       <el-form-item label="所在社区">
@@ -131,7 +131,8 @@ export default {
         applyTypeJoinPredicate: 'or'
       },
       communityNames: [],
-      streetNames: []
+      streetNames: [],
+      app
     }
   },
   mounted() {

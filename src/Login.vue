@@ -16,11 +16,11 @@
             letter-spacing: 1px;"
         >
           <span
-            :style="{
-              fontSize: '26px',
-              fontWeight: 600,
-              color: '#333'
-            }">呼贝智慧养老服务平台</span>
+            style="
+              font-size: 26px;
+              font-weight: 600;
+              color: #333;
+              letter-spacing: 3px">呼贝智慧养老服务平台</span>
           <div
             :style="{
               fontSize: '14px',

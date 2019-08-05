@@ -6,7 +6,6 @@ html, body {
   overflow: hidden;
   background-repeat: no-repeat;
   background-position: center 110px;
-  background-size: 100%;
   background-image: url(/images/bg.png);
   background-color: #f0f2f5;
   transition: background-color 0.5s;

@@ -47,6 +47,7 @@ export default {
             cursor: 'pointer',
             color: '#909399'
           },
+          attrs: { title: '展开收缩导航菜单' },
           class: `el-icon-${this.collapsed ? 's-unfold' : 's-fold'}`,
           on: {
             click: this.onCollapse

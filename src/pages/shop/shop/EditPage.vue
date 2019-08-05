@@ -17,6 +17,7 @@
           <el-image
             fit="cover"
             :src="form.imgUrl"
+            :preview-src-list="[form.imgUrl]"
             style="display: block;height: 80px;width: 110px;">
             <div slot="error" style="
               height: 80px;width: 110px;
@@ -276,7 +277,7 @@ export default {
       }
     }
     this.form.id = shop.id;
-    this.form.serviceTime = shop.serviceTime.match(/(\d{2}:\d{2})/);
+    this.form.serviceTime = shop.serviceTime.match(/(\d{2}:\d{2})/g);
     this.form.bossId = shop.adminId;
     this.isOrgLimited = shop.orgId != -1;
     this.isServiceScopeLimited = shop.serviceArea != 0;

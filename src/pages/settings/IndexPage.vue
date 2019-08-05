@@ -20,7 +20,7 @@
         <el-slider
           v-model="size"
           @change="onSizeChange"
-          style="width:250px;"
+          style="width:200px;"
           :step="100/4"
           :max="75"
           :format-tooltip="(val) => ['超小', '小（默认）', '中', '大'][val / 25]" />
@@ -41,20 +41,42 @@
         <el-switch
           v-model="autoLoginEnabled"
           @change="onAutoLoginChange" />
-        <span v-if="autoLoginEnabled">(在下次生效)</span>
+        <span v-if="autoLoginEnabled" class="info">(在下次生效)</span>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="24"><el-divider /></el-col>
-    </el-row>
-    <el-row v-if="[1,6,9,11,13,14,15].indexOf(app.admin.roleId) > -1">
-      <el-col :span="5">态势图自动打开</el-col>
-      <el-col :span="19">
-        <el-switch
-          v-model="autoOpenStatEnabled"
-          @change="onAutoOpenStatChange" />
-      </el-col>
-    </el-row>
+    <template v-if="[1,6,9,11,13,14,15].indexOf(app.admin.roleId) > -1">
+      <el-row>
+        <el-col :span="24"><el-divider /></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">态势图自动打开</el-col>
+        <el-col :span="19">
+          <el-switch
+            v-model="autoOpenStatEnabled"
+            @change="onAutoOpenStatChange" />
+        </el-col>
+      </el-row>
+    </template>
+    <template v-if="browser.isChrome">
+      <el-row>
+        <el-col :span="24"><el-divider /></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5">智能语音助手</el-col>
+        <el-col :span="19">
+          <el-tooltip :content="`${!voiceAssistantRunning ? '启动' : '退出'}智能语音助手`">
+            <el-button
+              type="primary"
+              plain
+              circle
+              :icon="voiceAssistantRunning ? 'el-icon-turn-off-microphone' : 'el-icon-microphone'"
+              @click="onVoiceAssistantClick"
+            />
+          </el-tooltip>
+          <el-link :underline="false" class="el-icon-question" style="margin-left: 8px;font-size: 22px;" @click="onOpenVoiceAssistantManualClick"></el-link>
+        </el-col>
+      </el-row>
+    </template>
   </card-page>
 </template>
 
@@ -62,6 +84,7 @@
 <script>
 import config from '@/config/app.config';
 import Vue from 'vue';
+import voiceAssistant from '@/voiceassistant/voice-assistant';
 
 export default {
   pageProps: {
@@ -70,6 +93,10 @@ export default {
   data() {
     return {
       app,
+      browser: {
+        isChrome: navigator.userAgent.indexOf("Chrome") > -1
+      },
+      voiceAssistantRunning: voiceAssistant.isRunning(),
       theme: config.get('theme'),
       size: ['mini', 'small', 'medium', ''].indexOf(config.get('size')) * 25,
       sideMenuCollapsed: !config.get('sideMenuCollapsed'),
@@ -102,6 +129,13 @@ export default {
     onAutoOpenStatChange(checked) {
       this.autoOpenStatEnabled = checked;
       config.set('autoOpenStatEnabled', checked);
+    },
+    onVoiceAssistantClick() {
+      voiceAssistant.turn();
+      this.voiceAssistantRunning = !this.voiceAssistantRunning;
+    },
+    onOpenVoiceAssistantManualClick() {
+      app.pushPage('/voice-assistant-manual');
     }
   }
 }
@@ -120,5 +154,10 @@ export default {
 }
 .el-divider--horizontal {
   margin: 10px 0;
+}
+
+.info {
+  margin-left: 8px;
+  color: #909399;
 }
 </style>

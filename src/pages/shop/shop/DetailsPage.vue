@@ -2,7 +2,13 @@
   <card-page>
     <el-row>
       <el-col :span="5">店铺图片</el-col>
-      <el-col :span="18"><img :src="shopInfo.imgUrl" style="height: 50px;width: 80px;border-radius: 4px;"/></el-col>
+      <el-col :span="18">
+        <el-image
+          :src="shopInfo.imgUrl"
+          :preview-src-list="[shopInfo.imgUrl]"
+          style="height: 50px;width: 80px;border-radius: 4px;"
+        />
+      </el-col>
     </el-row>
     <el-row>
       <el-col :span="5">店铺名称</el-col>
