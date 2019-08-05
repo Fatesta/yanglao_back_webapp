@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body id="layout" class="easyui-layout">
-	<div class="easyui-layout" data-options="fit:true">
+	<div class="easyui-layout" data-options="fit:true" style="height:100%">
 		<div data-options="region:'west',split:true,collapsible:true" title="分类" style="width:200px">
 			<ul id="treeCategory"></ul>
 		</div>
@@ -30,7 +30,7 @@
 							            onclick="productManager.query()">查询</a>
 							</td>
 							<c:forEach var="fn" items="${session_role_leaf_fn_list}">
-								<c:if test="${fn.parentId == 152 && fn.id != 156}">
+								<c:if test="${fn.parentId == 152}">
 									<td>
 										<a href="#" class="easyui-linkbutton" data-options="iconCls:'${fn.icon}'" name="${fn.code}">${fn.funcName}</a>
 									</td>

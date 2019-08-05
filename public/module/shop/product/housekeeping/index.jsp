@@ -8,8 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body id="layout" class="easyui-layout">
-	<div data-options="region:'north',collapsible:true" style="height:60%;">
-	   <div class="easyui-layout" data-options="fit:true">
+	<div data-options="region:'north',collapsible:true">
+	   <div class="easyui-layout" data-options="fit:true" style="height:100%">
 			<div data-options="region:'west',split:true,collapsible:true" title="分类" style="width:200px">
 				<ul id="treeCategory"></ul>
 			</div>
@@ -55,7 +55,6 @@
 		</div>
 	   </div>
 	</div>
-    <jsp:include page="../dgImage.jsp" />
     
 	<!-- 分类管理菜单 -->
 	<div id="menuCategory" class="easyui-menu" style="width:120px;">
@@ -68,7 +67,6 @@ PAGE_CONFIG["provider"] = {
 };
 </script>
 <script src="${modulePath}shop/product/category.manager.js?v=1.2"></script>
-<script src="${modulePath}shop/product/image.manager.js"></script>
 <script src="${modulePath}shop/product/housekeeping/product.manager.js?v=1.3"></script>
 </body>
 </html>

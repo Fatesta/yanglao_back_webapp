@@ -14,7 +14,7 @@
         accept="image/*"
         :show-file-list="false"
         :on-success="onUploadSuccess">
-        <el-button type="primary" plain>新增</el-button>
+        <el-button type="primary" plain>从本地上传</el-button>
       </el-upload>
     </div>
       </div>
@@ -28,14 +28,15 @@
         <span slot-scope="scope">{{scope.$index + 1}}</span>
       </el-table-column>
       <el-table-column prop="imgPath" label="图片">
-        <el-image slot-scope="{row}"
+        <el-image slot-scope="{row, $index}"
           :src="row.imgPath"
-          :preview-src-list="[row.imgPath]"
-          style="width: 100px; height: 80px"
+          :preview-src-list="previewSrcs($index)"
+          style="width: 100px; height: 80px; border-radius: 4px;"
         />
       </el-table-column>
       <el-table-column label="操作" align="right">
         <template slot-scope="{row}">
+          <el-button icon="el-icon-view" type="text" @click="onPreviewClick($event)" />
           <el-button icon="el-icon-arrow-up" type="text" />
           <el-button icon="el-icon-arrow-down" type="text" />
           <el-button icon="el-icon-delete-solid" type="text" @click="onDeleteClick(row)" />
@@ -66,8 +67,15 @@ export default {
         type: {details: 11, carousel: 4}[this.activeTypeTab]
       });
     },
+    previewSrcs(index) {
+      const srcs = this.$refs.table.tableData.map(row => row.imgPath);
+      return srcs.slice(index).concat(srcs.slice(0, index));
+    },
     onTypeTabClick(){
       this.query();
+    },
+    onPreviewClick(e) {
+      e.currentTarget.parentElement.parentElement.parentElement.querySelector('img').click()
     },
     async onDeleteClick(row) {
       const ret = await this.$http.post('/api/uploadfile/deleteByFileIds?fileIds=' + row.fileId);
