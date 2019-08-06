@@ -145,6 +145,7 @@ export default {
   mounted() {
     switch (app.admin.roleId) {
       case 1:
+      case 14:
       case 15:
         this.onQuery();
         break;

@@ -2,14 +2,13 @@
   <el-dialog
     :title="title"
     :visible.sync="visible"
-    width="400px"
+    width="600px"
     center
-    :modal="false"
     :close-on-click-modal="false"
     @close="onClose"
   >
 
-    <audio controls ref="audio" :src="src" />
+    <video controls ref="video" :src="src" style="width:100%;height:400px" />
   </el-dialog>
 </template>
 
@@ -18,7 +17,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "音频"
+      default: "视频"
     }
   },
   data() {
@@ -31,22 +30,25 @@ export default {
     async show(options) {
       this.visible = true;
       this.src = options.src;
-      if (this.$refs.audio) {
-        this.$refs.audio.load();
+      if (this.$refs.video) {
+        this.$refs.video.load();
       }
     },
     onClose() {
-      const { audio } = this.$refs;
-      audio.pause();
+      const { video } = this.$refs;
+      video.pause();
     }
   }
 }
 </script>
 
 <style scoped>
-audio {
+video {
   margin: 0 auto;
   display: block;
   outline: none;
+}
+>>> .el-dialog__body {
+  background: #111;
 }
 </style>
