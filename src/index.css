@@ -30,26 +30,3 @@ input,textarea {
   background-color:white !important;
   filter: none !important;
 }
-
-[v-cloak] { display: none; }
-
-/* element-ui */
-
-.el-tabs__item {
-  height: 30px;
-  line-height: 30px;
-  font-size: 13px;
-}
-.el-tabs__header {
-  margin: 0px 0px 0px 0px !important;
-}
-.el-main > .el-tabs > .el-tabs__content {
-  overflow: auto;
-}
-.el-main > .el-tabs .el-tabs__item {
-  height: 40px;
-  line-height: 40px;
-  font-size: 14px;
-}
-  
-

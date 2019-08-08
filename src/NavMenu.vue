@@ -177,7 +177,7 @@ export default {
 .el-menu-item.is-active {
   /*background: hsla(0,0%,100%,.1) !important;*/
   background-color: #ecf5ff;
-  border-left: 3px solid #2d8cf0;
+  border-left: 2px solid #2d8cf0;
 }
 
 .main-menu:not(.el-menu--collapse) {

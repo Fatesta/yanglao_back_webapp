@@ -114,14 +114,14 @@
       <nav-menu ref="navMenu" :height="(contentMaxHeight - 60)" />
       <el-main
         :style="{
-          padding: '2px 0px 0px 0px'
+          padding: '0px 0px 0px 0px'
         }"
       >
         <el-tabs
           ref="tabs"
           v-show="tabs.length"
           :value="activeTabKey"
-          type="card"
+          type="border-card"
           closable
           @tab-click="onTabClick"
           @tab-remove="onTabRemove"
@@ -132,7 +132,7 @@
             :name="tab.key"
             :label="tab.title"
             :style='{
-              height: (contentMaxHeight - 104) + "px",
+              height: (contentMaxHeight - 100) + "px",
               overflow: "auto"
             }'
             v-loading="tab.loading"
@@ -558,10 +558,24 @@ export default {
 </style>
 
 <style>
-.el-main > .el-tabs > .el-tabs__header {
-  left: 2px;
+
+.el-main > .el-tabs--border-card > .el-tabs__content {
+  overflow: auto;
 }
-.el-main > .el-tabs > .el-tabs__content {
+.el-main > .el-tabs--border-card {
+  border: none;
+}
+.el-main > .el-tabs--border-card > .el-tabs__header .el-tabs__nav {
+  border-left: 0px;
+  border-radius: 0px;
+}
+.el-main > .el-tabs--border-card > .el-tabs__header .el-tabs__nav > .el-tabs__item {
+  font-weight: normal;
+}
+.el-main > .el-tabs--border-card > .el-tabs__header .el-tabs__nav > .el-tabs__item:not(.is-active):not(:hover) {
+  color: #606266;
+}
+.el-main > .el-tabs--border-card > .el-tabs__content {
   padding: 0px;
   background: #f5f7f9;
 }

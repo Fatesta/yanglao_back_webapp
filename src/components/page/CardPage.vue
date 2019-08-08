@@ -1,8 +1,8 @@
 <template>
   <el-card
     style="
-      margin: 4px 6px 4px 4px;
-      min-height: calc(100vh - 115px);
+      margin: 4px 6px 3px 4px;
+      min-height: calc(100vh - 112px);
     "
     :body-style="bodyStyle"
     v-bind="$attrs"

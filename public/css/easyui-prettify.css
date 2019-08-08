@@ -1,3 +1,7 @@
+body .panel > .panel-body {
+  border-width: 0px !important;
+}
+
 .tabs li a.tabs-inner {
   border-radius: 3px;
 }

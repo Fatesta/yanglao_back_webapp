@@ -67,6 +67,17 @@ export default {
       loading: true
     };
   },
+  beforeCreate() {
+    const defaults = {
+      stripe: true
+    };
+    this.attrs = Object.assign({}, defaults, this.$attrs);
+  },
+  mounted() {
+    if (!this.lazy) {
+      this._fetch();
+    }
+  },
   methods: {
     onSizeChange(num) {
       this.pagination.pageSize = num;
@@ -120,17 +131,6 @@ export default {
     },
     onCurrentRowChange(row) {
       this.currentRow = row;
-    }
-  },
-  beforeCreate() {
-    const defaults = {
-      stripe: true
-    };
-    this.attrs = Object.assign({}, defaults, this.$attrs);
-  },
-  mounted() {
-    if (!this.lazy) {
-      this._fetch();
     }
   }
 }

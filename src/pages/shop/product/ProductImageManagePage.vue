@@ -76,8 +76,6 @@
 </template>
 
 <script>
-import { enter } from '@/utils/fullscreen.js';
-
 export default {
   pageProps: {
     title: '图片管理'

@@ -45,16 +45,14 @@
 					fit : true">
 		<thead>
 			<tr>
-				<th data-options="field:'serialId',width:'150',halign:'center',align:'left'">流水号</th>						
-				<th data-options="field:'realName',width:'100',halign:'center',align:'left'">商户账户</th>
+				<th data-options="field:'createTime',width:'135',align:'center'">交易时间</th>
 				<th data-options="field:'tradeTyped',width:'120',align:'center'">交易类型</th>
 				<th data-options="field:'totalPrice',width:'60',align:'center',formatter: UICommon.datagrid.formatter.money">售价(元)</th>
 				<th data-options="field:'tradePrice',width:'60',align:'center',formatter: UICommon.datagrid.formatter.money">实收(元)</th>			
 				<th data-options="field:'aliasName',width:'100',halign:'center',align:'left'">用户昵称</th>				
 				<th data-options="field:'payTyped',width:'80',align:'center'">支付方式</th>
-				<th data-options="field:'operationPhoneLogo',width:'190',align:'center',formatter: UICommon.datagrid.formatter.wraptip">商户操作手机标识</th>
+				<th data-options="field:'realName',width:'100',halign:'center',align:'left'">商户账户</th>
 				<th data-options="field:'providerName',width:'180',halign:'center',align:'left'">店铺名称</th>
-				<th data-options="field:'createTime',width:'135',align:'center'">交易时间</th>
 				<th data-options="field:'remark',width:'180',halign:'center',align:'left'">备注</th>
 			</tr>
 		</thead>

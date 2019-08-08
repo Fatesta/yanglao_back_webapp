@@ -1,9 +1,9 @@
 <template>
   <div
     style="
-      margin: 4px 6px 4px 4px;
+      margin: 4px 6px 3px 4px;
       padding: 20px,
-      min-height: calc(100vh - 115px);
+      min-height: calc(100vh - 112px);
     "
   >
     <slot></slot>

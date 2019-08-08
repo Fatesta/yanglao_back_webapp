@@ -36,7 +36,7 @@ export default {
     app.$refs.navMenu.$on('collapsed', resize).$on('expanded', resize);
 
     function resize() {
-      let restHeight = document.body.offsetHeight - (104 + 32 * 2 + 5 + 10);
+      let restHeight = document.body.offsetHeight - (100 + 32 * 2 + 5 + 10);
       if (toolbarElm)
         restHeight -= toolbarElm.offsetHeight;
       table.height = restHeight;
