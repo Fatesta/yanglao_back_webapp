@@ -173,11 +173,20 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.el-aside {
+  overflow: hidden;
+  overflow-x: hidden;
+}
+.el-aside:hover {
+  overflow-y: auto;
+}
+.el-aside::-webkit-scrollbar {
+  display: none;
+}
+
 .el-menu-item.is-active {
-  /*background: hsla(0,0%,100%,.1) !important;*/
-  background-color: #ecf5ff;
-  border-left: 2px solid #2d8cf0;
+  color: #303133;
 }
 
 .main-menu:not(.el-menu--collapse) {

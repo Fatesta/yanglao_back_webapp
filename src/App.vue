@@ -16,7 +16,7 @@
         :style="{
           fontSize: '23px',
           color: '#fff',
-          letterSpacing: '1.5px',
+          letterSpacing: '2px',
           cursor: 'pointer'
         }"
         @click="onTitleClick"
@@ -158,6 +158,7 @@ import pages from '@/pages';
 import { stringify } from 'qs';
 import leftPad from 'left-pad';
 import fullScreen from '@/utils/fullscreen';
+import { setTimeout } from 'timers';
 
 Vue.use(ElementUI, { size: config.get('size') });
 
@@ -290,13 +291,15 @@ export default {
       this.$router.replace('/logout');
     },
     onTabClick(clickTab) {
-      this.setOtherPagePause(clickTab.name);
+      setTimeout(() => {
+        this.setOtherPagePause(clickTab.name);
 
-      let pageInstance = clickTab.$children[0];
-      if (pageInstance.onPageResume) {
-        pageInstance.onPageResume();
-        pageInstance._pageState = 'resume';
-      }
+        let pageInstance = clickTab.$children[0];
+        if (pageInstance.onPageResume) {
+          pageInstance.onPageResume();
+          pageInstance._pageState = 'resume';
+        }
+      }, 0);
     },
     onTabRemove(key) {
       //TODO: 关闭时激活tab选择的优化
@@ -555,30 +558,6 @@ export default {
   font-weight: bold;
   text-shadow: 0 1px 0px rgba(0,0,0,.25)
 }
-</style>
-
-<style>
-
-.el-main > .el-tabs--border-card > .el-tabs__content {
-  overflow: auto;
-}
-.el-main > .el-tabs--border-card {
-  border: none;
-}
-.el-main > .el-tabs--border-card > .el-tabs__header .el-tabs__nav {
-  border-left: 0px;
-  border-radius: 0px;
-}
-.el-main > .el-tabs--border-card > .el-tabs__header .el-tabs__nav > .el-tabs__item {
-  font-weight: normal;
-}
-.el-main > .el-tabs--border-card > .el-tabs__header .el-tabs__nav > .el-tabs__item:not(.is-active):not(:hover) {
-  color: #606266;
-}
-.el-main > .el-tabs--border-card > .el-tabs__content {
-  padding: 0px;
-  background: #f5f7f9;
-}
 .header-icon-item {
   display: block;
   padding: 0px 17px;
@@ -587,5 +566,44 @@ export default {
 .header-item-hover:hover {
   background-color: #53a8ff;
   color: #fff;
+}
+</style>
+
+<style lang="scss">
+@import "~element-ui/packages/theme-chalk/src/common/var.scss";
+
+.el-main {
+  > .el-tabs--border-card {
+    border: none;
+    box-shadow: none;
+
+    > .el-tabs__header .el-tabs__nav {
+      padding-top: 1px;
+      > .el-tabs__item {
+        font-weight: normal;
+        border: none;
+        border-top: 2px solid transparent;
+        box-shadow: 1px 0px #fff;
+        &:hover {
+          border-top: 2px solid #ddd;
+          background-color: #fafafa;
+          box-shadow: none;
+        }
+      }
+      > .el-tabs__item:not(.is-active):not(:hover) {
+        color: $--color-text-regular;
+      }
+      > .el-tabs__item.is-active {
+        border-top: 2px solid #53a8ff;
+        box-shadow: none;
+      }
+    }
+
+    > .el-tabs__content {
+      padding: 0px;
+      background: #f5f7f9;
+      overflow: auto;
+    }
+  }
 }
 </style>

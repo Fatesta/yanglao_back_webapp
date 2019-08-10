@@ -18,14 +18,14 @@
           <span
             style="
               font-size: 26px;
-              font-weight: 600;
               color: #333;
-              letter-spacing: 3px">呼贝智慧养老服务平台</span>
+              letter-spacing: 2px">呼贝智慧养老服务平台</span>
           <div
             :style="{
               fontSize: '14px',
               paddingTop: '8px',
-              color: '#555'
+              color: '#606266',
+              letterSpacing: '2px'
             }">欢迎使用</div>
         </div>
         <el-form :model="form" :rules="rules" ref="form" label-width="0px" size="large">
@@ -33,15 +33,17 @@
             <el-input
               v-model="form.username"
               placeholder="用户名"
+              clearable
               @keyup.enter.native="onSubmit">
               <el-button slot="prepend" icon="el-icon-user"></el-button>
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-input 
-              type="password"
               v-model="form.password"
+              type="password"
               placeholder="密码"
+              clearable
               @keyup.enter.native="onSubmit">
               <el-button slot="prepend" icon="el-icon-lock"></el-button>
             </el-input>
@@ -56,7 +58,13 @@
               style="float: right;">记住密码</el-checkbox>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" size="large" @click="onSubmit" style="width: 100%;" :loading="submitting">登 录</el-button>
+            <el-button
+              type="primary"
+              size="large"
+              style="width: 100%;"
+              :loading="submitting"
+              @click="onSubmit"
+            >登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -203,13 +211,16 @@ export default {
   }
 
   .login-container {
-    width: 338px;
+    width: 320px;
     margin: 8% auto;
   }
   .checkboxes {
     position: relative;
     top: -10px;
     height: 20px;
+  }
+  .el-checkbox {
+    font-weight: normal;
   }
   .el-link {
     font-weight: unset;

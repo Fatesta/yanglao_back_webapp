@@ -80,13 +80,6 @@ export default {
       this.initWorkbench(ccIframe.contentWindow.WorkbenchSdk);
     });
 
-    window.debug_getCC = () => { return this; }
-    var isChrome = (navigator.userAgent.indexOf('Chrome/')>=0 && navigator.userAgent.indexOf('WebKit')>=0);
-    if (!isChrome) {
-      this.$alert('呼叫中心只支持谷歌Chrome浏览器');
-      this.loading = false;
-      return;
-    }
     this.agent = await this.axios.get('/api/callcenter/agentConfig/getCurrentAgent');
   },
   methods: {

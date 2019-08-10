@@ -9,6 +9,8 @@ const Jarvis = require("webpack-jarvis");
 
 
 const mode = process.env.NODE_ENV;
+const sourcePath = path.join(__dirname, '/src');
+const publicPath = path.join(__dirname, '/public');
 
 module.exports = {
   mode,
@@ -24,6 +26,9 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        include: [
+          sourcePath
+        ],
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -42,9 +47,15 @@ module.exports = {
         test: /\.css$/,
         use: [
           { loader: 'style-loader' },
-          {
-            loader: 'css-loader',
-          }
+          { loader: 'css-loader' }
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' }
         ]
       },
       {
@@ -64,7 +75,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      '@': path.join(__dirname, '', 'src'),
+      '@': sourcePath,
       vue: 'vue/dist/vue.runtime.esm.js'
     }
   },
